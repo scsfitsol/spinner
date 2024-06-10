@@ -1,9 +1,11 @@
 import React from "react";
+import Section2 from "./Calculator/Section2";
+import Section1 from "./Calculator/Section4";
 // import Spin from "./Script";
 // import "./Min.css";
 // import Spin1 from "./Spin1";
 
-import Form1 from "./Form/Form";
+// import Form1 from "./Form/Form";
 
 const Main = () => {
   return (
@@ -20,7 +22,10 @@ const Main = () => {
     //   </div>
     // </div>
     <div>
-      <Form1 />
+      {/* <Form1 /> */}
+
+      <Section1 />
+      <Section2 />
     </div>
   );
 };

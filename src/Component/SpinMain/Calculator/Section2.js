@@ -1,6 +1,5 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import "../style.css";
+import React, { useState } from "react";
+import "./style.css";
 const Section2 = () => {
   const myarr = [
     "Petrol (litres)",
@@ -20,10 +19,10 @@ const Section2 = () => {
     "My average annual carbon footprint (Tonnes of CO2e)",
   ];
 
-  const myarr3 = [
-    "My total emissions (kg CO2e/Month)",
-    "My average annual carbon footprint (Tonnes of CO2e)",
-  ];
+  // const myarr3 = [
+  //   "My total emissions (kg CO2e/Month)",
+  //   "My average annual carbon footprint (Tonnes of CO2e)",
+  // ];
 
   const myarr4 = [
     "Fuel in litres as used in personal vehicle. In case of car pool, divide total fuel volume by total number of people. All people in the car pool need to account for the divided fuel volume.",
@@ -49,29 +48,29 @@ const Section2 = () => {
     quantity: "",
     co2e: "",
   }));
-  const initialFamilyValue = () => ({
-    quantity: "",
-  });
+  // const initialFamilyValue = () => ({
+  //   quantity: "",
+  // });
 
   const [transportationValues, setTransportationValues] = useState(
     initialTransportationValues
   );
-  const [familyMemberAlertDisplayed, setFamilyMemberAlertDisplayed] =
-    useState(false);
+  // const [familyMemberAlertDisplayed, setFamilyMemberAlertDisplayed] =
+  //   useState(false);
   const [familyMembers, setFamilyMembers] = useState("");
   const [domesticValues, setDomesticValues] = useState(initialDomesticValues);
-  const [errorMessage, setErrorMessage] = useState(null);
+  // const [errorMessage, setErrorMessage] = useState(null);
   const handleFamilyMembersChange = (value) => {
     const isValidInput = /^[1-9]\d*$/.test(value);
     if (!isValidInput || parseInt(value) <= 0) {
       // Do not accept non-numeric, zero, or negative values for family members
       setFamilyMembers(""); // Reset the value to empty string
-      setFamilyMemberAlertDisplayed(true);
+      // setFamilyMemberAlertDisplayed(true);
       return;
     }
 
     setFamilyMembers(value);
-    setFamilyMemberAlertDisplayed(false);
+    // setFamilyMemberAlertDisplayed(false);
   };
 
   const calculateCO2eTransport = (values, multiplier) => {
@@ -96,8 +95,8 @@ const Section2 = () => {
     }
 
     const calculatedCO2e = values.map((item, index) => {
-      let co2eValue = 
-      item.quantity !== "" ? item.quantity * multipliers[index] : "";;
+      let co2eValue =
+        item.quantity !== "" ? item.quantity * multipliers[index] : "";
       // if (item.quantity !== "") {
       //   co2eValue = item.quantity * multipliers[index];
       // }
@@ -124,7 +123,7 @@ const Section2 = () => {
     }
 
     // Convert value to a number
-    const numericValue = parseFloat(value);
+    // const numericValue = parseFloat(value);
 
     if (type === "Transportation") {
       const updatedTransportationValues = [...transportationValues];
@@ -187,8 +186,10 @@ const Section2 = () => {
     return (monthlyTotal * 12) / 1000;
   };
 
-  const { totalCO2Transportation, totalCO2Domestic, totalCO2 } =
-    calculateTotalCO2Emissions();
+  // const { totalCO2Transportation, totalCO2Domestic, totalCO2 } =
+  //   calculateTotalCO2Emissions();
+
+  const { totalCO2 } = calculateTotalCO2Emissions();
   const monthlyTotalEmissions = totalCO2;
   const annualTotalEmissions = calculateAnnualTotalEmissions(
     monthlyTotalEmissions
@@ -212,7 +213,9 @@ const Section2 = () => {
             <tr className="w-full pr-4 text-left text-black bg-white">
               <th className="py-2 pr-4 w-1/3 ">Activity/Fuel Use</th>
               <th className="py-2 pr-4 w-1/3">Quantity</th>
-              <th className="py-2 pr-4 w-1/3">CO<sub>2</sub>e (KG)</th>
+              <th className="py-2 pr-4 w-1/3">
+                CO<sub>2</sub>e (KG)
+              </th>
             </tr>
           </thead>
           <tbody>
