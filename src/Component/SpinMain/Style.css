@@ -1,0 +1,198 @@
+.spin{
+  /* background-color: #AA1D22; */
+  /* position: relative;  */
+  /* width: 1440px;
+  height: 1024px; */
+  /* top: 114px;
+  left: -952px; */
+  width:477px;
+  height: 580px;
+  margin-right: 60px;
+  margin-left: 30px;
+  margin-top: 20px;
+  /* border: 1px solid black; */
+}
+
+
+li:first-child.text{
+  background-color: #FFFFFF;
+  /* transform: rotate(60deg) skewY(-30deg); */
+  transform: rotate(60deg);
+  /* rotate: 45deg; */
+  border: #FFFFFF;
+  
+}
+
+li:nth-child(2).text{
+  background-color: #D6E4BE;
+  /* transform: rotate(120deg) skewY(-30deg); */
+  transform: rotate(120deg);
+}
+
+li:nth-child(3).text{
+  background-color: #FFFFFF;
+  /* transform: rotate(180deg) skewY(-30deg); */
+  transform: rotate(180deg);
+}
+
+li:nth-child(4).text{
+  background-color: #D6E4BE;
+  /* transform: rotate(240deg) skewY(-30deg); */
+  transform: rotate(240deg);
+}
+
+li:nth-child(5).text{
+  background-color: #FFFFFF;
+  /* transform: rotate(300deg) skewY(-30deg); */
+  transform: rotate(300deg);
+}
+
+li:nth-child(6).text{
+  background-color: #D6E4BE;
+  transform: rotate(360deg) skewY(-30deg);
+  /* transform: rotate(360deg); */
+}
+
+.circle{
+  width: 25em;
+  height: 25em;
+  border: 1px;
+  position:relative;
+  padding:0px;
+  margin: 1em auto;
+  /* align-content:last baseline; */
+  /* margin-top: 0px; */
+  border-radius: 50%;
+  list-style: none;
+  overflow: hidden;
+  top: 80px;
+  
+}
+
+li{
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 50%;
+  transform-origin: 0% 100%;
+}
+.text{
+  /* position: absolute;
+  left: -100%;
+  width: 200%;
+  height: 200%; */
+ /* text-align:center; */
+ display: flex;
+ align-items :center;
+ /* height: 50%;
+ width:50%; */
+  display:rotate(30deg);
+  padding: 55px;
+  rotate: -30deg;
+ 
+  
+}
+
+.arrow{
+  position: absolute;
+  top: calc(18% - 30px); /* Center vertically based on the arrow size */
+  left: calc(65% - 10px); /* Center horizontally based on the arrow size */
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 40px solid rgba(14, 12, 12, 0.642); /* Arrow color */
+  z-index: 10;
+  transform: translateX(-50%) translateY(-5%); /* Position the arrow outside the circle */
+  rotate: 180deg;
+  
+}
+
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px; /* Adjust size as needed */
+  height: 80px; /* Adjust size as needed */
+  transform: translate(230%, -40%);
+  background-color: white; /* White circular background */
+  border-radius: 50%; /* Make the background circular */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo img {
+  width: 70%;
+  height: 70%;
+  border-radius: 50%; /* Make the logo circular */
+}
+
+.spin-button{
+  position: absolute;
+  left: 40px;
+  width: 220px;
+  height: 38px;
+  background-color: white;
+  border-radius: 30px;
+  margin-top: 50px;
+  margin-left:40px;
+  cursor: pointer;
+  /* outline: none; */
+  border: none;
+  color: red;
+  font-size: 18px;
+}
+
+.start-rotate {
+  /* transform: rotate(3600deg); */
+   /* Adjust the degree to ensure multiple rotations */
+  /* transition: transform 1s ease-out; Adjust the duration as needed */
+  /* animation: start-rotate 1s linear infinite; */
+  animation: start-rotate 1s linear infinite; 
+
+}
+
+
+
+
+
+
+@keyframes start-rotate{
+  100%{
+    transform: rotate(360deg);
+  }
+}
+
+
+.stop-rotate{
+  animation-play-state: paused;
+}
+
+@media (max-width: 768px) {
+  .spin {
+    width: 100%;
+    height: auto;
+    margin: 20px 15px;
+  }
+
+  .circle {
+    width: 100%;
+    height: auto;
+  }
+
+  .logo {
+    width: 60px;
+    height: 60px;
+    transform: translate(230%, -40%);
+  }
+
+  .spin-button {
+    width: 180px;
+    height: 38px;
+    font-size: 16px;
+  }
+}
+

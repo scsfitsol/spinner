@@ -1,0 +1,31 @@
+/* .app{
+  display: grid; */
+  /* grid-template-rows: 150px auto; */
+  /* background-color: #AA1D22; */
+/* } */
+
+.main{
+ display: flex;
+ /* justify-content:space-between; */
+ flex-direction:row;
+ /* padding-top: 127px; */
+ background-image: url("./image4.png");
+ background-size: cover; 
+
+}
+
+/* .app {  */
+  /* background-image: url('./image4.png');
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  background-position: center center; */
+  /* width: 1920px;
+  height: 1080px; */
+  /* display: flex;
+  flex-direction: row; */
+  /* justify-content:space-between; */
+  /* justify-content: space-between; */
+  /* align-items: center; */
+  /* justify-content: center; */
+ /* } */
+
