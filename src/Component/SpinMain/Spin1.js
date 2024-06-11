@@ -27,6 +27,7 @@ const Spin1 = () => {
           raise awarness for carbon
           <br /> accounting and enviromental conversation.
         </p>
+        
       </div>
     </div>
   );

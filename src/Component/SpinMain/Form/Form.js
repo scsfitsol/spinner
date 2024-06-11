@@ -26,14 +26,10 @@ const App = () => {
           src={logo}
           alt="Logo"
           style={{
-            // width: "200px",
-            // height: "auto",
-            // backgroundColor: "#FFFFFF",
             padding: "0",
             marginLeft: "80px",
             marginTop: "20px",
             marginBottom: "20px",
-            // borderRadius: "8px",
           }}
         />
       </div>
