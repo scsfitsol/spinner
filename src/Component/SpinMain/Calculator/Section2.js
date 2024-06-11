@@ -203,7 +203,7 @@ const Section2 = () => {
   return (
     <div className="container pt-[56px] pb-[104px] max-w-full  mx-auto">
       <div className="container grid grid-cols-4">
-        <h2 className="col-span-4 lg:col-span-3 lg:mx-0 tracking-[8px] pr-4 text-md text-black font-poppins mb-1">
+        <h2 className="col-span-4 lg:col-span-3 lg:mx-0 tracking-[8px] pr-4 text-left text-black font-poppins mb-1 ">
           CARBON FOOTPRINT CALCULATOR
         </h2>
       </div>
@@ -220,10 +220,10 @@ const Section2 = () => {
           </thead>
           <tbody>
             <tr>
-              <td className="py-6 pr-4 text-col8 text-md">
+              <td className="py-6 pr-4 text-blue-800 text-col8 text-left">
                 Enter Total Family Members (*Include self):
               </td>
-              <td className="py-2 pr-2 lg:px-4 w-1/3">
+              <td className="py-1 pr-2 lg:px-1 w-1/3">
                 <input
                   type="number"
                   min="0"
@@ -238,11 +238,13 @@ const Section2 = () => {
               <td className="py-2 lg:px-4 w-1/3"></td>
             </tr>
             <tr>
-              <td className="pt-6 pr-4 text-col8 text-md">Transportation</td>
+              <td className="pt-6 pr-4 text-col8 text-left text-blue-800">
+                Transportation
+              </td>
             </tr>
             {Array.from({ length: 7 }, (_, index) => (
               <tr key={index}>
-                <td className="py-2 pr-4 w-1/3 text-black relative">
+                <td className="py-2 pr-4 w-1/3 text-black text-left">
                   {myarr[index]}
                   <span className="tooltip">
                     <svg
@@ -305,11 +307,11 @@ const Section2 = () => {
               </tr>
             ))}
             <tr>
-              <td className="pt-6 pr-4 text-col8 text-md">Domestic Use</td>
+              <td className="pt-6 pr-4 text-col8 text-left">Domestic Use</td>
             </tr>
             {Array.from({ length: 3 }, (_, index) => (
               <tr key={index}>
-                <td className="py-2 pr-4 w-1/3 text-black">
+                <td className="py-2 pr-4 w-1/3 text-black text-left">
                   {myarr2[index]}
                   <span className="tooltip">
                     <svg
@@ -375,7 +377,7 @@ const Section2 = () => {
               <td className="py-6 pr-4 text-col8 text-md"></td>
             </tr>
             <tr>
-              <td className="py-2 pr-4 font-bold text-black w-1/3">
+              <td className="py-2 pr-4 font-bold text-black w-1/3 text-left">
                 My total emissions (kg CO<sub>2</sub>e/Month)
               </td>
               <td className="py-2 lg:pr-4 w-1/3">
@@ -393,7 +395,7 @@ const Section2 = () => {
               <td className="py-2 lg:pr-4 w-1/3"></td>
             </tr>
             <tr>
-              <td className="py-2 pr-4 font-bold text-black w-1/3">
+              <td className="py-2 pr-4 font-bold text-black w-1/3 text-left">
                 My average annual carbon footprint (Tonnes of CO<sub>2</sub>e)
               </td>
               <td className="py-2 lg:pr-4 w-1/3">

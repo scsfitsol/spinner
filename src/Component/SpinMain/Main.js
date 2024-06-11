@@ -1,6 +1,7 @@
 import React from "react";
 // import Calculator from "./Calculator/Calculator";
 import Certificate from "../Certification/Certificate";
+// import Calculator from "./Calculator/Calculator";
 // import Spin from "./Script";
 // import "./Min.css";
 // import Spin1 from "./Spin1";
@@ -21,16 +22,19 @@ const Main = () => {
     //     </div>
     //   </div>
     // </div>
-
     <div>
-      <Certificate
-        company="New company"
-        amount="1234"
-        date="14 June 2024"
-        retirementId="FITSOL12345"
-        standard="ABC"
-      />
+      {/* <Calculator /> */}
+      <Certificate />
     </div>
+    // <div>
+    //   <Certificate
+    //     company="New company"
+    //     amount="1234"
+    //     date="14 June 2024"
+    //     retirementId="FITSOL12345"
+    //     standard="ABC"
+    //   />
+    // </div>
   );
 };
 
