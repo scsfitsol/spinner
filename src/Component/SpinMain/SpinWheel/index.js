@@ -1,12 +1,28 @@
-import React, { useState } from 'react'
-import { Wheel } from 'react-custom-roulette'
+import React, { useState } from 'react';
+import { Wheel } from 'react-custom-roulette';
+import 'tailwindcss/tailwind.css';
 
 const data = [
-  { option: 'Green kit' },
-  { option: 'Better luck next time' },
-  { option: 'Green kit + 25% CNC' },
-  { option: 'Green kit + 100% CNC' },
+  { option: 'Green kit', probability: 0.6 },
+  { option: 'Better luck next time', probability: 0.0 },
+  { option: 'Ipad', probability: 0.0 },
+  { option: 'Green kit + 25% CNC', probability: 0.3 },
+  { option: 'Green kit + 100% CNC', probability: 0.1 },
 ];
+
+const getPrizeIndexByProbability = (data) => {
+  const random = Math.random();
+  let cumulativeProbability = 0;
+
+  for (let i = 0; i < data.length; i++) {
+    cumulativeProbability += data[i].probability;
+    if (random < cumulativeProbability) {
+      return i;
+    }
+  }
+
+  return data.length - 1;
+};
 
 export default () => {
   const [mustSpin, setMustSpin] = useState(false);
@@ -14,8 +30,8 @@ export default () => {
 
   const handleSpinClick = () => {
     if (!mustSpin) {
-      const newPrizeNumber = Math.floor(Math.random() * data.length);
-      console.log("new prize", newPrizeNumber, " : ", data[newPrizeNumber].option)
+      const newPrizeNumber = getPrizeIndexByProbability(data);
+      console.log("new prize", newPrizeNumber, " : ", data[newPrizeNumber].option);
       setPrizeNumber(newPrizeNumber);
       setMustSpin(true);
     }
@@ -24,11 +40,11 @@ export default () => {
   return (
     <>
       <div className="flex justify-center items-center flex-col mt-44">
-        <div className=" w-72 h-72 flex justify-center items-center">
+        <div className="relative w-72 h-72 flex justify-center items-center">
           <Wheel
             mustStartSpinning={mustSpin}
             prizeNumber={prizeNumber}
-            data={data}
+            data={data.map(item => ({ option: item.option }))}
             onStopSpinning={() => {
               setMustSpin(false);
             }}
@@ -42,7 +58,7 @@ export default () => {
         </div>
         <button
           onClick={handleSpinClick}
-          className="mt-24 px-4 py-2 bg-blue-500 text-red rounded"
+          className="mt-24 px-4 py-2 bg-blue-500 text-white rounded"
         >
           SPIN
         </button>
