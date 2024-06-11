@@ -21,11 +21,7 @@ const Main = () => {
     //     </div>
     //   </div>
     // </div>
-    // <div>
-    //   {/* <Form1 /> */}
 
-    //   <Calculator />
-    // </div>
     <div>
       <Certificate
         company="New company"

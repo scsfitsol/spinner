@@ -8,7 +8,7 @@ const Section1 = () => {
       // desc={`A person emits anything between 4-10 tonne CO\u2082e every year. Take a sneak peek into your individual emission`}
       desc={
         <>
-          <span>
+          <span className="text-align-l">
             A person emits anything between 4-10 tonne CO<sub>2</sub>e every
             year. Take a sneak peek into your individual emission
           </span>
