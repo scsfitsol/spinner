@@ -12,47 +12,38 @@
   margin-top: 20px;
   /* border: 1px solid black; */
 }
-
-
 li:first-child.text{
   background-color: #FFFFFF;
   /* transform: rotate(60deg) skewY(-30deg); */
   transform: rotate(60deg);
   /* rotate: 45deg; */
   border: #FFFFFF;
-  
 }
-
 li:nth-child(2).text{
   background-color: #D6E4BE;
   /* transform: rotate(120deg) skewY(-30deg); */
   transform: rotate(120deg);
 }
-
 li:nth-child(3).text{
   background-color: #FFFFFF;
   /* transform: rotate(180deg) skewY(-30deg); */
   transform: rotate(180deg);
 }
-
 li:nth-child(4).text{
   background-color: #D6E4BE;
   /* transform: rotate(240deg) skewY(-30deg); */
   transform: rotate(240deg);
 }
-
 li:nth-child(5).text{
   background-color: #FFFFFF;
   /* transform: rotate(300deg) skewY(-30deg); */
   transform: rotate(300deg);
 }
-
 li:nth-child(6).text{
   background-color: #D6E4BE;
   transform: rotate(360deg) skewY(-30deg);
   /* transform: rotate(360deg); */
 }
-
 .circle{
   width: 25em;
   height: 25em;
@@ -66,9 +57,7 @@ li:nth-child(6).text{
   list-style: none;
   overflow: hidden;
   top: 80px;
-  
 }
-
 li{
   overflow: hidden;
   position: absolute;
@@ -87,14 +76,11 @@ li{
  display: flex;
  align-items :center;
  /* height: 50%;
- width:50%; */
+width:50%; */
   display:rotate(30deg);
   padding: 55px;
   rotate: -30deg;
- 
-  
 }
-
 .arrow{
   position: absolute;
   top: calc(18% - 30px); /* Center vertically based on the arrow size */
@@ -107,9 +93,7 @@ li{
   z-index: 10;
   transform: translateX(-50%) translateY(-5%); /* Position the arrow outside the circle */
   rotate: 180deg;
-  
 }
-
 .logo {
   position: absolute;
   top: 50%;
@@ -123,13 +107,11 @@ li{
   align-items: center;
   justify-content: center;
 }
-
 .logo img {
   width: 70%;
   height: 70%;
   border-radius: 50%; /* Make the logo circular */
 }
-
 .spin-button{
   position: absolute;
   left: 40px;
@@ -145,54 +127,39 @@ li{
   color: red;
   font-size: 18px;
 }
-
 .start-rotate {
   /* transform: rotate(3600deg); */
    /* Adjust the degree to ensure multiple rotations */
   /* transition: transform 1s ease-out; Adjust the duration as needed */
   /* animation: start-rotate 1s linear infinite; */
-  animation: start-rotate 1s linear infinite; 
-
+  animation: start-rotate 1s linear infinite;
 }
-
-
-
-
-
-
 @keyframes start-rotate{
   100%{
     transform: rotate(360deg);
   }
 }
-
-
 .stop-rotate{
   animation-play-state: paused;
 }
-
 @media (max-width: 768px) {
   .spin {
     width: 100%;
     height: auto;
     margin: 20px 15px;
   }
-
   .circle {
     width: 100%;
     height: auto;
   }
-
   .logo {
     width: 60px;
     height: 60px;
     transform: translate(230%, -40%);
   }
-
   .spin-button {
     width: 180px;
     height: 38px;
     font-size: 16px;
   }
 }
-

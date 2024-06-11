@@ -1,13 +1,16 @@
 import React from "react";
 // import Calculator from "./Calculator/Calculator";
 import Certificate from "../Certification/Certificate";
+<<<<<<< HEAD
 // import Calculator from "./Calculator/Calculator";
+=======
+import FormSection from "./Form/Form";
+import SpinningWheel from "./SpinWheel/index"
+>>>>>>> e0045522fed0d899c40d5f2e4077740b342d8c8d
 // import Spin from "./Script";
 // import "./Min.css";
 // import Spin1 from "./Spin1";
-
 // import Form1 from "./Form/Form";
-
 const Main = () => {
   return (
     // <div className="app">
@@ -22,9 +25,19 @@ const Main = () => {
     //     </div>
     //   </div>
     // </div>
+<<<<<<< HEAD
     <div>
       {/* <Calculator /> */}
       <Certificate />
+=======
+    // <div>
+    //   {/* <Form1 /> */}
+    //   <Calculator />
+    // </div>
+    <div>
+      {/* <FormSection /> */}
+    <SpinningWheel />
+>>>>>>> e0045522fed0d899c40d5f2e4077740b342d8c8d
     </div>
     // <div>
     //   <Certificate
@@ -37,5 +50,4 @@ const Main = () => {
     // </div>
   );
 };
-
 export default Main;

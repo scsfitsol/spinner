@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Input, Form, Button, Row, Col, Checkbox } from "antd";
 import logo from "./LogoForm.png"; // Import your logo image
+import axios from "axios";
 
-const App = () => {
-  const handleFinish = (values) => {
-    console.log("Form values:", values);
+const FormSection = () => {
+  const baseUrl = "http://localhost:3001/api/v1";
+
+  const formRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleFinish = async (values) => {
+    try {
+      setLoading(true);
+      const formData = { ...values };
+      delete formData.terms;
+      delete formData.privacyPolicy;
+
+      await formRef.current.validateFields();
+      await axios.post(`${baseUrl}/spinnerFormData`, formData);
+      formRef.current.resetFields();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -46,6 +65,7 @@ const App = () => {
         }}
       >
         <Form
+          ref={formRef}
           name="basic_form"
           initialValues={{ remember: true }}
           onFinish={handleFinish}
@@ -135,25 +155,33 @@ const App = () => {
           <Form.Item
             name="terms"
             valuePropName="checked"
+            style={{ display: "flex", alignItems: "flex-start" }}
             rules={[
               {
                 validator: (_, value) =>
                   value
                     ? Promise.resolve()
-                    : Promise.reject("Please accept the terms and conditions"),
+                    : Promise.reject(
+                      "Please accept the terms and conditions"
+                    ),
               },
             ]}
           >
-            <Checkbox style={{ lineHeight: "normal" }}>
-              <p>
-                I agree to receive other communications from Fitsol Supply Chain
-                Solutions.
-              </p>
-            </Checkbox>
-            In order to provide you the content requested, we need to store and
-            process your personal data. If you consent to us storing your
-            personal data for this purpose, please tick the checkbox below.
+            <div style={{ display: "flex", alignItems: "flex-start" }}>
+              <Checkbox style={{ marginTop: 4, marginRight: 6 }} />
+              <div style={{ marginTop: "4px" }}>
+                <span>
+                  I agree to receive other communications from Fitsol
+                  Supply Chain Solutions. In order to provide you the
+                  content requested, we need to store and process your
+                  personal data. If you consent to us storing your
+                  personal data for this purpose, please tick the
+                  checkbox below.
+                </span>
+              </div>
+            </div>
           </Form.Item>
+
 
           <Form.Item
             name="privacyPolicy"
@@ -178,6 +206,7 @@ const App = () => {
               type="primary"
               htmlType="submit"
               style={{ width: "100%", backgroundColor: "#2E33C3" }}
+              loading={loading} 
             >
               Save and proceed to spin
             </Button>
@@ -188,4 +217,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default FormSection;
