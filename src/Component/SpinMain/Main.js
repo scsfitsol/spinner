@@ -2,6 +2,7 @@ import React from "react";
 // import Calculator from "./Calculator/Calculator";
 import Certificate from "../Certification/Certificate";
 import FormSection from "./Form/Form";
+import Spinwheel from './SpinWheel/index';
 // import Spin from "./Script";
 // import "./Min.css";
 // import Spin1 from "./Spin1";
@@ -33,6 +34,7 @@ const Main = () => {
         standard="ABC"
       /> */}
       <FormSection />
+      <Spinwheel/>
     </div>
   );
 };
