@@ -34,11 +34,12 @@ const Section = (props) => {
     <div
       className={`container max-w-full grid grid-cols-12 gap-2 ${props.padding} pt-[96px]`}
     >
-      <h2 className="col-span-12 lg:col-span-8 lg:mx-0 tracking-[8px]  text-md md:text-lg text-col13 font-poppins mb-1">
+      <h2 className=" col-span-12 lg:col-span-8 lg:mx-0 tracking-[8px]  md:text-lg text-col13 font-poppins mb-1 text-left ml-1">
         {props.title}
       </h2>
-      <h1 className="col-span-12 lg:col-span-8 lg:mx-0 text-4xl text-black lg:text-6xl font-serif">
+      <h1 className="col-span-12 lg:col-span-8 lg:mx-0 text-4xl text-black lg:text-6xl font-serif mb-1 text-left">
         {props.head}
+        {/* <hr className="border-t-3 border-blue-800 w-20 h-10" /> */}
       </h1>
       <div className="col-span-12 lg:col-span-8 lg:mx-0 underline w-16 h-[2px] bg-col15 mt-4 mb-2"></div>
       {props.desc !== null && (
