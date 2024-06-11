@@ -2,6 +2,7 @@ import React from "react";
 // import Calculator from "./Calculator/Calculator";
 import Certificate from "../Certification/Certificate";
 import FormSection from "./Form/Form";
+import SpinningWheel from "./SpinWheel/index"
 // import Spin from "./Script";
 // import "./Min.css";
 // import Spin1 from "./Spin1";
@@ -25,14 +26,8 @@ const Main = () => {
     //   <Calculator />
     // </div>
     <div>
-      {/* <Certificate
-        company="New company"
-        amount="1234"
-        date="14 June 2024"
-        retirementId="FITSOL12345"
-        standard="ABC"
-      /> */}
-      <FormSection />
+      {/* <FormSection /> */}
+    <SpinningWheel />
     </div>
   );
 };

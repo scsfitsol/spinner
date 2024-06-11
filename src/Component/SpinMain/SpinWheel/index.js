@@ -1,75 +1,52 @@
-import React, { useState } from "react";
-import WheelComponent from "react-wheel-of-prizes";
+import React, { useState } from 'react'
+import { Wheel } from 'react-custom-roulette'
 
-const App = () => {
-  // Define segments
-  const segments = [
-    "better luck next time",
-    "won 70",
-    "won 10",
-    "better luck next time",
-    "won 2",
-    "won uber pass", // This segment will be visible but not selectable
-  ];
+const data = [
+  { option: 'Green kit' },
+  { option: 'Better luck next time' },
+  { option: 'Green kit + 25% CNC' },
+  { option: 'Green kit + 100% CNC' },
+];
 
-  const rand = () => {
-    const item = Math.floor(Math.random() * segments.length);
-    console.log("item", item);
-    const num = segments[Math.floor(Math.random() * segments.length)];
-    console.log("num", num);
-     return num;
-  }
+export default () => {
+  const [mustSpin, setMustSpin] = useState(false);
+  const [prizeNumber, setPrizeNumber] = useState(0);
 
-  // Define segment colors
-  const segColors = ["#EE4040", "#F0CF50", "#815CD1", "#3DA5E0", "#34A24F"];
-  const [winner, setWinner] = useState(null);
-  const [spinCount, setSpinCount] = useState(0);
-  const [currentWinningSegment, setCurrentWinningSegment] = useState("better luck next time");
-  const winningSegments = ["better luck next time", "won 70"];
-  const handleSpin = () => {
-    console.log("hemanth")
-    // Select a random winning segment from the winningSegments array
-    const randomWinner =
-      winningSegments[Math.floor(Math.random() * winningSegments.length)];
-    setCurrentWinningSegment(randomWinner);
-    setSpinCount(spinCount + 1);
+  const handleSpinClick = () => {
+    if (!mustSpin) {
+      const newPrizeNumber = Math.floor(Math.random() * data.length);
+      console.log("new prize", newPrizeNumber, " : ", data[newPrizeNumber].option)
+      setPrizeNumber(newPrizeNumber);
+      setMustSpin(true);
+    }
   };
 
-  const onFinished = (winner) => {
-    console.log("winner", winner);
-    setWinner(winner);
-  };
   return (
-    <div
-      className="App"
-      style={{
-        fontFamily: "sans-serif",
-        textAlign: "center",
-      }}
-    >
-      <div>
-        <WheelComponent
-          segments={segments}
-          segColors={segColors}
-          winningSegment={"won 2"}
-          onFinished={onFinished}
-          // winningSegment= "better luck next time"
-          // onFinished={(winner) => onFinished(winner)}
-          // onFinished={(winner) => onFinished(winner)}
-          primaryColor="black"
-          contrastColor="white"
-          buttonText="Spin"
-          // need to make it true
-          isOnlyOnce={false}
-          size={190}
-          upDuration={500}
-          downDuration={600}
-          fontFamily="Arial"
-        />
+    <>
+      <div className="flex justify-center items-center flex-col mt-44">
+        <div className=" w-72 h-72 flex justify-center items-center">
+          <Wheel
+            mustStartSpinning={mustSpin}
+            prizeNumber={prizeNumber}
+            data={data}
+            onStopSpinning={() => {
+              setMustSpin(false);
+            }}
+            innerBorderColor={"#000000"}
+            outerBorderColor={"#000000"}
+            radiusLineColor={"#000000"}
+            fontSize={14}
+            textColors={["#ffffff"]}
+            fontFamily={"Arial"}
+          />
+        </div>
+        <button
+          onClick={handleSpinClick}
+          className="mt-24 px-4 py-2 bg-blue-500 text-red rounded"
+        >
+          SPIN
+        </button>
       </div>
-      <h2>Start editing to see some magic happen!</h2>
-    </div>
+    </>
   );
 };
-
-export default App;
