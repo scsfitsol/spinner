@@ -1,6 +1,7 @@
 import React from "react";
 // import Calculator from "./Calculator/Calculator";
 import Certificate from "../Certification/Certificate";
+import FormSection from "./Form/Form";
 // import Spin from "./Script";
 // import "./Min.css";
 // import Spin1 from "./Spin1";
@@ -27,13 +28,14 @@ const Main = () => {
     //   <Calculator />
     // </div>
     <div>
-      <Certificate
+      {/* <Certificate
         company="New company"
         amount="1234"
         date="14 June 2024"
         retirementId="FITSOL12345"
         standard="ABC"
-      />
+      /> */}
+      <FormSection />
     </div>
   );
 };
