@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import "tailwindcss/tailwind.css";
+import { useNavigate } from "react-router-dom";
 import bgImage from "../image4.png"; // Ensure you have the image in the correct path
 
-const CongratulationsCard = () => {
+const CongratulationsCard = (props) => {
+  const { prize } = props;
+  const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(true);
 
   const handleClose = () => {
+    if (prize.includes("CNC")) {
+        navigate("/calculator");
+      } else {
+        navigate("/thanks");
+      }
     setIsVisible(false);
   };
 
@@ -23,15 +31,20 @@ const CongratulationsCard = () => {
           }}
         ></div>
         <div className="p-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Congratulations!</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            Congratulations!
+          </h2>
           <p className="text-gray-700 mb-6">
-            You have won an exciting prize! Thank you for participating in our contest. We appreciate your support for sustainable practices and environmental conservation.
+            🎉 Congratulations! You have won{" "}
+            <span className="text-green-800 font-bold">{prize}</span>! Thank you
+            for participating in our contest. We appreciate your support for
+            sustainable practices and environmental conservation. 🌱🌍
           </p>
           <button
             onClick={handleClose}
-            className="px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700 transition duration-300"
+            className="px-4 py-2 bg-buttonColor text-black font-bold rounded hover:bg-hoveColor transition duration-300"
           >
-            Close
+            {prize.includes("CNC") ? "Go to Calculator" : "Close"}
           </button>
         </div>
       </div>

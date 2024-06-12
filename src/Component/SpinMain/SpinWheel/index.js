@@ -4,7 +4,7 @@ import "tailwindcss/tailwind.css";
 import ConfettiExplosion from "react-confetti-explosion";
 import CongratulationsCard from "./Congratulation";
 import bgImage from "../image4.png";
-
+import logo from "../LogoForm.png";
 const totalParticipants = 10;
 const initialData = [
   { option: "Green kit", probability: 0.3, remaining: 3 },
@@ -89,9 +89,9 @@ export default () => {
       {showConfetti && (
         <ConfettiExplosion onComplete={onComplete} {...confettiProps} />
       )}
-      {showCard && <CongratulationsCard />}
+      {showCard && <CongratulationsCard prize={data[prizeNumber].option} />}
       <div
-        className="flex flex-col lg:flex-row justify-center items-center min-h-screen"
+        className="flex flex-col lg:flex-row justify-center items-center min-h-screen text-poppins"
         style={{
           backgroundImage: `url(${bgImage})`,
           backgroundPosition: "center",
@@ -99,9 +99,9 @@ export default () => {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="flex flex-col lg:w-1/2 p-8 bg-cover bg-center">
+        {/* <div className="flex flex-col lg:w-1/2 p-8 bg-cover bg-center">
           <div className="mb-8">
-            <img src="./image/image5.png" alt="Logo" className="h-16 mb-4" />
+            <img src="./image/image5.png" alt="Logo" className="h-16 mb-5 mx-[35%]" />
             <h1 className="text-4xl font-bold">Spin & Win</h1>
             <p className="text-xl mt-2">Amazing Prizes!</p>
           </div>
@@ -115,7 +115,41 @@ export default () => {
             raise awareness for carbon <br />
             accounting and environmental conservation.
           </p>
+          <button
+            onClick={handleSpinClick}
+            className=" mx-[30%] w-[35%] mt-8 px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700 transition duration-300"
+          >
+            Spin the Wheel
+          </button>
+        </div> */}
+        <div className="flex flex-col lg:w-1/2 p-8 bg-cover bg-center text-poppins">
+          <div className="mb-8">
+            <img
+              src="./image/image5.png"
+              alt="Logo"
+              className="h-16 mb-5 mx-[35%]"
+            />
+            <h1 className="text-4xl text-poppins font-bold">🎉 Spin & Win 🎉</h1>
+            <p className="text-xl mt-2">Amazing Prizes! 🏆</p>
+          </div>
+          <p className="text-lg">
+            Join our contest for a chance to win <br />
+            exciting prizes! 🎁✨
+          </p>
+          <br />
+          <p className="text-lg">
+            Support sustainable practices and <br />
+            raise awareness for carbon <br />
+            accounting and environmental conservation. 🌱🌍
+          </p>
+          <button
+            onClick={handleSpinClick}
+            className=" mx-[30%] w-[35%] mt-8 px-6 py-2 text-poppins bg-buttonColor text-black font-semibold rounded hover:bg-hoveColor transition duration-300"
+          >
+            🎡 Spin the Wheel 🎡
+          </button>
         </div>
+
         <div className="flex flex-col lg:w-1/2 justify-center items-center p-8 relative">
           <Wheel
             mustStartSpinning={mustSpin}
@@ -150,12 +184,6 @@ export default () => {
               },
             }}
           />
-          <button
-            onClick={handleSpinClick}
-            className="mt-8 px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700 transition duration-300"
-          >
-            Spin the Wheel
-          </button>
 
           {prizeText && (
             <div className="mt-8 p-4 bg-green-100 text-green-700 rounded-lg text-center">

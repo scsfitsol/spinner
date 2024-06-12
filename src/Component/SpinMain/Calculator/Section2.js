@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import "./style.css";
+import React, { useState, useEffect } from "react";
+// import "../style.css";
 const Section2 = () => {
   const myarr = [
     "Petrol (litres)",
@@ -19,10 +19,10 @@ const Section2 = () => {
     "My average annual carbon footprint (Tonnes of CO2e)",
   ];
 
-  // const myarr3 = [
-  //   "My total emissions (kg CO2e/Month)",
-  //   "My average annual carbon footprint (Tonnes of CO2e)",
-  // ];
+  const myarr3 = [
+    "My total emissions (kg CO2e/Month)",
+    "My average annual carbon footprint (Tonnes of CO2e)",
+  ];
 
   const myarr4 = [
     "Fuel in litres as used in personal vehicle. In case of car pool, divide total fuel volume by total number of people. All people in the car pool need to account for the divided fuel volume.",
@@ -48,29 +48,29 @@ const Section2 = () => {
     quantity: "",
     co2e: "",
   }));
-  // const initialFamilyValue = () => ({
-  //   quantity: "",
-  // });
+  const initialFamilyValue = () => ({
+    quantity: "",
+  });
 
   const [transportationValues, setTransportationValues] = useState(
     initialTransportationValues
   );
-  // const [familyMemberAlertDisplayed, setFamilyMemberAlertDisplayed] =
-  //   useState(false);
+  const [familyMemberAlertDisplayed, setFamilyMemberAlertDisplayed] =
+    useState(false);
   const [familyMembers, setFamilyMembers] = useState("");
   const [domesticValues, setDomesticValues] = useState(initialDomesticValues);
-  // const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   const handleFamilyMembersChange = (value) => {
     const isValidInput = /^[1-9]\d*$/.test(value);
     if (!isValidInput || parseInt(value) <= 0) {
       // Do not accept non-numeric, zero, or negative values for family members
       setFamilyMembers(""); // Reset the value to empty string
-      // setFamilyMemberAlertDisplayed(true);
+      setFamilyMemberAlertDisplayed(true);
       return;
     }
 
     setFamilyMembers(value);
-    // setFamilyMemberAlertDisplayed(false);
+    setFamilyMemberAlertDisplayed(false);
   };
 
   const calculateCO2eTransport = (values, multiplier) => {
@@ -95,8 +95,8 @@ const Section2 = () => {
     }
 
     const calculatedCO2e = values.map((item, index) => {
-      let co2eValue =
-        item.quantity !== "" ? item.quantity * multipliers[index] : "";
+      let co2eValue = 
+      item.quantity !== "" ? item.quantity * multipliers[index] : "";;
       // if (item.quantity !== "") {
       //   co2eValue = item.quantity * multipliers[index];
       // }
@@ -123,7 +123,7 @@ const Section2 = () => {
     }
 
     // Convert value to a number
-    // const numericValue = parseFloat(value);
+    const numericValue = parseFloat(value);
 
     if (type === "Transportation") {
       const updatedTransportationValues = [...transportationValues];
@@ -186,10 +186,8 @@ const Section2 = () => {
     return (monthlyTotal * 12) / 1000;
   };
 
-  // const { totalCO2Transportation, totalCO2Domestic, totalCO2 } =
-  //   calculateTotalCO2Emissions();
-
-  const { totalCO2 } = calculateTotalCO2Emissions();
+  const { totalCO2Transportation, totalCO2Domestic, totalCO2 } =
+    calculateTotalCO2Emissions();
   const monthlyTotalEmissions = totalCO2;
   const annualTotalEmissions = calculateAnnualTotalEmissions(
     monthlyTotalEmissions
@@ -201,35 +199,33 @@ const Section2 = () => {
   };
 
   return (
-    <div className="container pt-[56px] pb-[104px] max-w-full  mx-auto">
-      <div className="container grid grid-cols-4">
-        <h2 className="col-span-4 lg:col-span-3 lg:mx-0 tracking-[8px] pr-4 text-left text-black font-poppins mb-1 ">
+    <div className="container pt-[56px] max-w-full  mx-auto">
+      {/* <div className="container grid grid-cols-4">
+        <h2 className="col-span-4 lg:col-span-3 lg:mx-0 tracking-[8px] pr-4 text-md text-black font-poppins mb-1">
           CARBON FOOTPRINT CALCULATOR
         </h2>
-      </div>
+      </div> */}
       <form>
         <table className="w-full">
           <thead>
-            <tr className="w-full pr-4 text-left text-black bg-white">
+            <tr className="w-full pr-4 text-left text-black bg-col4">
               <th className="py-2 pr-4 w-1/3 ">Activity/Fuel Use</th>
               <th className="py-2 pr-4 w-1/3">Quantity</th>
-              <th className="py-2 pr-4 w-1/3">
-                CO<sub>2</sub>e (KG)
-              </th>
+              <th className="py-2 pr-4 w-1/3">CO<sub>2</sub>e (KG)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td className="py-6 pr-4 text-blue-800 text-col8 text-left">
+              <td className="py-6 pr-2 text-col8 text-md">
                 Enter Total Family Members (*Include self):
               </td>
-              <td className="py-1 pr-2 lg:px-1 w-1/3">
+              <td className="py-2 lg:px-4 w-1/3">
                 <input
                   type="number"
                   min="0"
                   onKeyPress={preventMinus}
                   onWheel={(e) => e.target.blur()}
-                  className="w-full bg-white border border-bordcol rounded px-2 py-2"
+                  className="w-full bg-white border border-bordcol rounded py-2"
                   placeholder=""
                   value={familyMembers}
                   onChange={(e) => handleFamilyMembersChange(e.target.value)}
@@ -238,13 +234,11 @@ const Section2 = () => {
               <td className="py-2 lg:px-4 w-1/3"></td>
             </tr>
             <tr>
-              <td className="pt-6 pr-4 text-col8 text-left text-blue-800">
-                Transportation
-              </td>
+              <td className="pt-6 pr-4 text-col8 text-md">Transportation</td>
             </tr>
             {Array.from({ length: 7 }, (_, index) => (
               <tr key={index}>
-                <td className="py-2 pr-4 w-1/3 text-black text-left">
+                <td className="py-2 pr-4 w-1/3 text-black relative">
                   {myarr[index]}
                   <span className="tooltip">
                     <svg
@@ -307,11 +301,11 @@ const Section2 = () => {
               </tr>
             ))}
             <tr>
-              <td className="pt-6 pr-4 text-col8 text-left">Domestic Use</td>
+              <td className="pt-6 pr-4 text-col8 text-md">Domestic Use</td>
             </tr>
             {Array.from({ length: 3 }, (_, index) => (
               <tr key={index}>
-                <td className="py-2 pr-4 w-1/3 text-black text-left">
+                <td className="py-2 pr-4 w-1/3 text-black">
                   {myarr2[index]}
                   <span className="tooltip">
                     <svg
@@ -377,7 +371,7 @@ const Section2 = () => {
               <td className="py-6 pr-4 text-col8 text-md"></td>
             </tr>
             <tr>
-              <td className="py-2 pr-4 font-bold text-black w-1/3 text-left">
+              <td className="py-2 pr-4 font-bold text-black w-1/3">
                 My total emissions (kg CO<sub>2</sub>e/Month)
               </td>
               <td className="py-2 lg:pr-4 w-1/3">
@@ -395,7 +389,7 @@ const Section2 = () => {
               <td className="py-2 lg:pr-4 w-1/3"></td>
             </tr>
             <tr>
-              <td className="py-2 pr-4 font-bold text-black w-1/3 text-left">
+              <td className="py-2 pr-4 font-bold text-black w-1/3">
                 My average annual carbon footprint (Tonnes of CO<sub>2</sub>e)
               </td>
               <td className="py-2 lg:pr-4 w-1/3">

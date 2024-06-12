@@ -89,7 +89,7 @@ width:50%; */
   height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-  border-bottom: 40px solid rgba(14, 12, 12, 0.642); /* Arrow color */
+  border-bottom: 40px solid #c0cdaa; /* Arrow color */
   z-index: 10;
   transform: translateX(-50%) translateY(-5%); /* Position the arrow outside the circle */
   rotate: 180deg;

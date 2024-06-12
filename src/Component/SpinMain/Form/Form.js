@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Input, Form, Button, Row, Col, Checkbox } from "antd";
-import logo from "./LogoForm.png"; // Import your logo image
+import logo from '../LogoForm.png';
 import axios from "axios";
 
 const FormSection = () => {

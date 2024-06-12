@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../SpinMain/Form/LogoForm.png";
+import logo from '.././SpinMain/LogoForm.png';
 import qrcode from "./qrcode.png";
 
 const Certificate = ({ company, amount, date, retirementId, standard }) => {

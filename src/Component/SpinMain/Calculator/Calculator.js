@@ -1,11 +1,28 @@
-import React from "react";
-import logo from "../Form/LogoForm.png";
-import Section1 from "./Section4";
+import React, { useState } from "react";
+import logo from "../LogoForm.png";
+import Section4 from "./Section";
+import { Modal, Button } from "antd";
 import Section2 from "./Section2";
+import { useNavigate } from "react-router-dom";
+import "tailwindcss/tailwind.css";
 
 const Calculator = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const navigate = useNavigate();
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+    navigate("/certificate");
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   return (
-    <div className="p-5">
+    <div className="">
       {/* Header Section */}
       <div className="bg-blue-800 rounded-lg text-left p-5">
         <img
@@ -16,14 +33,40 @@ const Calculator = () => {
         />
       </div>
 
-      <div>
-        {/* Sections */}
-        <Section1 />
+      <div className="px-8">
+        <Section4 />
         <Section2 />
       </div>
-      <button className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 w-50">
-        Reset
+      <button
+        onClick={showModal}
+        className=" mx-[30%]  my-4 px-6 py-4 font-poppins bg-buttonColor hover:bg-hoveColor text-black font-bold rounded"
+      >
+        Claim your certificate! 🌱🌍
       </button>
+      <Modal
+        title="Confirm"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        okText="Yes"
+        cancelText="No"
+        okButtonProps={{
+          style: {
+            backgroundColor: '#D6E4BE', // Custom green color
+            // borderColor: '#4CAF50', // Custom green color
+            color: 'var(--Text_pr, #1A1C3C)', // Text color
+          }
+        }}
+        cancelButtonProps={{
+          style: {
+            // backgroundColor: '#f44336', // Custom red color
+            // borderColor: '#f44336', // Custom red color
+            color: 'var(--Text_pr, #1A1C3C)', // Text color
+          }
+        }}
+      >
+        <p className="text-poppins text-black">Do you want to claim your certificate?</p>
+      </Modal>
     </div>
   );
 };

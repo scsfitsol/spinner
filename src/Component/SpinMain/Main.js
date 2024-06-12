@@ -1,31 +1,38 @@
 import React from "react";
-// import Calculator from "./Calculator/Calculator";
 import Certificate from "../Certification/Certificate";
 import FormSection from "./Form/Form";
 import Spinwheel from "./SpinWheel/index";
 import SpinningWheel from "./SpinWheel/index";
+import Calculator from "./Calculator/Calculator";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Spin from "./Script";
 import "./Min.css";
 import SpinPoster from "./Spin1";
-// import Form1 from "./Form/Form";
 const Main = () => {
   return (
     <div>
-      {/* <div className="main">
-        <SpinPoster/>
-      </div> */}
-      <FormSection/>
-        <SpinningWheel/>
+      <Routes>
+      <Route path="/" element={<FormSection />} />
+      <Route path="/spin" element={<SpinningWheel />} />
+      <Route path="/calculator" element={<Calculator />} />
+      <Route path="/certificate" element={<Certificate />} />
+      </Routes>
     </div>
   );
 };
 export default Main;
 
-{/* <div >
+{
+  /* <FormSection/>
+      <SpinningWheel/> */
+}
+{
+  /* <div >
           <div >
             <Spin1 />
           </div>
           <div >
             <SpinningWheel/>
           </div>
-      </div> */}
+      </div> */
+}
