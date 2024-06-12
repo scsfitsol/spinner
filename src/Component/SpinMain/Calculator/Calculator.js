@@ -1,15 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../LogoForm.png";
 import Section4 from "./Section";
 import { Modal, Button } from "antd";
 import Section2 from "./Section2";
 import { useNavigate } from "react-router-dom";
 import "tailwindcss/tailwind.css";
+import axios from "axios";
+import { baseUrl } from "../../../constant";
 
 const Calculator = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
-  const showModal = () => {
+  
+  
+  const storeOffSetValue = async () => {
+    try {
+      const userEmail = localStorage.getItem("email");
+      const offSetValue = localStorage.getItem("offSetValue");
+      if (!userEmail) {
+        localStorage.clear();
+        navigate(
+          '/'
+        )
+      }
+      if (!offSetValue) {
+        alert("Something went wrong!!");
+      }
+      await axios.post(`${baseUrl}/offSet`, {
+        "businessEmail": userEmail,
+        "offSetValue": offSetValue
+      });
+    } catch (err) {
+      const msg = err?.response?.data?.message;
+      alert(msg)
+      console.log(err);
+    }
+  }
+  const showModal = async () => {
+    await storeOffSetValue();
     setIsModalVisible(true);
   };
 
@@ -21,6 +49,7 @@ const Calculator = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
   return (
     <div className="">
       {/* Header Section */}

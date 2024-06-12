@@ -2,18 +2,49 @@ import React, { useState } from "react";
 import "tailwindcss/tailwind.css";
 import { useNavigate } from "react-router-dom";
 import bgImage from "../image4.png"; // Ensure you have the image in the correct path
+import axios from "axios";
+import { baseUrl } from "../../../constant";
 
 const CongratulationsCard = (props) => {
   const { prize } = props;
+  const userEmail = localStorage.getItem("email");
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(true);
+  const prizesValue = {
+    "Green kit + 25% CNC": "25",
+    "Green kit + 100% CNC": "100"
+  }
 
-  const handleClose = () => {
-    if (prize.includes("CNC")) {
-        navigate("/calculator");
-      } else {
-        navigate("/thanks");
+
+  const storeSpinningValue = async (val) => {
+    try {
+      if (!userEmail) {
+        localStorage.clear();
+        navigate(
+          '/'
+        )
       }
+      await axios.post(`${baseUrl}/spinValue`, {
+        "businessEmail": userEmail,
+        "spinValue": val
+      });
+      localStorage.setItem("spinValue", val);
+    } catch (err) {
+      const msg = err?.response?.data?.message;
+      alert(msg)
+      console.log(err);
+    }
+  }
+
+  const handleClose = async () => {
+    if (prize.includes("CNC")) {
+      const percent = prizesValue[prize];
+      await storeSpinningValue(percent);
+      navigate("/calculator");
+    } else {
+      localStorage.clear();
+      navigate("/thanks");
+    }
     setIsVisible(false);
   };
 

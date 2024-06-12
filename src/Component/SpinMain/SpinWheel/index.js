@@ -63,12 +63,7 @@ export default () => {
     if (!mustSpin) {
       const newPrizeNumber = getPrizeIndexByProbability(data);
       const selectedPrize = data[newPrizeNumber];
-      console.log(
-        "new prize",
-        newPrizeNumber,
-        " : ",
-        data[newPrizeNumber].option
-      );
+
       if (selectedPrize.remaining > 0) {
         selectedPrize.remaining -= 1;
         setData([...data]); // Update data to reflect the remaining prizes

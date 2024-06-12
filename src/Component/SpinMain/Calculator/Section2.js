@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 // import "../style.css";
 const Section2 = () => {
+  const spinValue = localStorage.getItem("spinValue");
+
   const myarr = [
     "Petrol (litres)",
     "Diesel fuel (litres)",
@@ -95,8 +97,8 @@ const Section2 = () => {
     }
 
     const calculatedCO2e = values.map((item, index) => {
-      let co2eValue = 
-      item.quantity !== "" ? item.quantity * multipliers[index] : "";;
+      let co2eValue =
+        item.quantity !== "" ? item.quantity * multipliers[index] : "";;
       // if (item.quantity !== "") {
       //   co2eValue = item.quantity * multipliers[index];
       // }
@@ -112,7 +114,7 @@ const Section2 = () => {
     return calculatedCO2e;
   };
 
-  const handleInputChange = (index, type, value) => {
+  const handleInputChange = async (index, type, value) => {
     const isValidInput =
       /^(?!0\d)[0-9]*(\.\d+)?$/.test(value) || /^0(\.\d+)?$/.test(value);
 
@@ -192,6 +194,8 @@ const Section2 = () => {
   const annualTotalEmissions = calculateAnnualTotalEmissions(
     monthlyTotalEmissions
   );
+  const offSetValue = annualTotalEmissions * (parseFloat(spinValue) / 100);
+  localStorage.setItem("offSetValue", offSetValue);
   const preventMinus = (e) => {
     if (e.code === "Minus") {
       e.preventDefault();
@@ -262,7 +266,7 @@ const Section2 = () => {
                         // font-weight="none"
                         // font-size="none"
                         text-anchor="none"
-                        // style="mix-blend-mode: normal"
+                      // style="mix-blend-mode: normal"
                       >
                         <g transform="scale(5.33333,5.33333)">
                           <path d="M24,4c-11.02793,0 -20,8.97207 -20,20c0,11.02793 8.97207,20 20,20c11.02793,0 20,-8.97207 20,-20c0,-11.02793 -8.97207,-20 -20,-20zM24,7c9.40662,0 17,7.59339 17,17c0,9.40661 -7.59338,17 -17,17c-9.40661,0 -17,-7.59339 -17,-17c0,-9.40661 7.59339,-17 17,-17zM24,14c-1.10457,0 -2,0.89543 -2,2c0,1.10457 0.89543,2 2,2c1.10457,0 2,-0.89543 2,-2c0,-1.10457 -0.89543,-2 -2,-2zM23.97656,20.97852c-0.82766,0.01293 -1.48843,0.69381 -1.47656,1.52148v11c-0.00765,0.54095 0.27656,1.04412 0.74381,1.31683c0.46725,0.27271 1.04514,0.27271 1.51238,0c0.46725,-0.27271 0.75146,-0.77588 0.74381,-1.31683v-11c0.00582,-0.40562 -0.15288,-0.7963 -0.43991,-1.08296c-0.28703,-0.28666 -0.67792,-0.44486 -1.08353,-0.43852z"></path>
@@ -329,7 +333,7 @@ const Section2 = () => {
                         // font-weight="none"
                         // font-size="none"
                         text-anchor="none"
-                        // style="mix-blend-mode: normal"
+                      // style="mix-blend-mode: normal"
                       >
                         <g transform="scale(5.33333,5.33333)">
                           <path d="M24,4c-11.02793,0 -20,8.97207 -20,20c0,11.02793 8.97207,20 20,20c11.02793,0 20,-8.97207 20,-20c0,-11.02793 -8.97207,-20 -20,-20zM24,7c9.40662,0 17,7.59339 17,17c0,9.40661 -7.59338,17 -17,17c-9.40661,0 -17,-7.59339 -17,-17c0,-9.40661 7.59339,-17 17,-17zM24,14c-1.10457,0 -2,0.89543 -2,2c0,1.10457 0.89543,2 2,2c1.10457,0 2,-0.89543 2,-2c0,-1.10457 -0.89543,-2 -2,-2zM23.97656,20.97852c-0.82766,0.01293 -1.48843,0.69381 -1.47656,1.52148v11c-0.00765,0.54095 0.27656,1.04412 0.74381,1.31683c0.46725,0.27271 1.04514,0.27271 1.51238,0c0.46725,-0.27271 0.75146,-0.77588 0.74381,-1.31683v-11c0.00582,-0.40562 -0.15288,-0.7963 -0.43991,-1.08296c-0.28703,-0.28666 -0.67792,-0.44486 -1.08353,-0.43852z"></path>

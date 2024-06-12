@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 const ThankYou = () => {
   const navigate = useNavigate();
   const handleClose = () => {
+    localStorage.clear();
     navigate("/");
   };
   return (

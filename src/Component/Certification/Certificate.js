@@ -1,8 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from '../SpinMain/LogoForm.png';
 import qrcode from "./qrcode.png";
 import sign from '../SpinMain/Sign.png';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { baseUrl } from "../../constant";
 const Certificate = ({ company, amount, retirementId, standard }) => {
+  const [userData, setUserData] = useState(null);
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const userEmail = localStorage.getItem("email");
+        if (!userEmail) {
+          localStorage.clear();
+          navigate("/")
+        }
+        const res = await axios.get(`${baseUrl}/spinnerFormData`, {
+          params: {
+            "businessEmail": userEmail
+          }
+        });
+        setUserData(res?.data?.userData);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchData();
+  }, [])
   const getCurrentDate = () => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -28,11 +54,11 @@ const Certificate = ({ company, amount, retirementId, standard }) => {
       <div className="text-left mb-5 mx-[10%]">
         <p className="ml-5 ">PRESENTED TO</p>
         <h2 className="text-2xl font-bold ml-5 text-green-600 mb-5">
-          {company}
+          {`${userData?.firstName} ${userData?.lastName}`}
         </h2>
         <p className="ml-5">FOR OFFSETTING</p>
         <h2 className="text-2xl font-bold ml-5 text-green-600">
-          {amount} tCO<sub>2</sub>e
+          {userData?.offSetValue} tCO<sub>2</sub>e
         </h2>
       </div>
       <div className="text-left ml-[6%] mb-5 mr-[5%] text-lg">
@@ -66,17 +92,17 @@ const Certificate = ({ company, amount, retirementId, standard }) => {
         </div>
         <div className="mx-5 mb-0 ">
           <p>
-            <b>Retirement ID</b>: {retirementId}
+            <b>Retirement ID</b>: {userData?.retirementId}
           </p>
           <p>
-            <b>RStandard</b>: {standard}
+            <b>RStandard</b>: {userData?.rStandard || "not defined"}
           </p>
           <p>
-            <b>RCertificate Number</b>: {retirementId}
+            <b>RCertificate Number</b>: {userData?.rCertificateNumber}
           </p>
         </div>
       </div>
-      <div className="text-left mb-5 mx-5 text-md mx-[5%]">
+      <div className="text-left mb-5 text-md mx-[5%]">
         <p className="mb-3 ml-5 mt-0">
           These credits are utilized to offset the estimated carbon footprint of
           the beneficiary for year 2023-24

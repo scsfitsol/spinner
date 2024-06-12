@@ -1,10 +1,37 @@
 import React, { useRef, useState } from "react";
-import { Input, Form, Button, Row, Col, Checkbox } from "antd";
-import logo from '../LogoForm.png';
+import { Input, Form, Button, Row, Col, Checkbox, AutoComplete, Select } from "antd";
+import logo from "../LogoForm.png"; // Import your logo image
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { baseUrl } from "../../../constant";
+
+const { Option } = Select;
 
 const FormSection = () => {
-  const baseUrl = "http://localhost:3001/api/v1";
+  const navigate = useNavigate();
+  const [options, setOptions] = useState([]);
+
+  const fetchCompanies = async (query) => {
+    if (query) {
+      try {
+        const response = await axios.get(`https://autocomplete.clearbit.com/v1/companies/suggest?query=${query}`);
+        const companies = response.data.map((company) => ({
+          value: company.name,
+          label: (
+            <div style={{ display: "flex" }}>
+              <img src={company.logo} alt={company.name} style={{ width: 15, height: 15, marginRight: 10, marginTop: 5 }} />
+              {company.name}
+            </div>
+          ),
+        }));
+        setOptions(companies);
+      } catch (error) {
+        console.error('Failed to fetch companies:', error);
+      }
+    } else {
+      setOptions([]);
+    }
+  };
 
   const formRef = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -13,25 +40,39 @@ const FormSection = () => {
     try {
       setLoading(true);
       const formData = { ...values };
-      delete formData.terms;
-      delete formData.privacyPolicy;
 
       await formRef.current.validateFields();
-      await axios.post(`${baseUrl}/spinnerFormData`, formData);
+      const res = await axios.post(`${baseUrl}/spinnerFormData`, formData);
+      console.log(res);
       formRef.current.resetFields();
+      localStorage.setItem('email', values.businessEmail);
+      localStorage.setItem("id", res?.data?.spinnerFormData?.id)
+      navigate('/spin');
     } catch (err) {
-      console.log(err);
+      const msg = err?.response?.data?.message;
+      alert(msg);
     } finally {
       setLoading(false);
     }
   };
 
+  // List of possible designations
+  const designations = [
+    "Software Engineer",
+    "Project Manager",
+    "Product Manager",
+    "Sales Manager",
+    "Marketing Specialist",
+    "HR Manager",
+    "Finance Manager",
+    "Operations Manager",
+    "Consultant",
+    "Analyst",
+    "Others"
+  ];
+
   return (
-    <div
-      style={{
-        padding: "10px",
-      }}
-    >
+    <div style={{ padding: "10px" }}>
       {/* Header Section */}
       <div
         style={{
@@ -76,9 +117,7 @@ const FormSection = () => {
               <Form.Item
                 label="First Name"
                 name="firstName"
-                rules={[
-                  { required: true, message: "Please input your first name!" },
-                ]}
+                rules={[{ required: true, message: "Please input your first name!" }]}
               >
                 <Input placeholder="First Name" />
               </Form.Item>
@@ -87,9 +126,7 @@ const FormSection = () => {
               <Form.Item
                 label="Last Name"
                 name="lastName"
-                rules={[
-                  { required: true, message: "Please input your last name!" },
-                ]}
+                rules={[{ required: true, message: "Please input your last name!" }]}
               >
                 <Input placeholder="Last Name" />
               </Form.Item>
@@ -99,11 +136,18 @@ const FormSection = () => {
           <Form.Item
             label="Company Name"
             name="companyName"
-            rules={[
-              { required: true, message: "Please input your company name!" },
-            ]}
+            rules={[{ required: true, message: "Please input your company name!" }]}
           >
-            <Input placeholder="Company Name" />
+            <AutoComplete
+              options={options}
+              onSearch={fetchCompanies}
+              placeholder="Company Name"
+              filterOption={(inputValue, option) =>
+                option.value.toLowerCase().includes(inputValue.toLowerCase())
+              }
+            >
+              <Input />
+            </AutoComplete>
           </Form.Item>
 
           <Row gutter={16}>
@@ -112,10 +156,7 @@ const FormSection = () => {
                 label="Business Email"
                 name="businessEmail"
                 rules={[
-                  {
-                    required: true,
-                    message: "Please input your business email!",
-                  },
+                  { required: true, message: "Please input your business email!" },
                   { type: "email", message: "Please enter a valid email!" },
                 ]}
               >
@@ -127,14 +168,8 @@ const FormSection = () => {
                 label="Phone Number"
                 name="phoneNumber"
                 rules={[
-                  {
-                    required: true,
-                    message: "Please input your phone number!",
-                  },
-                  {
-                    pattern: /^[0-9]{10}$/,
-                    message: "Please enter a valid 10-digit phone number!",
-                  },
+                  { required: true, message: "Please input your phone number!" },
+                  { pattern: /^[0-9]{10}$/, message: "Please enter a valid 10-digit phone number!" },
                 ]}
               >
                 <Input placeholder="Phone Number" />
@@ -143,13 +178,17 @@ const FormSection = () => {
           </Row>
 
           <Form.Item
-            label="Description"
-            name="description"
-            rules={[
-              { required: true, message: "Please input your description!" },
-            ]}
+            label="Designation"
+            name="designation"
+            rules={[{ required: true, message: "Please select your designation!" }]}
           >
-            <Input.TextArea placeholder="Description" rows={4} />
+            <Select placeholder="Select Designation">
+              {designations.map((designation) => (
+                <Option key={designation} value={designation}>
+                  {designation}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
 
           <Form.Item
@@ -159,11 +198,7 @@ const FormSection = () => {
             rules={[
               {
                 validator: (_, value) =>
-                  value
-                    ? Promise.resolve()
-                    : Promise.reject(
-                      "Please accept the terms and conditions"
-                    ),
+                  value ? Promise.resolve() : Promise.reject("Please accept the terms and conditions"),
               },
             ]}
           >
@@ -171,17 +206,11 @@ const FormSection = () => {
               <Checkbox style={{ marginTop: 4, marginRight: 6 }} />
               <div style={{ marginTop: "4px" }}>
                 <span>
-                  I agree to receive other communications from Fitsol
-                  Supply Chain Solutions. In order to provide you the
-                  content requested, we need to store and process your
-                  personal data. If you consent to us storing your
-                  personal data for this purpose, please tick the
-                  checkbox below.
+                  I agree to receive other communications from Fitsol Supply Chain Solutions. In order to provide you the content requested, we need to store and process your personal data. If you consent to us storing your personal data for this purpose, please tick the checkbox below.
                 </span>
               </div>
             </div>
           </Form.Item>
-
 
           <Form.Item
             name="privacyPolicy"
@@ -189,15 +218,12 @@ const FormSection = () => {
             rules={[
               {
                 validator: (_, value) =>
-                  value
-                    ? Promise.resolve()
-                    : Promise.reject("Please accept the privacy policy"),
+                  value ? Promise.resolve() : Promise.reject("Please accept the privacy policy"),
               },
             ]}
           >
             <Checkbox>
-              I agree to allow Fitsol Supply Chain Solutions to store and
-              process my personal data.
+              I agree to allow Fitsol Supply Chain Solutions to store and process my personal data.
             </Checkbox>
           </Form.Item>
 
@@ -206,7 +232,7 @@ const FormSection = () => {
               type="primary"
               htmlType="submit"
               style={{ width: "100%", backgroundColor: "#2E33C3" }}
-              loading={loading} 
+              loading={loading}
             >
               Save and proceed to spin
             </Button>
