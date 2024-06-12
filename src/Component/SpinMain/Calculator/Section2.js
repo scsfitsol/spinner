@@ -203,14 +203,10 @@ const Section2 = () => {
   };
 
   return (
-    <div className="container pt-[56px] max-w-full  mx-auto">
-      {/* <div className="container grid grid-cols-4">
-        <h2 className="col-span-4 lg:col-span-3 lg:mx-0 tracking-[8px] pr-4 text-md text-black font-poppins mb-1">
-          CARBON FOOTPRINT CALCULATOR
-        </h2>
-      </div> */}
+    <div className="container pt-[56px] max-w-full text-left px-64 mx-auto">
+
       <form>
-        <table className="w-full">
+        <table className="w-full ">
           <thead>
             <tr className="w-full pr-4 text-left text-black bg-col4">
               <th className="py-2 pr-4 w-1/3 ">Activity/Fuel Use</th>
@@ -223,13 +219,13 @@ const Section2 = () => {
               <td className="py-6 pr-2 text-col8 text-md">
                 Enter Total Family Members (*Include self):
               </td>
-              <td className="py-2 lg:px-4 w-1/3">
+              <td className="py-2 pr-4 w-1/3">
                 <input
                   type="number"
                   min="0"
                   onKeyPress={preventMinus}
                   onWheel={(e) => e.target.blur()}
-                  className="w-full bg-white border border-bordcol rounded py-2"
+                  className="w-2/3 bg-white border border-bordcol rounded px-2 py-2"
                   placeholder=""
                   value={familyMembers}
                   onChange={(e) => handleFamilyMembersChange(e.target.value)}
@@ -282,7 +278,7 @@ const Section2 = () => {
                     onWheel={(e) => e.target.blur()}
                     min="0"
                     onKeyPress={preventMinus}
-                    className="w-full bg-white border border-bordcol rounded px-2 py-2"
+                    className="w-2/3 bg-white border border-bordcol rounded px-2 py-2"
                     placeholder=""
                     value={transportationValues[index]?.quantity || ""}
                     onChange={(e) =>
@@ -296,7 +292,7 @@ const Section2 = () => {
                     onWheel={(e) => e.target.blur()}
                     min="0"
                     onKeyPress={preventMinus}
-                    className="w-full bg-white border border-bordcol rounded px-2 py-2"
+                    className="w-2/3 bg-white border border-bordcol rounded px-2 py-2"
                     placeholder=""
                     value={transportationValues[index]?.co2e}
                     readOnly
@@ -349,7 +345,7 @@ const Section2 = () => {
                     onWheel={(e) => e.target.blur()}
                     min="0"
                     onKeyPress={preventMinus}
-                    className="w-full bg-white border border-bordcol rounded px-2 py-2"
+                    className="w-2/3 bg-white border border-bordcol rounded px-2 py-2"
                     placeholder=""
                     value={domesticValues[index]?.quantity || ""}
                     onChange={(e) =>
@@ -363,7 +359,7 @@ const Section2 = () => {
                     onWheel={(e) => e.target.blur()}
                     min="0"
                     onKeyPress={preventMinus}
-                    className="w-full bg-white border border-bordcol rounded px-2 py-2"
+                    className="w-2/3 bg-white border border-bordcol rounded px-2 py-2"
                     placeholder=""
                     value={domesticValues[index]?.co2e}
                     readOnly
@@ -384,7 +380,7 @@ const Section2 = () => {
                   onWheel={(e) => e.target.blur()}
                   min="0"
                   onKeyPress={preventMinus}
-                  className="w-full bg-white border border-bordcol rounded px-2 py-2"
+                  className="w-2/3 bg-white border border-bordcol rounded px-2 py-2"
                   placeholder=""
                   value={monthlyTotalEmissions.toFixed(2)}
                   readOnly
@@ -402,7 +398,7 @@ const Section2 = () => {
                   onWheel={(e) => e.target.blur()}
                   min="0"
                   onKeyPress={preventMinus}
-                  className="w-full bg-white border border-bordcol rounded px-2 py-2"
+                  className="w-2/3 bg-white border border-bordcol rounded px-2 py-2"
                   placeholder=""
                   value={annualTotalEmissions.toFixed(2)}
                   readOnly

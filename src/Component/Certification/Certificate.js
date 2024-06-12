@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from "react";
-import logo from '../SpinMain/LogoForm.png';
+import logo from "../SpinMain/LogoForm.png";
 import qrcode from "./qrcode.png";
-import sign from '../SpinMain/Sign.png';
+import sign from "../SpinMain/Sign.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../constant";
 const Certificate = ({ company, amount, retirementId, standard }) => {
   const [userData, setUserData] = useState(null);
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
   useEffect(() => {
     async function fetchData() {
       try {
         const userEmail = localStorage.getItem("email");
         if (!userEmail) {
           localStorage.clear();
-          navigate("/")
+          navigate("/");
         }
         const res = await axios.get(`${baseUrl}/spinnerFormData`, {
           params: {
-            "businessEmail": userEmail
-          }
+            businessEmail: userEmail,
+          },
         });
         setUserData(res?.data?.userData);
       } catch (err) {
@@ -28,30 +27,30 @@ const Certificate = ({ company, amount, retirementId, standard }) => {
       }
     }
     fetchData();
-  }, [])
+  }, []);
   const getCurrentDate = () => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const day = String(currentDate.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
   return (
     <div className="m-5 mr-5 ml-5 border-4 border-green-600 mx-auto p-5 rounded-lg bg-white shadow-md mt-5 w-26.25 h-37.188">
       <div className="text-center mb-5">
-        <div className="flex justify-between items-center mx-[12%]">
+        <div className="flex justify-between items-center mx-[8%]">
           <div className="text-left">
-            <h1 className="text-2xl mb-2 font-bold">
+            <h1 className="text-2xl ml-[-10%] mb-2 font-bold">
               2024
               <br />
               Verified Carbon Offset Certificate
             </h1>
-            <hr className="border-t-4 border-D7E5BE w-[118%] ml-[-5%]" />
+            <hr className="border-t-4 border-D7E5BE w-[118%] ml-[-10%]" />
           </div>
           <img src={logo} alt="" className="h-25 mx-[-5%]" />
         </div>
       </div>
-      <div className="text-left mb-5 mx-[10%]">
+      <div className="text-left mb-5 mx-[4.3%]">
         <p className="ml-5 ">PRESENTED TO</p>
         <h2 className="text-2xl font-bold ml-5 text-green-600 mb-5">
           {`${userData?.firstName} ${userData?.lastName}`}
@@ -61,7 +60,7 @@ const Certificate = ({ company, amount, retirementId, standard }) => {
           {userData?.offSetValue} tCO<sub>2</sub>e
         </h2>
       </div>
-      <div className="text-left ml-[6%] mb-5 mr-[5%] text-lg">
+      <div className="text-left ml-[5.5%] mb-5 mr-[5%] text-lg">
         <p>
           Climate change and environmental protection are closely linked. Your
           efforts to enhance the environment will create a significant and
@@ -91,32 +90,35 @@ const Certificate = ({ company, amount, retirementId, standard }) => {
           </div>
         </div>
         <div className="mx-5 mb-0 ">
-          <p>
+          {/* <p>
             <b>Retirement ID</b>: {userData?.retirementId}
+          </p> */}
+          <p>
+            <b>Standard:</b> {userData?.rStandard || "not defined"}
           </p>
           <p>
-            <b>RStandard</b>: {userData?.rStandard || "not defined"}
-          </p>
-          <p>
-            <b>RCertificate Number</b>: {userData?.rCertificateNumber}
+            <b>Certificate Number:</b> {userData?.rCertificateNumber}
           </p>
         </div>
       </div>
-      <div className="text-left mb-5 text-md mx-[5%]">
+      <div className="text-left mb-5 text-sm mx-[5%]">
         <p className="mb-3 ml-5 mt-0">
-          These credits are utilized to offset the estimated carbon footprint of
-          the beneficiary for year 2023-24
+          Fitsol commits to retire the purchased carbon credits or certificates
+          in the relevant public registry in line with the highest International
+          carbon accounting and reporting standards. These credits are utilised
+          to offset the estimated carbon footprint of the beneficiary for the
+          year 2023-24
         </p>
         <hr className="border-t-4 border-D7E5BE w-full" />
         <center>
           <p className="text-sm">
             This certificate is issued by Fitsol Supply Chain Solutions Private
             Limited. For more information about our services and climate change
-            mitigation projects, please visit:{" "}
-            <a href="http://www.Fitsol.green" className="text-blue-500">
-              www.Fitsol.green
+            mitigation projects, please visit{" "}
+            <a href="https://www.Fitsol.green" className="text-blue-500">
+              https://fitsol.green.
             </a>{" "}
-            The CeO<sub>2</sub> emissions indicated on the certificate are
+            The CO<sub>2</sub> emissions indicated on the certificate are
             compensated through investments in carbon offset projects based on
             international standards.
             {/* <p>

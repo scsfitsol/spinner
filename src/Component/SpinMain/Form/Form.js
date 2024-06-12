@@ -1,5 +1,14 @@
 import React, { useRef, useState } from "react";
-import { Input, Form, Button, Row, Col, Checkbox, AutoComplete, Select } from "antd";
+import {
+  Input,
+  Form,
+  Button,
+  Row,
+  Col,
+  Checkbox,
+  AutoComplete,
+  Select,
+} from "antd";
 import logo from "../LogoForm.png"; // Import your logo image
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -14,19 +23,25 @@ const FormSection = () => {
   const fetchCompanies = async (query) => {
     if (query) {
       try {
-        const response = await axios.get(`https://autocomplete.clearbit.com/v1/companies/suggest?query=${query}`);
+        const response = await axios.get(
+          `https://autocomplete.clearbit.com/v1/companies/suggest?query=${query}`
+        );
         const companies = response.data.map((company) => ({
           value: company.name,
           label: (
             <div style={{ display: "flex" }}>
-              <img src={company.logo} alt={company.name} style={{ width: 15, height: 15, marginRight: 10, marginTop: 5 }} />
+              <img
+                src={company.logo}
+                alt={company.name}
+                style={{ width: 15, height: 15, marginRight: 10, marginTop: 5 }}
+              />
               {company.name}
             </div>
           ),
         }));
         setOptions(companies);
       } catch (error) {
-        console.error('Failed to fetch companies:', error);
+        console.error("Failed to fetch companies:", error);
       }
     } else {
       setOptions([]);
@@ -45,9 +60,9 @@ const FormSection = () => {
       const res = await axios.post(`${baseUrl}/spinnerFormData`, formData);
       console.log(res);
       formRef.current.resetFields();
-      localStorage.setItem('email', values.businessEmail);
-      localStorage.setItem("id", res?.data?.spinnerFormData?.id)
-      navigate('/spin');
+      localStorage.setItem("email", values.businessEmail);
+      localStorage.setItem("id", res?.data?.spinnerFormData?.id);
+      navigate("/spin");
     } catch (err) {
       const msg = err?.response?.data?.message;
       alert(msg);
@@ -58,6 +73,10 @@ const FormSection = () => {
 
   // List of possible designations
   const designations = [
+    "CEO",
+    "CTO",
+    "CBO",
+    "CFO",
     "Software Engineer",
     "Project Manager",
     "Product Manager",
@@ -68,7 +87,7 @@ const FormSection = () => {
     "Operations Manager",
     "Consultant",
     "Analyst",
-    "Others"
+    "Others",
   ];
 
   return (
@@ -94,6 +113,12 @@ const FormSection = () => {
         />
       </div>
 
+      <div className="p-4 mx-auto">
+        <h1 className="text-4xl font-bold text-green-600 mb-4">
+          Welcome to the Net Zero Forum 2024!
+        </h1>
+        <p className="text-lg pt-2 text-gray-700">Please provide your details:</p>
+      </div>
       {/* Main Section */}
       <div
         style={{
@@ -117,7 +142,9 @@ const FormSection = () => {
               <Form.Item
                 label="First Name"
                 name="firstName"
-                rules={[{ required: true, message: "Please input your first name!" }]}
+                rules={[
+                  { required: true, message: "Please input your first name!" },
+                ]}
               >
                 <Input placeholder="First Name" />
               </Form.Item>
@@ -126,7 +153,9 @@ const FormSection = () => {
               <Form.Item
                 label="Last Name"
                 name="lastName"
-                rules={[{ required: true, message: "Please input your last name!" }]}
+                rules={[
+                  { required: true, message: "Please input your last name!" },
+                ]}
               >
                 <Input placeholder="Last Name" />
               </Form.Item>
@@ -136,7 +165,9 @@ const FormSection = () => {
           <Form.Item
             label="Company Name"
             name="companyName"
-            rules={[{ required: true, message: "Please input your company name!" }]}
+            rules={[
+              { required: true, message: "Please input your company name!" },
+            ]}
           >
             <AutoComplete
               options={options}
@@ -156,7 +187,10 @@ const FormSection = () => {
                 label="Business Email"
                 name="businessEmail"
                 rules={[
-                  { required: true, message: "Please input your business email!" },
+                  {
+                    required: true,
+                    message: "Please input your business email!",
+                  },
                   { type: "email", message: "Please enter a valid email!" },
                 ]}
               >
@@ -168,8 +202,14 @@ const FormSection = () => {
                 label="Phone Number"
                 name="phoneNumber"
                 rules={[
-                  { required: true, message: "Please input your phone number!" },
-                  { pattern: /^[0-9]{10}$/, message: "Please enter a valid 10-digit phone number!" },
+                  {
+                    required: true,
+                    message: "Please input your phone number!",
+                  },
+                  {
+                    pattern: /^[0-9]{10}$/,
+                    message: "Please enter a valid 10-digit phone number!",
+                  },
                 ]}
               >
                 <Input placeholder="Phone Number" />
@@ -180,7 +220,9 @@ const FormSection = () => {
           <Form.Item
             label="Designation"
             name="designation"
-            rules={[{ required: true, message: "Please select your designation!" }]}
+            rules={[
+              { required: true, message: "Please select your designation!" },
+            ]}
           >
             <Select placeholder="Select Designation">
               {designations.map((designation) => (
@@ -198,7 +240,9 @@ const FormSection = () => {
             rules={[
               {
                 validator: (_, value) =>
-                  value ? Promise.resolve() : Promise.reject("Please accept the terms and conditions"),
+                  value
+                    ? Promise.resolve()
+                    : Promise.reject("Please accept the terms and conditions"),
               },
             ]}
           >
@@ -206,7 +250,11 @@ const FormSection = () => {
               <Checkbox style={{ marginTop: 4, marginRight: 6 }} />
               <div style={{ marginTop: "4px" }}>
                 <span>
-                  I agree to receive other communications from Fitsol Supply Chain Solutions. In order to provide you the content requested, we need to store and process your personal data. If you consent to us storing your personal data for this purpose, please tick the checkbox below.
+                  I agree to receive other communications from Fitsol Supply
+                  Chain Solutions. In order to provide you the content
+                  requested, we need to store and process your personal data. If
+                  you consent to us storing your personal data for this purpose,
+                  please tick the checkbox below.
                 </span>
               </div>
             </div>
@@ -218,12 +266,15 @@ const FormSection = () => {
             rules={[
               {
                 validator: (_, value) =>
-                  value ? Promise.resolve() : Promise.reject("Please accept the privacy policy"),
+                  value
+                    ? Promise.resolve()
+                    : Promise.reject("Please accept the privacy policy"),
               },
             ]}
           >
             <Checkbox>
-              I agree to allow Fitsol Supply Chain Solutions to store and process my personal data.
+              I agree to allow Fitsol Supply Chain Solutions to store and
+              process my personal data.
             </Checkbox>
           </Form.Item>
 
@@ -234,7 +285,7 @@ const FormSection = () => {
               style={{ width: "100%", backgroundColor: "#2E33C3" }}
               loading={loading}
             >
-              Save and proceed to spin
+              Save and proceed
             </Button>
           </Form.Item>
         </Form>

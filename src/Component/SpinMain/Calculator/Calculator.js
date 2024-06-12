@@ -70,15 +70,15 @@ const Calculator = () => {
         onClick={showModal}
         className=" mx-[30%]  my-4 px-6 py-4 font-poppins bg-buttonColor hover:bg-hoveColor text-black font-bold rounded"
       >
-        Claim your certificate! 🌱🌍
+        offset your emissions! 🌱🌍
       </button>
       <Modal
-        title="Confirm"
+        title=""
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
-        okText="Yes"
-        cancelText="No"
+        okText="Next"
+        cancelText="Back"
         okButtonProps={{
           style: {
             backgroundColor: '#D6E4BE', // Custom green color
@@ -94,7 +94,7 @@ const Calculator = () => {
           }
         }}
       >
-        <p className="text-poppins text-black">Do you want to claim your certificate?</p>
+        <p className="text-poppins py-4 text-md font-semibold text-black">You are about to generate a carbon-neutral certificate for your personal emissions for the year 2023-24. Please click on "Next" to continue, or press "back to re-enter the information.</p>
       </Modal>
     </div>
   );
