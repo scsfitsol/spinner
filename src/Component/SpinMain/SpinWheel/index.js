@@ -125,7 +125,7 @@ export default () => {
           </p> */}
           <button
             onClick={handleSpinClick}
-            className=" mx-[30%] w-[35%] mt-4 px-6 py-2 text-poppins bg-buttonColor text-black font-semibold rounded hover:bg-hoveColor transition duration-300"
+            className=" mx-[30%] w-[37%] mt-4 px-6 py-2 text-poppins bg-buttonColor text-black font-semibold rounded hover:bg-hoveColor"
           >
             🎡 Spin the Wheel 🎡
           </button>
