@@ -76,7 +76,7 @@ const Calculator = () => {
         onClick={showModal}
         className=" mx-[30%]  my-4 px-6 py-4 font-poppins bg-buttonColor hover:bg-hoveColor text-black font-bold rounded"
       >
-        offset your emissions! 🌱🌍
+        Offset your emissions! 🌱🌍
       </button>
       <Modal
         title=""

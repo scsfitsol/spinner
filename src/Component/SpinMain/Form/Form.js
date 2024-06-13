@@ -54,7 +54,7 @@ const FormSection = () => {
   const handleFinish = async (values) => {
     try {
       setLoading(true);
-      const formData = { ...values };
+      const formData = { ...values, privacyPolicy: true };
 
       await formRef.current.validateFields();
       const res = await axios.post(`${baseUrl}/spinnerFormData`, formData);
@@ -77,6 +77,7 @@ const FormSection = () => {
     "CTO",
     "CBO",
     "CFO",
+    "COO",
     "Software Engineer",
     "Project Manager",
     "Product Manager",
