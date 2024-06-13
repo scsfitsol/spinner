@@ -5,10 +5,8 @@ import sign from "../SpinMain/Sign.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../constant";
-import { Spin } from "antd";
 const Certificate = ({ company, amount, retirementId, standard }) => {
   const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   useEffect(() => {
     async function fetchData() {
@@ -24,11 +22,8 @@ const Certificate = ({ company, amount, retirementId, standard }) => {
           },
         });
         setUserData(res?.data?.userData);
-        
       } catch (err) {
         console.log(err);
-      }finally {
-        setLoading(false);
       }
     }
     fetchData();
@@ -41,23 +36,20 @@ const Certificate = ({ company, amount, retirementId, standard }) => {
     return `${year}-${month}-${day}`;
   };
   return (
-    <>
-    <Spin spinning={loading} size="large"></Spin>
-    <div className="m-5 mr-5 ml-5 border-4 border-green-600 mx-auto p-5 rounded-lg bg-white shadow-md mt-5 w-26.25 h-37.188">
-      <div className="text-center mb-5">
-        <div className="flex justify-between items-center mx-[8%]">
+    // <div className="flex w-109.25 h-77.5 ">
+    <div className="m-5 mr-5 ml-5 border-4 border-green-600 mx-auto p-5 rounded-lg bg-white shadow-md mt-5 ">
+      <div className="text-center sm-text-md mb-5">
+        <div className="flex justify-between items-center mx-[7.5%]">
           <div className="text-left">
-            <h1 className="text-2xl ml-[-10%] mb-2 font-bold">
-              2024
-              <br />
-              Verified Carbon Offset Certificate
+            <h1 className="text-2xl ml-[-4%] mb-2 font-bold">
+              2024 Verified Carbon Offset Certificate
             </h1>
-            <hr className="border-t-4 border-D7E5BE w-[118%] ml-[-10%]" />
+            <hr className="border-t-4 border-D7E5BE w-[118%] ml-[-5%]" />
           </div>
           <img src={logo} alt="" className="h-25 mx-[-5%]" />
         </div>
       </div>
-      <div className="text-left mb-5 mx-[4.3%]">
+      <div className="text-left mb-5 mx-[4.3%] sm-text-md">
         <p className="ml-5 ">PRESENTED TO</p>
         <h2 className="text-2xl font-bold ml-5 text-green-600 mb-5">
           {`${userData?.firstName} ${userData?.lastName}`}
@@ -67,7 +59,7 @@ const Certificate = ({ company, amount, retirementId, standard }) => {
           {userData?.offSetValue} tCO<sub>2</sub>e
         </h2>
       </div>
-      <div className="text-left ml-[5.5%] mb-5 mr-[5%] text-lg">
+      <div className="text-left ml-[6%] mb-5 mr-[5%] text-lg sm-text-md">
         <p>
           Climate change and environmental protection are closely linked. Your
           efforts to enhance the environment will create a significant and
@@ -79,7 +71,7 @@ const Certificate = ({ company, amount, retirementId, standard }) => {
           action and for supporting the UN's Sustainable Development Goals.
         </p>
       </div>
-      <div className="text-left mb-5 ml-[5%]">
+      <div className="text-left mb-5 ml-[5%] sm-text-md">
         <div className="flex justify-end mr-[5%]">
           <div className=" mr-5">
             Date:
@@ -96,7 +88,7 @@ const Certificate = ({ company, amount, retirementId, standard }) => {
             <img src={qrcode} alt="QR Code" className="w-20 h-20" />
           </div>
         </div>
-        <div className="mx-5 mb-0 ">
+        <div className="mx-3 mb-0 ">
           {/* <p>
             <b>Retirement ID</b>: {userData?.retirementId}
           </p> */}
@@ -108,7 +100,7 @@ const Certificate = ({ company, amount, retirementId, standard }) => {
           </p>
         </div>
       </div>
-      <div className="text-left mb-5 text-sm mx-[5%]">
+      <div className="text-left mb-5 text-sm mx-[4.5%]">
         <p className="mb-3 ml-5 mt-0">
           Fitsol commits to retire the purchased carbon credits or certificates
           in the relevant public registry in line with the highest International
@@ -118,14 +110,14 @@ const Certificate = ({ company, amount, retirementId, standard }) => {
         </p>
         <hr className="border-t-4 border-D7E5BE w-full" />
         <center>
-          <p className="text-sm">
+          <p className="text-sm ml-1">
             This certificate is issued by Fitsol Supply Chain Solutions Private
             Limited. For more information about our services and climate change
             mitigation projects, please visit{" "}
             <a href="https://www.Fitsol.green" className="text-blue-500">
-              https://fitsol.green
+              https://fitsol.green.
             </a>{" "}
-            The CO<sub>2</sub> emissions indicated on the certificate are
+            The CO<sub>2</sub>e emissions indicated on the certificate are
             compensated through investments in carbon offset projects based on
             international standards.
             {/* <p>
@@ -137,7 +129,7 @@ const Certificate = ({ company, amount, retirementId, standard }) => {
         </center>
       </div>
     </div>
-    </>
+    // </div>
   );
 };
 export default Certificate;

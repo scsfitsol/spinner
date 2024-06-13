@@ -54,7 +54,7 @@ const FormSection = () => {
   const handleFinish = async (values) => {
     try {
       setLoading(true);
-      const formData = { ...values };
+      const formData = { ...values, privacyPolicy: true };
 
       await formRef.current.validateFields();
       const res = await axios.post(`${baseUrl}/spinnerFormData`, formData);
@@ -77,6 +77,7 @@ const FormSection = () => {
     "CTO",
     "CBO",
     "CFO",
+    "COO",
     "Software Engineer",
     "Project Manager",
     "Product Manager",
@@ -117,7 +118,9 @@ const FormSection = () => {
         <h1 className="text-4xl font-bold text-green-600 mb-4">
           Welcome to the Net Zero Forum 2024!
         </h1>
-        <p className="text-lg pt-2 text-gray-700">Please provide your details:</p>
+        <p className="text-lg pt-2 text-gray-700">
+          Please provide your details:
+        </p>
       </div>
       {/* Main Section */}
       <div
@@ -251,16 +254,15 @@ const FormSection = () => {
               <div style={{ marginTop: "4px" }}>
                 <span>
                   I agree to receive other communications from Fitsol Supply
-                  Chain Solutions. In order to provide you the content
-                  requested, we need to store and process your personal data. If
-                  you consent to us storing your personal data for this purpose,
-                  please tick the checkbox below.
+                  Chain Solutions Pvt. Ltd. By checking this box, I consent to
+                  the storage and processing of my data for marketing, demo
+                  purposes, and internal sharing.
                 </span>
               </div>
             </div>
           </Form.Item>
 
-          <Form.Item
+          {/* <Form.Item
             name="privacyPolicy"
             valuePropName="checked"
             rules={[
@@ -276,7 +278,7 @@ const FormSection = () => {
               I agree to allow Fitsol Supply Chain Solutions to store and
               process my personal data.
             </Checkbox>
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item style={{ marginBottom: 0 }}>
             <Button

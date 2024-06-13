@@ -100,7 +100,7 @@ const Calculator = () => {
           }
         }}
       >
-        <p className="text-poppins py-4 text-md font-semibold text-black">You are about to generate a carbon-neutral certificate for your personal emissions for the year 2023-24. Please click on "Next" to continue, or press "back to re-enter the information.</p>
+        <p className="text-poppins pt-4 text-md font-semibold text-black">You are about to generate a carbon-neutral certificate for your personal emissions for the year 2023-24.<br/> Please click on "Next" to continue, or press "Back to re-enter the information.</p>
       </Modal>
     </div>
   );

@@ -11,8 +11,8 @@ const initialData = [
   { option: "Better luck next time", probability: 0.0, remaining: 0 },
   { option: "Ipad", probability: 0.0, remaining: 0 },
   { option: "Green kit", probability: 0.3, remaining: 30 },
-  { option: "Green kit + 25% CNC", probability: 0.3, remaining: 30 },
-  { option: "Green kit + 100% CNC", probability: 0.1, remaining: 10 },
+  { option: "Green kit & Carbon neutral certificate (25%)", probability: 0.3, remaining: 30 },
+  { option: "Green kit & Carbon neutral certificate (100%)", probability: 0.1, remaining: 10 },
 ];
 // const initialData = [
 //   { option: "Green kit", probability: 0.3 , remaining: 3},
@@ -138,8 +138,15 @@ export default () => {
             backgroundColors={backgroundColors}
             spinDuration={0.6}
             fontSize={14}
+            // textDistance = {2}
             textColors={["black"]}
             fontFamily={"Arial"}
+            WheelData = {{
+              style:{
+                fontSize:"1px",
+                color:"red"
+              }
+            }}
             pointerProps={{
               style: {
                 // width: 0,
