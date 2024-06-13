@@ -12,12 +12,12 @@ const initialData = [
   { option: "Ipad", probability: 0.0, remaining: 0 },
   { option: "Green kit", probability: 0.3, remaining: 30 },
   {
-    option: "Green kit & Carbon neutral certificate (25%)",
+    option: "Green kit + 25% CNC",
     probability: 0.3,
     remaining: 30,
   },
   {
-    option: "Green kit & Carbon neutral certificate (100%)",
+    option: "Green kit + 100% CNC",
     probability: 0.1,
     remaining: 10,
   },
@@ -45,7 +45,6 @@ const confettiProps = {
   width: 2000,
   colors: ["#041E43", "#1471BF", "#5BB4DC", "#FC027B", "#66D805"],
 };
-
 const getPrizeIndexByProbability = (data) => {
   const random = Math.random();
   let cumulativeProbability = 0;
@@ -57,7 +56,6 @@ const getPrizeIndexByProbability = (data) => {
   }
   return data.length - 1;
 };
-
 export default () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [mustSpin, setMustSpin] = useState(false);
@@ -66,12 +64,10 @@ export default () => {
   const [data, setData] = useState(initialData);
   const [showCard, setShowCard] = useState(false);
   const [prizeText, setPrizeText] = useState(null);
-
   const handleSpinClick = () => {
     if (!mustSpin) {
       const newPrizeNumber = getPrizeIndexByProbability(data);
       const selectedPrize = data[newPrizeNumber];
-
       if (selectedPrize.remaining > 0) {
         selectedPrize.remaining -= 1;
         setData([...data]); // Update data to reflect the remaining prizes
@@ -86,7 +82,6 @@ export default () => {
       // setMustSpin(true);
     }
   };
-
   return (
     <div>
       {showConfetti && (
@@ -109,37 +104,38 @@ export default () => {
               alt="Logo"
               className="h-16 mb-5 mx-[35%]"
             />
-            <h1 className="text-4xl text-poppins font-bold">🎉 Spin and win fantastic prices🎁🏆</h1>
+            <h1 className="text-4xl text-poppins font-bold">
+              :tada: Spin and win fantastic prices:gift::trophy:
+            </h1>
           </div>
           <p className="text-lg">
-            Adopt sustainable practices in daily life <br /> and create a lasting impact on the environment!🌱🌍
+            Adopt sustainable practices in daily life <br /> and create a
+            lasting impact on the environment!:seedling::earth_africa:
           </p>
           <br />
           {/* <p className="text-lg">
             Support sustainable practices and <br />
             raise awareness for carbon <br />
-            accounting and environmental conservation. 🌱🌍
+            accounting and environmental conservation. :seedling::earth_africa:
           </p> */}
           <button
             onClick={handleSpinClick}
             className=" mx-[30%] w-[35%] mt-4 px-6 py-2 text-poppins bg-buttonColor text-black font-semibold rounded hover:bg-hoveColor transition duration-300"
           >
-            🎡 Spin the Wheel 🎡
+            :ferris_wheel: Spin the Wheel :ferris_wheel:
           </button>
         </div>
-
         <div className="flex flex-col lg:w-1/2 justify-center items-center p-8 relative">
           <Wheel
             mustStartSpinning={mustSpin}
             prizeNumber={prizeNumber}
-            data={data.map((item) => ({ option: item.option, style: { } }))}
+            data={data.map((item) => ({ option: item.option }))}
             onStopSpinning={() => {
               setMustSpin(false);
               setShowConfetti(true);
               setShowCard(true);
               // setPrizeText(data[prizeNumber].option);
             }}
-            // perpendicularText={true}
             outerBorderColor="white"
             outerBorderWidth={1}
             radiusLineColor="white"
@@ -147,9 +143,10 @@ export default () => {
             backgroundColors={backgroundColors}
             spinDuration={0.6}
             fontSize={14}
+            // textDistance = {2}
             textColors={["black"]}
             fontFamily={"Arial"}
-
+            StyleType={{ fontSize: "1px", color: "red" }}
             pointerProps={{
               style: {
                 // width: 0,
@@ -164,7 +161,6 @@ export default () => {
               },
             }}
           />
-
           {prizeText && (
             <div className="mt-8 p-4 bg-green-100 text-green-700 rounded-lg text-center">
               Congratulations! You won: {prizeText}

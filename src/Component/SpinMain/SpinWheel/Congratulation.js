@@ -12,29 +12,26 @@ const CongratulationsCard = (props) => {
   const [isVisible, setIsVisible] = useState(true);
   const prizesValue = {
     "Green kit + 25% CNC": "25",
-    "Green kit + 100% CNC": "100"
-  }
-
+    "Green kit + 100% CNC": "100",
+  };
 
   const storeSpinningValue = async (val) => {
     try {
       if (!userEmail) {
         localStorage.clear();
-        navigate(
-          '/'
-        )
+        navigate("/");
       }
       await axios.post(`${baseUrl}/spinValue`, {
-        "businessEmail": userEmail,
-        "spinValue": val
+        businessEmail: userEmail,
+        spinValue: val,
       });
       localStorage.setItem("spinValue", val);
     } catch (err) {
       const msg = err?.response?.data?.message;
-      alert(msg)
+      alert(msg);
       console.log(err);
     }
-  }
+  };
 
   const handleClose = async () => {
     if (prize.includes("CNC")) {
@@ -58,21 +55,36 @@ const CongratulationsCard = (props) => {
         <>
           You have won a sustainable corporate kit! 🌱
           <p className="text-gray-700 mt-4">
-            We wish you all the best and thank you for your participation in helping Fitsol reduce carbon emissions from the environment by adopting sustainable materials in your corporate lifestyle!
+            We wish you all the best and thank you for your participation in
+            helping Fitsol reduce carbon emissions from the environment by
+            adopting sustainable materials in your corporate lifestyle!
           </p>
         </>
       );
-    } else if (prize.includes("CNC")) {
+    } else if (prize.includes("Green kit + 25% CNC")) {
       return (
         <>
-           You have won a sustainable corporate kit and a chance to offset your personal carbon footprint for <strong>ONE WHOLE YEAR</strong>! 🌱
+          You have won a sustainable corporate kit and a chance to offset <strong>25%</strong> your
+          personal carbon footprint for <strong>ONE WHOLE YEAR</strong>! 🌱
           <p className="text-gray-700 mt-4">
-            We wish you all the best and thank you for your participation in helping Fitsol offset carbon emissions from the environment!
+            We wish you all the best and thank you for your participation in
+            helping Fitsol offset carbon emissions from the environment!
+          </p>
+        </>
+      );
+    } else if (prize.includes("Green kit + 100% CNC")) {
+      return (
+        <>
+          You have won a sustainable corporate kit and a chance to offset your
+          personal carbon footprint for <strong>ONE WHOLE YEAR</strong>! 🌱
+          <p className="text-gray-700 mt-4">
+            We wish you all the best and thank you for your participation in
+            helping Fitsol offset carbon emissions from the environment!
           </p>
         </>
       );
     }
-};
+  };
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50 z-50">
@@ -85,7 +97,7 @@ const CongratulationsCard = (props) => {
         ></div>
         <div className="p-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">
-          Congratulation!✅
+            Congratulation!✅
           </h2>
           <div className="text-gray-700">{renderMessage()}</div>
           {/* <p className="text-gray-700 mb-6">
@@ -98,7 +110,9 @@ const CongratulationsCard = (props) => {
             onClick={handleClose}
             className="px-4 py-2 my-2 bg-buttonColor text-black font-bold rounded hover:bg-hoveColor transition duration-300"
           >
-            {prize.includes("CNC") ? "Calculate your Emissions" : "return to home"}
+            {prize.includes("CNC")
+              ? "Calculate your emissions"
+              : "Return to home"}
           </button>
         </div>
       </div>
