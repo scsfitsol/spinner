@@ -110,7 +110,7 @@ export default () => {
               className="h-16 mb-5 mx-[35%]"
             />
             <h1 className="text-4xl text-poppins font-bold">
-              🎉 Spin and win fantastic prices🎁🏆
+              🎉 Spin and win fantastic prizes🎁🏆
             </h1>
           </div>
           <p className="text-lg">

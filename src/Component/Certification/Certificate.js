@@ -191,7 +191,7 @@ const Certificate = () => {
                         onClick={handleClose}
                         className="w-max h-10 px-4 bg-buttonColor text-black font-bold rounded hover:bg-hoveColor transition duration-300"
                     >
-                        return to home page
+                        Return to home page
                     </button>
                 </div>
 
