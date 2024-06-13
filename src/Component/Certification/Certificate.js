@@ -116,9 +116,11 @@ const CertificateModal = ({ visible, onClose, userData }) => {
             </div>
             <ReactToPrint
                 trigger={() => (
-                    <Button type="primary" className="print-button">
+                    <button type="primary" 
+                    className="px-4 py-2 my-2 bg-buttonColor text-black font-bold rounded hover:bg-hoveColor transition duration-300"
+                    >
                         Print Certificate
-                    </Button>
+                    </button>
                 )}
                 content={() => componentRef.current}
             />

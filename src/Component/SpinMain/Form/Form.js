@@ -253,10 +253,9 @@ const FormSection = () => {
               <Checkbox style={{ marginTop: 4, marginRight: 6 }} />
               <div style={{ marginTop: "4px" }}>
                 <span>
-                  I agree to receive other communications from Fitsol Supply
-                  Chain Solutions Pvt. Ltd. By checking this box, I consent to
-                  the storage and processing of my data for marketing, demo
-                  purposes, and internal sharing.
+                  I agree to receive communications from Fitsol Supply Chain
+                  Solutions Pvt. Ltd. By checking this box, I consent to the
+                  storage and processing of my data.
                 </span>
               </div>
             </div>
