@@ -173,9 +173,7 @@ const Certificate = () => {
                     🎉 Congratulations! 🎉
                 </h1>
                 <p className="text-lg text-gray-700 mb-6">
-                    Thank you for participating in our contest! Your support for
-                    sustainable practices and environmental conservation is greatly
-                    appreciated. 🌱🌍
+                As a participant in our contest, you can claim your certificate recognizing your support for sustainable practices and environmental conservation. Please click on the link below to receive your well-deserved certificate.🌱🌍
                 </p>
                 <p className="text-lg text-green-800 font-bold">
                     We hope to see you again in future events!
@@ -185,7 +183,7 @@ const Certificate = () => {
                         onClick={showModal}
                         className="w-max h-10 px-3 bg-buttonColor text-black font-bold rounded hover:bg-hoveColor transition duration-300"
                     >
-                        View Certificate
+                        Claim certificate
                     </button>
                     <button
                         onClick={handleClose}
