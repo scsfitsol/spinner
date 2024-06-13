@@ -254,8 +254,8 @@ const FormSection = () => {
               <div style={{ marginTop: "4px" }}>
                 <span>
                   I agree to receive communications from Fitsol Supply Chain
-                  Solutions Pvt. Ltd. By checking this box, I consent to the
-                  storage and processing of my data.
+                  Solutions Private Limited and consent to the storage and
+                  processing of my data.
                 </span>
               </div>
             </div>
