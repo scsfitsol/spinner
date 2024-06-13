@@ -11,8 +11,8 @@ const CongratulationsCard = (props) => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(true);
   const prizesValue = {
-    "Green kit & Carbon neutral certificate (25%)": "25",
-    "Green kit & Carbon neutral certificate (100%)": "100",
+    "Green kit + 25% CNC": "25",
+    "Green kit + 100% CNC": "100",
   };
 
   const storeSpinningValue = async (val) => {
@@ -61,7 +61,7 @@ const CongratulationsCard = (props) => {
           </p>
         </>
       );
-    } else if (prize.includes("Carbon neutral certificate (25%)")) {
+    } else if (prize.includes("Green kit + 25% CNC")) {
       return (
         <>
           You have won a sustainable corporate kit and a chance to offset <strong>25%</strong> your
@@ -72,7 +72,7 @@ const CongratulationsCard = (props) => {
           </p>
         </>
       );
-    } else if (prize.includes("Carbon neutral certificate (100%)")) {
+    } else if (prize.includes("Green kit + 100% CNC")) {
       return (
         <>
           You have won a sustainable corporate kit and a chance to offset your

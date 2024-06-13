@@ -11,8 +11,16 @@ const initialData = [
   { option: "Better luck next time", probability: 0.0, remaining: 0 },
   { option: "Ipad", probability: 0.0, remaining: 0 },
   { option: "Green kit", probability: 0.3, remaining: 30 },
-  { option: "Green kit & Carbon neutral certificate (25%)", probability: 0.3, remaining: 30 },
-  { option: "Green kit & Carbon neutral certificate (100%)", probability: 0.1, remaining: 10 },
+  {
+    option: "Green kit + 25% CNC",
+    probability: 0.3,
+    remaining: 30,
+  },
+  {
+    option: "Green kit + 100% CNC",
+    probability: 0.1,
+    remaining: 10,
+  },
 ];
 // const initialData = [
 //   { option: "Green kit", probability: 0.3 , remaining: 3},
@@ -101,10 +109,13 @@ export default () => {
               alt="Logo"
               className="h-16 mb-5 mx-[35%]"
             />
-            <h1 className="text-4xl text-poppins font-bold">🎉 Spin and win fantastic prices🎁🏆</h1>
+            <h1 className="text-4xl text-poppins font-bold">
+              🎉 Spin and win fantastic prices🎁🏆
+            </h1>
           </div>
           <p className="text-lg">
-          Adopt sustainable practices in daily life <br/> and create a lasting impact on the environment!🌱🌍 
+            Adopt sustainable practices in daily life <br /> and create a
+            lasting impact on the environment!🌱🌍
           </p>
           <br />
           {/* <p className="text-lg">
@@ -141,12 +152,7 @@ export default () => {
             // textDistance = {2}
             textColors={["black"]}
             fontFamily={"Arial"}
-            WheelData = {{
-              style:{
-                fontSize:"1px",
-                color:"red"
-              }
-            }}
+            StyleType={{ fontSize: "1px", color: "red" }}
             pointerProps={{
               style: {
                 // width: 0,
