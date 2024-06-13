@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-// import "../style.css";
 const Section2 = () => {
   const spinValue = localStorage.getItem("spinValue");
-
   const myarr = [
     "Petrol (litres)",
     "Diesel fuel (litres)",
@@ -97,8 +95,8 @@ const Section2 = () => {
     }
 
     const calculatedCO2e = values.map((item, index) => {
-      let co2eValue =
-        item.quantity !== "" ? item.quantity * multipliers[index] : "";;
+      let co2eValue = 
+      item.quantity !== "" ? item.quantity * multipliers[index] : "";;
       // if (item.quantity !== "") {
       //   co2eValue = item.quantity * multipliers[index];
       // }
@@ -114,7 +112,7 @@ const Section2 = () => {
     return calculatedCO2e;
   };
 
-  const handleInputChange = async (index, type, value) => {
+  const handleInputChange = (index, type, value) => {
     const isValidInput =
       /^(?!0\d)[0-9]*(\.\d+)?$/.test(value) || /^0(\.\d+)?$/.test(value);
 
@@ -203,10 +201,9 @@ const Section2 = () => {
   };
 
   return (
-    <div className="container pt-[56px] max-w-full text-left px-64 mx-auto">
-
+    <div className="container px-32 text-left max-w-full  mx-auto">
       <form>
-        <table className="w-full ">
+        <table className="w-full">
           <thead>
             <tr className="w-full pr-4 text-left text-black bg-col4">
               <th className="py-2 pr-4 w-1/3 ">Activity/Fuel Use</th>
@@ -225,7 +222,7 @@ const Section2 = () => {
                   min="0"
                   onKeyPress={preventMinus}
                   onWheel={(e) => e.target.blur()}
-                  className="w-2/3 bg-white border border-bordcol rounded px-2 py-2"
+                  className="w-1/2 bg-white border border-bordcol rounded px-2 py-2"
                   placeholder=""
                   value={familyMembers}
                   onChange={(e) => handleFamilyMembersChange(e.target.value)}
@@ -262,7 +259,7 @@ const Section2 = () => {
                         // font-weight="none"
                         // font-size="none"
                         text-anchor="none"
-                      // style="mix-blend-mode: normal"
+                        // style="mix-blend-mode: normal"
                       >
                         <g transform="scale(5.33333,5.33333)">
                           <path d="M24,4c-11.02793,0 -20,8.97207 -20,20c0,11.02793 8.97207,20 20,20c11.02793,0 20,-8.97207 20,-20c0,-11.02793 -8.97207,-20 -20,-20zM24,7c9.40662,0 17,7.59339 17,17c0,9.40661 -7.59338,17 -17,17c-9.40661,0 -17,-7.59339 -17,-17c0,-9.40661 7.59339,-17 17,-17zM24,14c-1.10457,0 -2,0.89543 -2,2c0,1.10457 0.89543,2 2,2c1.10457,0 2,-0.89543 2,-2c0,-1.10457 -0.89543,-2 -2,-2zM23.97656,20.97852c-0.82766,0.01293 -1.48843,0.69381 -1.47656,1.52148v11c-0.00765,0.54095 0.27656,1.04412 0.74381,1.31683c0.46725,0.27271 1.04514,0.27271 1.51238,0c0.46725,-0.27271 0.75146,-0.77588 0.74381,-1.31683v-11c0.00582,-0.40562 -0.15288,-0.7963 -0.43991,-1.08296c-0.28703,-0.28666 -0.67792,-0.44486 -1.08353,-0.43852z"></path>
@@ -278,7 +275,7 @@ const Section2 = () => {
                     onWheel={(e) => e.target.blur()}
                     min="0"
                     onKeyPress={preventMinus}
-                    className="w-2/3 bg-white border border-bordcol rounded px-2 py-2"
+                    className="w-1/2 bg-white border border-bordcol rounded px-2 py-2"
                     placeholder=""
                     value={transportationValues[index]?.quantity || ""}
                     onChange={(e) =>
@@ -292,11 +289,12 @@ const Section2 = () => {
                     onWheel={(e) => e.target.blur()}
                     min="0"
                     onKeyPress={preventMinus}
-                    className="w-2/3 bg-white border border-bordcol rounded px-2 py-2"
+                    className="w-1/2 bg-white border border-bordcol rounded px-2 py-2"
                     placeholder=""
                     value={transportationValues[index]?.co2e}
                     readOnly
                   />
+                  <span className="px-2 text-black text-md font-semibold font-poppins">kgco<sub>2</sub>e</span>
                 </td>
               </tr>
             ))}
@@ -329,7 +327,7 @@ const Section2 = () => {
                         // font-weight="none"
                         // font-size="none"
                         text-anchor="none"
-                      // style="mix-blend-mode: normal"
+                        // style="mix-blend-mode: normal"
                       >
                         <g transform="scale(5.33333,5.33333)">
                           <path d="M24,4c-11.02793,0 -20,8.97207 -20,20c0,11.02793 8.97207,20 20,20c11.02793,0 20,-8.97207 20,-20c0,-11.02793 -8.97207,-20 -20,-20zM24,7c9.40662,0 17,7.59339 17,17c0,9.40661 -7.59338,17 -17,17c-9.40661,0 -17,-7.59339 -17,-17c0,-9.40661 7.59339,-17 17,-17zM24,14c-1.10457,0 -2,0.89543 -2,2c0,1.10457 0.89543,2 2,2c1.10457,0 2,-0.89543 2,-2c0,-1.10457 -0.89543,-2 -2,-2zM23.97656,20.97852c-0.82766,0.01293 -1.48843,0.69381 -1.47656,1.52148v11c-0.00765,0.54095 0.27656,1.04412 0.74381,1.31683c0.46725,0.27271 1.04514,0.27271 1.51238,0c0.46725,-0.27271 0.75146,-0.77588 0.74381,-1.31683v-11c0.00582,-0.40562 -0.15288,-0.7963 -0.43991,-1.08296c-0.28703,-0.28666 -0.67792,-0.44486 -1.08353,-0.43852z"></path>
@@ -345,7 +343,7 @@ const Section2 = () => {
                     onWheel={(e) => e.target.blur()}
                     min="0"
                     onKeyPress={preventMinus}
-                    className="w-2/3 bg-white border border-bordcol rounded px-2 py-2"
+                    className="w-1/2 bg-white border border-bordcol rounded px-2 py-2"
                     placeholder=""
                     value={domesticValues[index]?.quantity || ""}
                     onChange={(e) =>
@@ -359,11 +357,12 @@ const Section2 = () => {
                     onWheel={(e) => e.target.blur()}
                     min="0"
                     onKeyPress={preventMinus}
-                    className="w-2/3 bg-white border border-bordcol rounded px-2 py-2"
+                    className="w-1/2 bg-white border border-bordcol rounded px-2 py-2"
                     placeholder=""
                     value={domesticValues[index]?.co2e}
                     readOnly
                   />
+                  <span className="px-2 text-black text-md font-semibold font-poppins">kgco<sub>2</sub>e</span>
                 </td>
               </tr>
             ))}
@@ -372,7 +371,7 @@ const Section2 = () => {
             </tr>
             <tr>
               <td className="py-2 pr-4 font-bold text-black w-1/3">
-                My total emissions (kg CO<sub>2</sub>e/Month)
+                My total emissions per month
               </td>
               <td className="py-2 lg:pr-4 w-1/3">
                 <input
@@ -385,12 +384,14 @@ const Section2 = () => {
                   value={monthlyTotalEmissions.toFixed(2)}
                   readOnly
                 />
+                <span className="px-2 text-black text-md font-semibold font-poppins">kgco<sub>2</sub>e</span>
               </td>
               <td className="py-2 lg:pr-4 w-1/3"></td>
             </tr>
             <tr>
               <td className="py-2 pr-4 font-bold text-black w-1/3">
-                My average annual carbon footprint (Tonnes of CO<sub>2</sub>e)
+                My average annual carbon footprint 
+                {/* (Tonnes of CO<sub>2</sub>e) */}
               </td>
               <td className="py-2 lg:pr-4 w-1/3">
                 <input
@@ -403,6 +404,7 @@ const Section2 = () => {
                   value={annualTotalEmissions.toFixed(2)}
                   readOnly
                 />
+                <span className="px-2 text-black text-md font-semibold font-poppins">tco<sub>2</sub>e</span>
               </td>
               <td className="py-2 lg:pr-4 w-1/3"></td>
             </tr>

@@ -5,8 +5,10 @@ import sign from "../SpinMain/Sign.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../constant";
+import { Spin } from "antd";
 const Certificate = ({ company, amount, retirementId, standard }) => {
   const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   useEffect(() => {
     async function fetchData() {
@@ -22,8 +24,11 @@ const Certificate = ({ company, amount, retirementId, standard }) => {
           },
         });
         setUserData(res?.data?.userData);
+        
       } catch (err) {
         console.log(err);
+      }finally {
+        setLoading(false);
       }
     }
     fetchData();
@@ -36,6 +41,8 @@ const Certificate = ({ company, amount, retirementId, standard }) => {
     return `${year}-${month}-${day}`;
   };
   return (
+    <>
+    <Spin spinning={loading} size="large"></Spin>
     <div className="m-5 mr-5 ml-5 border-4 border-green-600 mx-auto p-5 rounded-lg bg-white shadow-md mt-5 w-26.25 h-37.188">
       <div className="text-center mb-5">
         <div className="flex justify-between items-center mx-[8%]">
@@ -116,7 +123,7 @@ const Certificate = ({ company, amount, retirementId, standard }) => {
             Limited. For more information about our services and climate change
             mitigation projects, please visit{" "}
             <a href="https://www.Fitsol.green" className="text-blue-500">
-              https://fitsol.green.
+              https://fitsol.green
             </a>{" "}
             The CO<sub>2</sub> emissions indicated on the certificate are
             compensated through investments in carbon offset projects based on
@@ -130,6 +137,7 @@ const Certificate = ({ company, amount, retirementId, standard }) => {
         </center>
       </div>
     </div>
+    </>
   );
 };
 export default Certificate;

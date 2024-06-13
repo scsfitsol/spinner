@@ -17,6 +17,12 @@ const Calculator = () => {
     try {
       const userEmail = localStorage.getItem("email");
       const offSetValue = localStorage.getItem("offSetValue");
+      let finalValue = offSetValue;
+      if (offSetValue){
+        const numericValue = parseFloat(offSetValue);
+        const roundedNumericValue = numericValue.toFixed(2); 
+        finalValue = roundedNumericValue;
+      }
       if (!userEmail) {
         localStorage.clear();
         navigate(
@@ -28,7 +34,7 @@ const Calculator = () => {
       }
       await axios.post(`${baseUrl}/offSet`, {
         "businessEmail": userEmail,
-        "offSetValue": offSetValue
+        "offSetValue": finalValue
       });
     } catch (err) {
       const msg = err?.response?.data?.message;
