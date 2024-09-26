@@ -5,14 +5,16 @@ import ConfettiExplosion from "react-confetti-explosion";
 import CongratulationsCard from "./Congratulation";
 import bgImage from "../image4.png";
 import logo from "../LogoForm.png";
+import fitsol_logo from '../fitsol_logo.svg';
+import fitsol_logo2 from '../fitsol_logo2.svg';
 const totalParticipants = 100;
 const initialData = [
-  { option: "Green kit", probability: 0.3, remaining: 30 },
+  { option: "Green kit + 25% CNC", probability: 0.3, remaining: 30 },
   { option: "Better luck next time", probability: 0.0, remaining: 0 },
   { option: "Ipad", probability: 0.0, remaining: 0 },
-  { option: "Green kit", probability: 0.3, remaining: 30 },
+  { option: "Green kit + 25% CNC", probability: 0.3, remaining: 30 },
   {
-    option: "Green kit + 25% CNC",
+    option: "Green kit + 50% CNC",
     probability: 0.3,
     remaining: 30,
   },
@@ -105,7 +107,8 @@ export default () => {
         <div className="flex flex-col lg:w-1/2 p-8 bg-cover bg-center text-poppins">
           <div className="mb-8">
             <img
-              src="./image/image5.png"
+            src={fitsol_logo}
+              // src="./image/image5.png"
               alt="Logo"
               className="h-16 mb-5 mx-[35%]"
             />

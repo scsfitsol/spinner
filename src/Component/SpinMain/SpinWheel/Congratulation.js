@@ -12,6 +12,7 @@ const CongratulationsCard = (props) => {
   const [isVisible, setIsVisible] = useState(true);
   const prizesValue = {
     "Green kit + 25% CNC": "25",
+    "Green kit + 50% CNC": "50",
     "Green kit + 100% CNC": "100",
   };
 
@@ -72,7 +73,19 @@ const CongratulationsCard = (props) => {
           </p>
         </>
       );
-    } else if (prize.includes("Green kit + 100% CNC")) {
+    }else if (prize.includes("Green kit + 50% CNC")) {
+      return (
+        <>
+          You have won a sustainable corporate kit and a chance to offset <strong>50%</strong> your
+          personal carbon footprint for <strong>ONE WHOLE YEAR</strong>! 🌱
+          <p className="text-gray-700 mt-4">
+            We wish you all the best and thank you for your participation in
+            helping Fitsol offset carbon emissions from the environment!
+          </p>
+        </>
+      );
+    }
+     else if (prize.includes("Green kit + 100% CNC")) {
       return (
         <>
           You have won a sustainable corporate kit and a chance to offset your

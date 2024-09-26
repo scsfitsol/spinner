@@ -6,6 +6,7 @@ import Section2 from "./Section2";
 import { useNavigate } from "react-router-dom";
 import "tailwindcss/tailwind.css";
 import axios from "axios";
+import fitsol_logo from '../fitsol_logo.svg';
 import { baseUrl } from "../../../constant";
 
 const Calculator = () => {
@@ -59,9 +60,15 @@ const Calculator = () => {
   return (
     <div className="">
       {/* Header Section */}
-      <div className="bg-blue-800 rounded-lg text-left p-5">
+      <div className="rounded-lg text-left p-4 m-4"
+      style ={{
+        background: "linear-gradient(98deg, #02583D 0.42%, #059669 112.05%)",
+
+      }}
+      >
         <img
-          src={logo}
+        src={fitsol_logo}
+          // src={logo}
           alt="Logo"
           className="ml-10 mt-6 mb-6"
           style={{ width: "180px" }}

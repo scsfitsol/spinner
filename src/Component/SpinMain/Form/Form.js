@@ -11,6 +11,9 @@ import {
 } from "antd";
 import logo from "../LogoForm.png"; // Import your logo image
 import axios from "axios";
+import fitsol_logo from '../fitsol_logo.svg';
+// import fitsollogo from '../../../../public/'
+
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../../constant";
 
@@ -96,14 +99,16 @@ const FormSection = () => {
       {/* Header Section */}
       <div
         style={{
-          backgroundColor: "#2E33C3",
+          background: "linear-gradient(98deg, #02583D 0.42%, #059669 112.05%)",
+          // backgroundColor: "#2E33C3",
           textAlign: "start",
           padding: "5px",
           borderRadius: "8px",
         }}
       >
         <img
-          src={logo}
+        src={fitsol_logo}
+          // src={logo}
           alt="Logo"
           style={{
             padding: "0",
@@ -116,7 +121,7 @@ const FormSection = () => {
 
       <div className="p-4 mx-auto">
         <h1 className="text-4xl font-bold text-green-600 mb-4">
-          Welcome to the Net Zero Forum 2024!
+          Welcome to the TechSparks 2024!
         </h1>
         <p className="text-lg pt-2 text-gray-700">
           Please provide your details:
@@ -283,7 +288,11 @@ const FormSection = () => {
             <Button
               type="primary"
               htmlType="submit"
-              style={{ width: "100%", backgroundColor: "#2E33C3" }}
+              style={{ width: "100%", 
+                background: "linear-gradient(98deg, #02583D 0.42%, #059669 112.05%)",
+                // backgroundColor: "#2E33C3" 
+              
+              }}
               loading={loading}
             >
               Save and proceed
