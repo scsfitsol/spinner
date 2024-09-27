@@ -9,17 +9,17 @@ import fitsol_logo from '../fitsol_logo.svg';
 import fitsol_logo2 from '../fitsol_logo2.svg';
 const totalParticipants = 100;
 const initialData = [
-  { option: "Green kit + 25% CNC", probability: 0.3, remaining: 30 },
+  { option: "25% Carbon neutral", probability: 0.3, remaining: 30 },
   { option: "Better luck next time", probability: 0.0, remaining: 0 },
-  { option: "Ipad", probability: 0.0, remaining: 0 },
-  { option: "Green kit + 25% CNC", probability: 0.3, remaining: 30 },
+  { option: "1yr free access to Kyoto", probability: 0.0, remaining: 0 },
+  { option: "25% Carbon neutral", probability: 0.3, remaining: 30 },
   {
-    option: "Green kit + 50% CNC",
+    option: "50% Carbon neutral",
     probability: 0.3,
     remaining: 30,
   },
   {
-    option: "Green kit + 100% CNC",
+    option: "100% Carbon neutral",
     probability: 0.1,
     remaining: 10,
   },

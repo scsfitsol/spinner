@@ -11,9 +11,9 @@ const CongratulationsCard = (props) => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(true);
   const prizesValue = {
-    "Green kit + 25% CNC": "25",
-    "Green kit + 50% CNC": "50",
-    "Green kit + 100% CNC": "100",
+    "25% Carbon neutral": "25",
+    "50% Carbon neutral": "50",
+    "100% Carbon neutral": "100",
   };
 
   const storeSpinningValue = async (val) => {
@@ -35,7 +35,7 @@ const CongratulationsCard = (props) => {
   };
 
   const handleClose = async () => {
-    if (prize.includes("CNC")) {
+    if (prize.includes("Carbon neutral")) {
       const percent = prizesValue[prize];
       await storeSpinningValue(percent);
       navigate("/calculator");
@@ -62,10 +62,10 @@ const CongratulationsCard = (props) => {
           </p>
         </>
       );
-    } else if (prize.includes("Green kit + 25% CNC")) {
+    } else if (prize.includes("25% Carbon neutral")) {
       return (
         <>
-          You have won a sustainable corporate kit and a chance to offset <strong>25%</strong> your
+          You have won a chance to offset <strong>25%</strong> your
           personal carbon footprint for <strong>ONE WHOLE YEAR</strong>! 🌱
           <p className="text-gray-700 mt-4">
             We wish you all the best and thank you for your participation in
@@ -73,10 +73,10 @@ const CongratulationsCard = (props) => {
           </p>
         </>
       );
-    }else if (prize.includes("Green kit + 50% CNC")) {
+    }else if (prize.includes("50% Carbon neutral")) {
       return (
         <>
-          You have won a sustainable corporate kit and a chance to offset <strong>50%</strong> your
+          You have won a chance to offset <strong>50%</strong> your
           personal carbon footprint for <strong>ONE WHOLE YEAR</strong>! 🌱
           <p className="text-gray-700 mt-4">
             We wish you all the best and thank you for your participation in
@@ -85,10 +85,10 @@ const CongratulationsCard = (props) => {
         </>
       );
     }
-     else if (prize.includes("Green kit + 100% CNC")) {
+     else if (prize.includes("100% Carbon neutral")) {
       return (
         <>
-          You have won a sustainable corporate kit and a chance to offset your
+          You have won a chance to offset your
           personal carbon footprint for <strong>ONE WHOLE YEAR</strong>! 🌱
           <p className="text-gray-700 mt-4">
             We wish you all the best and thank you for your participation in
@@ -123,7 +123,7 @@ const CongratulationsCard = (props) => {
             onClick={handleClose}
             className="px-4 py-2 my-2 bg-buttonColor text-black font-bold rounded hover:bg-hoveColor transition duration-300"
           >
-            {prize.includes("CNC")
+            {prize.includes("Carbon neutral")
               ? "Calculate your emissions"
               : "Return to home"}
           </button>
