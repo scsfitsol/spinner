@@ -98,7 +98,7 @@ const FormSection = () => {
   // List of possible designations
 
   return (
-    <div style={{ padding: "10px" }}>
+    <div style={{ padding: "10px", background: "#FAFAFA"}}>
       {/* Header Section */}
 
       <div
@@ -169,7 +169,7 @@ const FormSection = () => {
           margin: "auto",
           padding: "20px",
           borderRadius: "8px",
-          backgroundColor: "#FFFFFF",
+          background: "#FAFAFA",
           marginTop: "20px",
         }}
       >
