@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Button, Form } from "antd";
+import { Row, Col, Button, Form, Label, Typography } from "antd";
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import FormTemplate from "./FormTemplate"; // Assuming you have a FormTemplate component
 import { travelModeOptions } from "../../../constant";
@@ -11,6 +11,9 @@ const TravelDetailsForm = () => {
   }));
   return (
     <Form name="travel_details_form" layout="vertical">
+      <Typography.Title level={4} style={{ marginBottom: 16 }}>
+        Add travel details
+      </Typography.Title>
       <Form.List name="travelDetails">
         {(fields, { add, remove }) => (
           <>
@@ -23,7 +26,7 @@ const TravelDetailsForm = () => {
                   border: "1px solid #e0e0e0",
                   padding: "16px",
                   borderRadius: "4px",
-                //   backgroundColor: "#fafafa", // Ensure the background doesn't interfere
+                  //   backgroundColor: "#fafafa", // Ensure the background doesn't interfere
                 }}
               >
                 {/* Cross Icon to Remove Section */}
@@ -32,8 +35,8 @@ const TravelDetailsForm = () => {
                     position: "absolute",
                     top: 8,
                     right: 8,
-                    fontSize: "20px",
-                    color: "#ff4d4f",
+                    fontSize: "15px",
+                    // color: "#ff4d4f",
                     cursor: "pointer",
                     zIndex: 10, // Ensure icon is above other content
                   }}

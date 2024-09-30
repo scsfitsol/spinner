@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { baseUrl, designations, travelModeOptions } from "../../../constant";
 import FormTemplate from "./FormTemplate";
 import TravelDetailsForm from "./TravelForm";
+import HotelForm from "./HotelForm";
 
 const { Option } = Select;
 
@@ -102,7 +103,7 @@ const FormSection = () => {
       <div
         style={{
           background: "linear-gradient(98deg, #02583D 0.42%, #059669 112.05%)",
-          // backgroundColor: "#2E33C3",
+          backgroundColor: "#fffff",
           textAlign: "start",
           padding: "5px",
           borderRadius: "8px",
@@ -243,7 +244,8 @@ const FormSection = () => {
             </Select>
           </Form.Item>
 
-          <TravelDetailsForm/>
+          <TravelDetailsForm />
+          <HotelForm/>
           {/* {travelDetails.map((travelDetail, index) => (
             <div
               key={travelDetail.key}
@@ -319,7 +321,6 @@ const FormSection = () => {
             Add more route
           </Button> */}
 
-
           {/* <Row gutter={16}>
             <Form.Item name="Travel details"></Form.Item>
             <FormTemplate
@@ -362,7 +363,7 @@ const FormSection = () => {
               type="googleAutoComplete"
             />
           </Row> */}
-          <Row gutter={16}>
+          {/* <Row gutter={16}>
             <FormTemplate
               span={24}
               label="Enter your hotel location you stayed"
@@ -372,16 +373,8 @@ const FormSection = () => {
               placeholder="Enter your hotel location you stayed"
               type="googleAutoComplete"
             />
-            {/* <FormTemplate
-              span={24}
-              label="Enter your hotel location you stayed"
-              name="hotelName"
-              required={true}
-              message="Please enter your hotel location"
-              placeholder="Enter your hotel location"
-            /> */}
             <FormTemplate
-              xs={24}
+              xs={24} 
               lg={24}
               label="Enter your check-in date"
               name="checkInDate"
@@ -390,17 +383,7 @@ const FormSection = () => {
               placeholder="Enter your check-in date"
               type="date"
             />
-            {/* <FormTemplate
-              xs={24}
-              lg={12}
-              label="Enter your check-out date"
-              name="checkOutDate"
-              required={true}
-              message="Please enter you chcck-out date"
-              placeholder="Enter your check-out date"
-              type="date"
-            /> */}
-          </Row>
+          </Row> */}
 
           <Form.Item
             name="terms"
