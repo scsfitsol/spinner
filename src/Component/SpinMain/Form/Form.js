@@ -12,12 +12,14 @@ import {
 import logo from "../LogoForm.png"; // Import your logo image
 import axios from "axios";
 import fitsol_logo from "../fitsol_logo.svg";
+import { CloseCircleOutlined } from "@ant-design/icons";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 // import fitsollogo from '../../../../public/'
 
 import { useNavigate } from "react-router-dom";
 import { baseUrl, designations, travelModeOptions } from "../../../constant";
 import FormTemplate from "./FormTemplate";
+import TravelDetailsForm from "./TravelForm";
 
 const { Option } = Select;
 
@@ -121,7 +123,7 @@ const FormSection = () => {
 
       <div className="p-4 mx-auto">
         <h1 className="text-4xl font-bold text-green-600 mb-4">
-          Welcome to the TechSparks 2024!
+          Welcome to the Parivarthan 2.0!
         </h1>
         <p className="text-lg pt-2 text-gray-700">
           Please provide your details:
@@ -240,67 +242,84 @@ const FormSection = () => {
               ))}
             </Select>
           </Form.Item>
-          {travelDetails.map((travelDetail, index) => (
-            <Row
-              gutter={16}
+
+          <TravelDetailsForm/>
+          {/* {travelDetails.map((travelDetail, index) => (
+            <div
               key={travelDetail.key}
-              style={{ marginBottom: 16 }}
+              style={{
+                position: "relative",
+                marginBottom: 16,
+                border: "1px solid #e0e0e0",
+                padding: "16px",
+                borderRadius: "4px",
+              }}
             >
-              <Col span={24}>
-                <Form.Item
-                  name={`travelDetail[${index}].travelDetails`}
-                  label="Travel details"
+              <CloseCircleOutlined
+                style={{
+                  position: "absolute",
+                  top: 8,
+                  right: 8,
+                  fontSize: "20px",
+                  color: "#ff4d4f",
+                  cursor: "pointer",
+                }}
+                onClick={() => removeTravelDetail(index)}
+              />
+
+              <Row gutter={16}>
+                <Col span={24}>
+                  <Form.Item
+                    name={`travelDetail[${index}].travelDetails`}
+                    label="Travel details"
+                  />
+                </Col>
+                <FormTemplate
+                  span={24}
+                  label="Date of travel"
+                  name={`travelDetail[${index}].dateOfTravel`}
+                  required={true}
+                  message="Please select your travel date!"
+                  placeholder="Select your date of travel"
+                  type="date"
                 />
-              </Col>
-              <FormTemplate
-                span={24}
-                label="Date of travel"
-                name={`travelDetail[${index}].dateOfTravel`}
-                required={true}
-                message="Please select your travel date!"
-                placeholder="Select your date of travel"
-                type="date"
-              />
-              <FormTemplate
-                span={24}
-                label="Mode of travel"
-                name={`travelDetail[${index}].modeOfTravel`}
-                required={true}
-                message="Please select your travel mode!"
-                placeholder="Select your mode of travel"
-                type="select"
-                options={vehicleOptions} // Assuming vehicleOptions is available
-              />
-              <FormTemplate
-                span={24}
-                label="Select your commute start address"
-                name={`travelDetail[${index}].commuteStartAddress`}
-                required={true}
-                message="Please select your commute start address"
-                placeholder="Select your commute start address"
-                type="googleAutoComplete"
-              />
-              <FormTemplate
-                span={24}
-                label="Select your commute end address"
-                name={`travelDetail[${index}].commuteEndAddress`}
-                required={true}
-                message="Please select your commute end address"
-                placeholder="Select your commute end address"
-                type="googleAutoComplete"
-              />
-              <Col span={24}>
-                <Button onClick={() => removeTravelDetail(index)} type="danger">
-                  Remove Section
-                </Button>
-              </Col>
-            </Row>
+                <FormTemplate
+                  span={24}
+                  label="Mode of travel"
+                  name={`travelDetail[${index}].modeOfTravel`}
+                  required={true}
+                  message="Please select your travel mode!"
+                  placeholder="Select your mode of travel"
+                  type="select"
+                  options={vehicleOptions} 
+                />
+                <FormTemplate
+                  span={24}
+                  label="Select your commute start address"
+                  name={`travelDetail[${index}].commuteStartAddress`}
+                  required={true}
+                  message="Please select your commute start address"
+                  placeholder="Select your commute start address"
+                  type="googleAutoComplete"
+                />
+                <FormTemplate
+                  span={24}
+                  label="Select your commute end address"
+                  name={`travelDetail[${index}].commuteEndAddress`}
+                  required={true}
+                  message="Please select your commute end address"
+                  placeholder="Select your commute end address"
+                  type="googleAutoComplete"
+                />
+              </Row>
+            </div>
           ))}
-          <Button type="dashed" onClick={addTravelDetail}
-          block
-          >
+
+          <Button type="dashed" onClick={addTravelDetail} block>
             Add more route
-          </Button>
+          </Button> */}
+
+
           {/* <Row gutter={16}>
             <Form.Item name="Travel details"></Form.Item>
             <FormTemplate
@@ -348,7 +367,7 @@ const FormSection = () => {
               span={24}
               label="Enter your hotel location you stayed"
               name="hotelLocation"
-              required={true}
+              required={false}
               message="Please enter your hotel location"
               placeholder="Enter your hotel location you stayed"
               type="googleAutoComplete"
@@ -363,15 +382,15 @@ const FormSection = () => {
             /> */}
             <FormTemplate
               xs={24}
-              lg={12}
+              lg={24}
               label="Enter your check-in date"
               name="checkInDate"
-              required={true}
+              required={false}
               message="Please enter your check-in date"
               placeholder="Enter your check-in date"
               type="date"
             />
-            <FormTemplate
+            {/* <FormTemplate
               xs={24}
               lg={12}
               label="Enter your check-out date"
@@ -380,7 +399,7 @@ const FormSection = () => {
               message="Please enter you chcck-out date"
               placeholder="Enter your check-out date"
               type="date"
-            />
+            /> */}
           </Row>
 
           <Form.Item
