@@ -12,6 +12,7 @@ import {
 import logo from "../LogoForm.png"; // Import your logo image
 import axios from "axios";
 import fitsol_logo from "../fitsol_logo.svg";
+import parivartan from "../parivartan.png";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 // import fitsollogo from '../../../../public/'
@@ -86,7 +87,7 @@ const FormSection = () => {
       formRef.current.resetFields();
       localStorage.setItem("email", values.businessEmail);
       localStorage.setItem("id", res?.data?.spinnerFormData?.id);
-      navigate("/spin");
+      navigate("/emission");
     } catch (err) {
       const msg = err?.response?.data?.message;
       alert(msg);
@@ -100,27 +101,59 @@ const FormSection = () => {
   return (
     <div style={{ padding: "10px" }}>
       {/* Header Section */}
+
       <div
+    style={{
+      background: "linear-gradient(98deg, #02583D 0.42%, #059669 112.05%)",
+      textAlign: "start",
+      padding: "15px 20px",
+      borderRadius: "12px",
+    }}
+  >
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "10px 0",
+        flexWrap: "wrap", // Makes it responsive
+      }}
+    >
+      {/* Fitsol Logo */}
+      <img
+        src={fitsol_logo}
+        alt="Fitsol Logo"
         style={{
-          background: "linear-gradient(98deg, #02583D 0.42%, #059669 112.05%)",
-          backgroundColor: "#fffff",
-          textAlign: "start",
-          padding: "5px",
-          borderRadius: "8px",
+          height: "40px", // Reduced height for better balance
+          margin: "10px 20px",
         }}
-      >
-        <img
-          src={fitsol_logo}
-          // src={logo}
-          alt="Logo"
-          style={{
-            padding: "0",
-            marginLeft: "80px",
-            marginTop: "20px",
-            marginBottom: "20px",
-          }}
-        />
-      </div>
+      />
+
+      {/* Parivartan Logo */}
+      <img
+        src={parivartan}
+        alt="Parivartan Logo"
+        style={{
+          height: "55px", // Same size as others for consistency
+          margin: "10px 20px",
+        }}
+      />
+
+      {/* Longstraw Carbon Logo */}
+      <img
+        src={
+          "https://cdn.dorik.com/66dde635c037830012824e19/images/longstrawcarbonhighresolutionlogotransparent-jqdxx.png"
+        }
+        alt="Longstraw Carbon Logo"
+        style={{
+          height: "40px", // Same size as others for consistency
+          margin: "10px 20px",
+        }}
+      />
+    </div>
+  </div>
+
+ 
 
       <div className="p-4 mx-auto">
         <h1 className="text-4xl font-bold text-green-600 mb-4">
