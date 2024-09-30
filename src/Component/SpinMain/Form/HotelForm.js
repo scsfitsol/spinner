@@ -6,9 +6,9 @@ const HotelForm = () => {
   return (
     <Form name="hotelDetails" layout="vertical">
       {/* Label at the top */}
-      <Typography.Title level={4} style={{ marginBottom: 16 }}>
+      {/* <Typography.Title level={4} style={{ marginBottom: 16 }}>
         Add hotel details
-      </Typography.Title>
+      </Typography.Title> */}
 
       <Row gutter={16}>
         <Col span={24}>
