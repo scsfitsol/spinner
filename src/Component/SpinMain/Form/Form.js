@@ -11,17 +11,35 @@ import {
 } from "antd";
 import logo from "../LogoForm.png"; // Import your logo image
 import axios from "axios";
-import fitsol_logo from '../fitsol_logo.svg';
+import fitsol_logo from "../fitsol_logo.svg";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 // import fitsollogo from '../../../../public/'
 
 import { useNavigate } from "react-router-dom";
-import { baseUrl } from "../../../constant";
+import { baseUrl, designations, travelModeOptions } from "../../../constant";
+import FormTemplate from "./FormTemplate";
 
 const { Option } = Select;
 
 const FormSection = () => {
   const navigate = useNavigate();
   const [options, setOptions] = useState([]);
+  const [travelDetails, setTravelDetails] = useState([{ key: 0 }]);
+
+  const addTravelDetail = () => {
+    setTravelDetails([...travelDetails, { key: travelDetails.length }]);
+  };
+
+  // Handler to remove a travel section
+  const removeTravelDetail = (index) => {
+    const updatedDetails = travelDetails.filter((_, i) => i !== index);
+    setTravelDetails(updatedDetails);
+  };
+
+  const vehicleOptions = [...new Set(travelModeOptions)].map((vehicle) => ({
+    label: vehicle,
+    value: vehicle,
+  }));
 
   const fetchCompanies = async (query) => {
     if (query) {
@@ -75,24 +93,6 @@ const FormSection = () => {
   };
 
   // List of possible designations
-  const designations = [
-    "CEO",
-    "CTO",
-    "CBO",
-    "CFO",
-    "COO",
-    "Software Engineer",
-    "Project Manager",
-    "Product Manager",
-    "Sales Manager",
-    "Marketing Specialist",
-    "HR Manager",
-    "Finance Manager",
-    "Operations Manager",
-    "Consultant",
-    "Analyst",
-    "Others",
-  ];
 
   return (
     <div style={{ padding: "10px" }}>
@@ -107,7 +107,7 @@ const FormSection = () => {
         }}
       >
         <img
-        src={fitsol_logo}
+          src={fitsol_logo}
           // src={logo}
           alt="Logo"
           style={{
@@ -146,7 +146,7 @@ const FormSection = () => {
           layout="vertical"
         >
           <Row gutter={16}>
-            <Col span={12}>
+            <Col xs={24} md={12}>
               <Form.Item
                 label="First Name"
                 name="firstName"
@@ -157,7 +157,7 @@ const FormSection = () => {
                 <Input placeholder="First Name" />
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col xs={24} md={12}>
               <Form.Item
                 label="Last Name"
                 name="lastName"
@@ -190,7 +190,7 @@ const FormSection = () => {
           </Form.Item>
 
           <Row gutter={16}>
-            <Col span={12}>
+            <Col xs={24} md={12}>
               <Form.Item
                 label="Business Email"
                 name="businessEmail"
@@ -205,7 +205,7 @@ const FormSection = () => {
                 <Input placeholder="Business Email" />
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col xs={24} md={12}>
               <Form.Item
                 label="Phone Number"
                 name="phoneNumber"
@@ -240,6 +240,148 @@ const FormSection = () => {
               ))}
             </Select>
           </Form.Item>
+          {travelDetails.map((travelDetail, index) => (
+            <Row
+              gutter={16}
+              key={travelDetail.key}
+              style={{ marginBottom: 16 }}
+            >
+              <Col span={24}>
+                <Form.Item
+                  name={`travelDetail[${index}].travelDetails`}
+                  label="Travel details"
+                />
+              </Col>
+              <FormTemplate
+                span={24}
+                label="Date of travel"
+                name={`travelDetail[${index}].dateOfTravel`}
+                required={true}
+                message="Please select your travel date!"
+                placeholder="Select your date of travel"
+                type="date"
+              />
+              <FormTemplate
+                span={24}
+                label="Mode of travel"
+                name={`travelDetail[${index}].modeOfTravel`}
+                required={true}
+                message="Please select your travel mode!"
+                placeholder="Select your mode of travel"
+                type="select"
+                options={vehicleOptions} // Assuming vehicleOptions is available
+              />
+              <FormTemplate
+                span={24}
+                label="Select your commute start address"
+                name={`travelDetail[${index}].commuteStartAddress`}
+                required={true}
+                message="Please select your commute start address"
+                placeholder="Select your commute start address"
+                type="googleAutoComplete"
+              />
+              <FormTemplate
+                span={24}
+                label="Select your commute end address"
+                name={`travelDetail[${index}].commuteEndAddress`}
+                required={true}
+                message="Please select your commute end address"
+                placeholder="Select your commute end address"
+                type="googleAutoComplete"
+              />
+              <Col span={24}>
+                <Button onClick={() => removeTravelDetail(index)} type="danger">
+                  Remove Section
+                </Button>
+              </Col>
+            </Row>
+          ))}
+          <Button type="dashed" onClick={addTravelDetail}
+          block
+          >
+            Add more route
+          </Button>
+          {/* <Row gutter={16}>
+            <Form.Item name="Travel details"></Form.Item>
+            <FormTemplate
+              // xs={24}
+              span={24}
+              label="Date of travel"
+              name="dateOfTravel"
+              required={true}
+              message="Please select your travel date!"
+              placeholder="Select your date of travel"
+              type="date"
+            />
+            <FormTemplate
+              span={24}
+              label="Mode of travel"
+              name="modeOfTravel"
+              required={true}
+              message="Please select your travel mode!"
+              placeholder="Select your mode of travel"
+              type="select"
+              options = {vehicleOptions}
+              // options={travelModeOptions}
+            />
+            <FormTemplate
+              span={24}
+              label="Select your commute start address"
+              name="commuteStartAddress"
+              required={true}
+              message="Please select your commute start address"
+              placeholder="Select your commute start address"
+              type="googleAutoComplete"
+            />
+            <FormTemplate
+              span={24}
+              label="Select your commute end address"
+              name="commuteEndAddress"
+              required={true}
+              message="Please select your commute end address"
+              placeholder="Select your commute end address"
+              type="googleAutoComplete"
+            />
+          </Row> */}
+          <Row gutter={16}>
+            <FormTemplate
+              span={24}
+              label="Enter your hotel location you stayed"
+              name="hotelLocation"
+              required={true}
+              message="Please enter your hotel location"
+              placeholder="Enter your hotel location you stayed"
+              type="googleAutoComplete"
+            />
+            {/* <FormTemplate
+              span={24}
+              label="Enter your hotel location you stayed"
+              name="hotelName"
+              required={true}
+              message="Please enter your hotel location"
+              placeholder="Enter your hotel location"
+            /> */}
+            <FormTemplate
+              xs={24}
+              lg={12}
+              label="Enter your check-in date"
+              name="checkInDate"
+              required={true}
+              message="Please enter your check-in date"
+              placeholder="Enter your check-in date"
+              type="date"
+            />
+            <FormTemplate
+              xs={24}
+              lg={12}
+              label="Enter your check-out date"
+              name="checkOutDate"
+              required={true}
+              message="Please enter you chcck-out date"
+              placeholder="Enter your check-out date"
+              type="date"
+            />
+          </Row>
 
           <Form.Item
             name="terms"
@@ -288,10 +430,11 @@ const FormSection = () => {
             <Button
               type="primary"
               htmlType="submit"
-              style={{ width: "100%", 
-                background: "linear-gradient(98deg, #02583D 0.42%, #059669 112.05%)",
-                // backgroundColor: "#2E33C3" 
-              
+              style={{
+                width: "100%",
+                background:
+                  "linear-gradient(98deg, #02583D 0.42%, #059669 112.05%)",
+                // backgroundColor: "#2E33C3"
               }}
               loading={loading}
             >
