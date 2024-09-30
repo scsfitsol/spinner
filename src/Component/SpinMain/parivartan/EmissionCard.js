@@ -10,7 +10,7 @@ const EmissionCard = ({ businessEmission, hotelEmission }) => {
   const totalEmission = businessEmission + hotelEmission;
 
   const handleClose = () => {
-    navigate("/offset-emissions"); // Adjust navigation as necessary
+    navigate("/certificate"); // Adjust navigation as necessary
     setIsVisible(false);
   };
 
@@ -46,9 +46,13 @@ const EmissionCard = ({ businessEmission, hotelEmission }) => {
           <div className="mt-8 flex justify-center">
             <button
               onClick={handleClose}
-              className="px-6 py-3 bg-green-600 text-white text-lg font-bold rounded-lg shadow-md hover:bg-green-700 transition duration-300"
+              style={{
+                background:
+                  "linear-gradient(98deg, #02583D 0.42%, #059669 112.05%)",
+              }}
+              className="px-6 py-3  text-white text-lg font-bold rounded-lg shadow-md hover:bg-green-700 transition duration-300"
             >
-              Offset Your Emissions
+              Offset Your Emissions! 🌱🌍
             </button>
           </div>
         </div>

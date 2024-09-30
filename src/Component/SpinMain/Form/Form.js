@@ -8,6 +8,8 @@ import {
   Checkbox,
   AutoComplete,
   Select,
+  DatePicker,
+  Space,
 } from "antd";
 import logo from "../LogoForm.png"; // Import your logo image
 import axios from "axios";
@@ -28,22 +30,33 @@ const { Option } = Select;
 const FormSection = () => {
   const navigate = useNavigate();
   const [options, setOptions] = useState([]);
-  const [travelDetails, setTravelDetails] = useState([{ key: 0 }]);
-
-  const addTravelDetail = () => {
-    setTravelDetails([...travelDetails, { key: travelDetails.length }]);
-  };
-
-  // Handler to remove a travel section
-  const removeTravelDetail = (index) => {
-    const updatedDetails = travelDetails.filter((_, i) => i !== index);
-    setTravelDetails(updatedDetails);
-  };
+  const [travelDetails, setTravelDetails] = useState([]);
+  const [filteredOptions, setFilteredOptions] = useState([]);
+  const [form] = Form.useForm();
 
   const vehicleOptions = [...new Set(travelModeOptions)].map((vehicle) => ({
     label: vehicle,
     value: vehicle,
   }));
+
+  const handleSearch = (searchText) => {
+    const filteredDesignations = designations.filter((designation) =>
+      designation.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setFilteredOptions(
+      filteredDesignations.map((designation) => ({
+        value: designation,
+      }))
+    );
+  };
+
+  const handleTravelDetailsChange = (changedValues) => {
+    console.log("changedvalues", changedValues);
+    setTravelDetails((prevDetails) => ({
+        ...prevDetails,
+        ...changedValues, // Update travel details state
+    }));
+};
 
   const fetchCompanies = async (query) => {
     if (query) {
@@ -79,9 +92,12 @@ const FormSection = () => {
   const handleFinish = async (values) => {
     try {
       setLoading(true);
-      const formData = { ...values, privacyPolicy: true };
-
-      await formRef.current.validateFields();
+      const formData = {
+        ...values,
+        travelDetails,
+        privacyPolicy: true,
+      };
+      console.log("formdata", formData);
       const res = await axios.post(`${baseUrl}/spinnerFormData`, formData);
       console.log(res);
       formRef.current.resetFields();
@@ -96,64 +112,61 @@ const FormSection = () => {
     }
   };
 
-  // List of possible designations
 
   return (
-    <div style={{ padding: "10px", background: "#FAFAFA"}}>
+    <div style={{ padding: "10px", background: "#FAFAFA" }}>
       {/* Header Section */}
 
       <div
-    style={{
-      background: "linear-gradient(98deg, #02583D 0.42%, #059669 112.05%)",
-      textAlign: "start",
-      padding: "15px 20px",
-      borderRadius: "12px",
-    }}
-  >
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "10px 0",
-        flexWrap: "wrap", // Makes it responsive
-      }}
-    >
-      {/* Fitsol Logo */}
-      <img
-        src={fitsol_logo}
-        alt="Fitsol Logo"
         style={{
-          height: "40px", // Reduced height for better balance
-          margin: "10px 20px",
+          background: "linear-gradient(98deg, #02583D 0.42%, #059669 112.05%)",
+          textAlign: "start",
+          padding: "15px 20px",
+          borderRadius: "12px",
         }}
-      />
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "10px 0",
+            flexWrap: "wrap", // Makes it responsive
+          }}
+        >
+          {/* Fitsol Logo */}
+          <img
+            src={fitsol_logo}
+            alt="Fitsol Logo"
+            style={{
+              height: "40px", // Reduced height for better balance
+              margin: "10px 20px",
+            }}
+          />
 
-      {/* Parivartan Logo */}
-      <img
-        src={parivartan}
-        alt="Parivartan Logo"
-        style={{
-          height: "55px", // Same size as others for consistency
-          margin: "10px 20px",
-        }}
-      />
+          {/* Parivartan Logo */}
+          <img
+            src={parivartan}
+            alt="Parivartan Logo"
+            style={{
+              height: "55px", // Same size as others for consistency
+              margin: "10px 20px",
+            }}
+          />
 
-      {/* Longstraw Carbon Logo */}
-      <img
-        src={
-          "https://cdn.dorik.com/66dde635c037830012824e19/images/longstrawcarbonhighresolutionlogotransparent-jqdxx.png"
-        }
-        alt="Longstraw Carbon Logo"
-        style={{
-          height: "40px", // Same size as others for consistency
-          margin: "10px 20px",
-        }}
-      />
-    </div>
-  </div>
-
- 
+          {/* Longstraw Carbon Logo */}
+          <img
+            src={
+              "https://cdn.dorik.com/66dde635c037830012824e19/images/longstrawcarbonhighresolutionlogotransparent-jqdxx.png"
+            }
+            alt="Longstraw Carbon Logo"
+            style={{
+              height: "40px", // Same size as others for consistency
+              margin: "10px 20px",
+            }}
+          />
+        </div>
+      </div>
 
       <div className="p-4 mx-auto">
         <h1 className="text-4xl font-bold text-green-600 mb-4">
@@ -175,7 +188,8 @@ const FormSection = () => {
         }}
       >
         <Form
-          ref={formRef}
+          // ref={formRef}
+          form={form}
           name="basic_form"
           initialValues={{ remember: true }}
           onFinish={handleFinish}
@@ -268,156 +282,55 @@ const FormSection = () => {
               { required: true, message: "Please select your designation!" },
             ]}
           >
-            <Select placeholder="Select Designation">
-              {designations.map((designation) => (
-                <Option key={designation} value={designation}>
-                  {designation}
-                </Option>
-              ))}
-            </Select>
+            <AutoComplete
+              placeholder="Select Designation"
+              onSearch={handleSearch} // Function to filter options
+              options={designations.map((designation) => ({
+                value: designation, // This will be displayed in the dropdown
+              }))}
+            />
           </Form.Item>
-
-          <TravelDetailsForm />
-          <HotelForm/>
-          {/* {travelDetails.map((travelDetail, index) => (
-            <div
-              key={travelDetail.key}
-              style={{
-                position: "relative",
-                marginBottom: 16,
-                border: "1px solid #e0e0e0",
-                padding: "16px",
-                borderRadius: "4px",
-              }}
+          <TravelDetailsForm 
+          onChange={handleTravelDetailsChange}
+          />
+          <Row>
+            <Col span={24}>
+              <Form.Item 
+              label="Enter your hotel name"
+              name="hotelName"
+              >
+                <GooglePlacesAutocomplete
+                  apiKey={process.env.REACT_APP_MAP_KEY}
+                  apiOptions={{
+                    types: ["(cities)"],
+                    componentRestrictions: { country: "IN" },
+                  }}
+                  selectProps={{
+                    placeholder: "Select hotel",
+                    onChange: (item) => {
+                      // setSelectedHotel(value);
+                      console.log("value", item);
+                      form.setFieldsValue({ hotelName: item?.value?.description }); 
+                    },
+                  }}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+            <Form.Item
+            name="checkInDate"
+            label="check-in date"
             >
-              <CloseCircleOutlined
-                style={{
-                  position: "absolute",
-                  top: 8,
-                  right: 8,
-                  fontSize: "20px",
-                  color: "#ff4d4f",
-                  cursor: "pointer",
-                }}
-                onClick={() => removeTravelDetail(index)}
+              <Input 
+              type="date"
+              format = "DD-MM-YYYY"
               />
-
-              <Row gutter={16}>
-                <Col span={24}>
-                  <Form.Item
-                    name={`travelDetail[${index}].travelDetails`}
-                    label="Travel details"
-                  />
-                </Col>
-                <FormTemplate
-                  span={24}
-                  label="Date of travel"
-                  name={`travelDetail[${index}].dateOfTravel`}
-                  required={true}
-                  message="Please select your travel date!"
-                  placeholder="Select your date of travel"
-                  type="date"
-                />
-                <FormTemplate
-                  span={24}
-                  label="Mode of travel"
-                  name={`travelDetail[${index}].modeOfTravel`}
-                  required={true}
-                  message="Please select your travel mode!"
-                  placeholder="Select your mode of travel"
-                  type="select"
-                  options={vehicleOptions} 
-                />
-                <FormTemplate
-                  span={24}
-                  label="Select your commute start address"
-                  name={`travelDetail[${index}].commuteStartAddress`}
-                  required={true}
-                  message="Please select your commute start address"
-                  placeholder="Select your commute start address"
-                  type="googleAutoComplete"
-                />
-                <FormTemplate
-                  span={24}
-                  label="Select your commute end address"
-                  name={`travelDetail[${index}].commuteEndAddress`}
-                  required={true}
-                  message="Please select your commute end address"
-                  placeholder="Select your commute end address"
-                  type="googleAutoComplete"
-                />
-              </Row>
-            </div>
-          ))}
-
-          <Button type="dashed" onClick={addTravelDetail} block>
-            Add more route
-          </Button> */}
-
-          {/* <Row gutter={16}>
-            <Form.Item name="Travel details"></Form.Item>
-            <FormTemplate
-              // xs={24}
-              span={24}
-              label="Date of travel"
-              name="dateOfTravel"
-              required={true}
-              message="Please select your travel date!"
-              placeholder="Select your date of travel"
-              type="date"
-            />
-            <FormTemplate
-              span={24}
-              label="Mode of travel"
-              name="modeOfTravel"
-              required={true}
-              message="Please select your travel mode!"
-              placeholder="Select your mode of travel"
-              type="select"
-              options = {vehicleOptions}
-              // options={travelModeOptions}
-            />
-            <FormTemplate
-              span={24}
-              label="Select your commute start address"
-              name="commuteStartAddress"
-              required={true}
-              message="Please select your commute start address"
-              placeholder="Select your commute start address"
-              type="googleAutoComplete"
-            />
-            <FormTemplate
-              span={24}
-              label="Select your commute end address"
-              name="commuteEndAddress"
-              required={true}
-              message="Please select your commute end address"
-              placeholder="Select your commute end address"
-              type="googleAutoComplete"
-            />
-          </Row> */}
-          {/* <Row gutter={16}>
-            <FormTemplate
-              span={24}
-              label="Enter your hotel location you stayed"
-              name="hotelLocation"
-              required={false}
-              message="Please enter your hotel location"
-              placeholder="Enter your hotel location you stayed"
-              type="googleAutoComplete"
-            />
-            <FormTemplate
-              xs={24} 
-              lg={24}
-              label="Enter your check-in date"
-              name="checkInDate"
-              required={false}
-              message="Please enter your check-in date"
-              placeholder="Enter your check-in date"
-              type="date"
-            />
-          </Row> */}
-
+            </Form.Item>
+            </Col>
+          </Row>
+          <HotelForm
+          // onChange={handleHotelDetailsChange}
+          />
           <Form.Item
             name="terms"
             valuePropName="checked"
@@ -442,24 +355,6 @@ const FormSection = () => {
               </div>
             </div>
           </Form.Item>
-
-          {/* <Form.Item
-            name="privacyPolicy"
-            valuePropName="checked"
-            rules={[
-              {
-                validator: (_, value) =>
-                  value
-                    ? Promise.resolve()
-                    : Promise.reject("Please accept the privacy policy"),
-              },
-            ]}
-          >
-            <Checkbox>
-              I agree to allow Fitsol Supply Chain Solutions to store and
-              process my personal data.
-            </Checkbox>
-          </Form.Item> */}
 
           <Form.Item style={{ marginBottom: 0 }}>
             <Button

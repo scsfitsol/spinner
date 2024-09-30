@@ -12,7 +12,12 @@ import {
 } from "antd";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
-const FormTemplate = (props) => {
+const FormTemplate = (props) => { 
+    const handleChange = (value) => {
+        if (props.onChange) {
+          props.onChange(value); // Call the parent-provided onChange handler
+        }
+      };  
   return (
         <Col xs={props.xs} md={props.md} lg={props.lg} span={props.span}>
           <Form.Item
@@ -26,11 +31,18 @@ const FormTemplate = (props) => {
             ]}
           >
             {props.type === "input" && <Input placeholder={props.placeholder} />}
-            {props.type === "date" && <DatePicker style={{ width: "100%" }} format="DD-MM-YYYY" />}
+            {props.type === "date" && 
+            <Input 
+            type = "date"
+            style={{ width: "100%" }} 
+            format="DD-MM-YYYY" 
+            onChange={handleChange}
+            />} 
             {props.type ==="select" && 
-            <Select
+            <Select 
             options = {props.options}
             placeholder={props.placeholder}
+            onChange={handleChange}
             />}
             {props.type === "googleAutoComplete" &&
             <GooglePlacesAutocomplete
@@ -40,7 +52,8 @@ const FormTemplate = (props) => {
               componentRestrictions: { country: "IN" },
             }}
             selectProps={{
-              placeholder : props.placeholder
+              placeholder : props.placeholder,
+              onChange: handleChange
               // placeholder: (
               //   <div
               //     className="google-placeholder-custom"
