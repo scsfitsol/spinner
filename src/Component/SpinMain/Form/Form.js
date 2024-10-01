@@ -502,19 +502,11 @@ const FormSection = () => {
               </>
             )}
           </Form.List> */}
-          <Form.Item
-            label="Travel Details"
-            name="travelDetails"
-            rules={[
-              {
-                required: true,
-                message: "Please fill in your travel details",
-              },
-            ]}
-          >
-            <TravelDetailsForm onChange={handleTravelDetailsChange} />
-          </Form.Item>
-          {/* <TravelDetailsForm onChange={handleTravelDetailsChange} /> */}
+
+          <TravelDetailsForm
+            onChange={handleTravelDetailsChange}
+          />
+          {/*   <TravelDetailsForm onChange={handleTravelDetailsChange} /> */}
           <Row>
             <Col span={24}>
               <Form.Item label="Enter your hotel name" name="hotelLocation">
@@ -538,8 +530,21 @@ const FormSection = () => {
               </Form.Item>
             </Col>
             <Col span={24}>
-              <Form.Item name="checkInDate" label="check-in date">
-                <Input type="date" format="DD-MM-YYYY" />
+              <Form.Item
+                name="checkInDate"
+                label="check-in date"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please select a check-in date",
+                  },
+                ]}
+              >
+                <Input
+                  type="date"
+                  format="DD-MM-YYYY"
+                  max={new Date().toISOString().split("T")[0]} // This sets max to today's date
+                />
               </Form.Item>
             </Col>
           </Row>
