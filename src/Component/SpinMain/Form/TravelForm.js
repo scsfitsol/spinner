@@ -14,11 +14,12 @@ const TravelDetailsForm = (props) => {
   }));
   const [selectedMode, setSelectedMode] = useState(null);
   const [airports, setAirports] = useState([]);
-  const [selectedStartAddress, setSelectedStartAddress] = useState(null);
-  const [selectedEndAddress, setSelectedEndAddress] = useState(null);
+  const [selectedStartAddress, setSelectedStartAddress] = useState({});
+  const [selectedEndAddress, setSelectedEndAddress] = useState({});
   const [form] = Form.useForm();
 
   const handleModeChange = (value) => {
+    localStorage.setItem("modeofTravel", value);
     setSelectedMode(value);
     if (value === "Aircraft") {
       if (airports.length === 0) {
@@ -31,12 +32,11 @@ const TravelDetailsForm = (props) => {
     const travelDetails = form.getFieldValue("travelDetails") || [];
     const updatedTravelDetails = travelDetails.map((detail, index) => ({
       ...detail,
-      travelDetails: {"updatedTravelDetails":[{"dateOfTravel":"2022-11-11","modeOfTravel":"4 wheeler - Petrol","commuteStartAddress":"delhi", "commuteEndAddress":"vizag"},{"dateOfTravel":"2022-10-12","modeOfTravel":"Aircraft","commuteStartAddress":{"label":"AGX: Agatti Airport, Agatti, India","value":"AGX"},"commuteEndAddress":{"label":"BLP: Huallaga Airport, Bellavista, Peru","value":"BLP"}}]},
+      modeOfTravel: selectedMode,
       commuteStartAddress: selectedStartAddress,
       commuteEndAddress: selectedEndAddress,
       ...changedValues.travelDetails?.[index], // Only apply changes to the respective index
     }));
-
     console.log("updatedvalues", updatedTravelDetails);
     props.onChange({ updatedTravelDetails });
   };
@@ -170,6 +170,7 @@ const TravelDetailsForm = (props) => {
                               onChange: (item) => {
                                 // setSelectedHotel(value);
                                 console.log("commutevalue", item);
+                                localStorage.setItem("commuteStartAddress", item?.value?.description);
                                 setSelectedStartAddress(
                                     item?.value?.description
                                 )
@@ -194,6 +195,7 @@ const TravelDetailsForm = (props) => {
                               onChange: (item) => {
                                 // setSelectedHotel(value);
                                 console.log("commutevalue", item);
+                                localStorage.setItem("commuteEndAddress", item?.value?.description);
                                 setSelectedStartAddress(
                                     item?.value?.description
                                 )
@@ -223,6 +225,7 @@ const TravelDetailsForm = (props) => {
                             loadOptions={loadOptions} // This will use the loadOptions function
                             defaultOptions={airports} // Load default options on initial render if available
                             onChange={(selectedOption) => {
+                                localStorage.setItem("commuteStartAddress", selectedOption?.label);
                                 setSelectedStartAddress(selectedOption?.label);
                             //   console.log("Selected airport: ", selectedOption); // Handle selected option
                             }}
@@ -247,6 +250,8 @@ const TravelDetailsForm = (props) => {
                             defaultOptions={airports} // Load default options on initial render if available
                             onChange={(selectedOption) => {
                                 // to change code to label update text to label
+                                localStorage.setItem("commuteEndAddress", selectedOption?.label);
+                                setSelectedEndAddress(selectedOption?.label);
                                 setSelectedEndAddress(selectedOption.label);
                             //   console.log("Selected airport: ", selectedOption); // Handle selected option
                             }}

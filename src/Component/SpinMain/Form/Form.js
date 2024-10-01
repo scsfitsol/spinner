@@ -38,6 +38,8 @@ const FormSection = () => {
   const [travelDetails, setTravelDetails] = useState([]);
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [selectedMode, setSelectedMode] = useState(null);
+  const [selectedStartAddress, setSelectedStartAddress] = useState(null);
+  const [selectedEndAddress, setSelectedEndAddress] = useState(null);
   const [form] = Form.useForm();
 
   const vehicleOptions = [...new Set(travelModeOptions)].map((vehicle) => ({
@@ -57,6 +59,7 @@ const FormSection = () => {
   };
 
   const [airports, setAirports] = useState([]);
+
 
   const handleModeChange = (value) => {
     setSelectedMode(value);
@@ -92,7 +95,6 @@ const FormSection = () => {
     // setTravelDetails(allValues.travelDetails); // This will give you the complete travel details
   };
 
-  let businessTravelEmission = (Math.random() * (900 - 240 + 1) + 240).toFixed(2);
 
   const fetchCompanies = async (query) => {
     if (query) {
@@ -134,25 +136,14 @@ const FormSection = () => {
         ...values,
         travelDetails: {
           updatedTravelDetails: [
-            {
-              dateOfTravel: "2022-11-11",
-              modeOfTravel: "Bus",
-              commuteStartAddress: "delhi",
-              commuteEndAddress: "vizag",
-            },
-            {
-              dateOfTravel: "2022-10-12",
-              modeOfTravel: "Aircraft",
-              commuteStartAddress: {
-                label: "AGX: Agatti Airport, Agatti, India",
-                value: "AGX",
-              },
-              commuteEndAddress: {
-                label: "BLP: Huallaga Airport, Bellavista, Peru",
-                value: "BLP",
-              },
-            },
-          ],
+           { 
+            "dateOfTravel": new Date().toISOString,
+            "modeOfTravel":localStorage.getItem("modeofTravel"),
+            "commuteStartAddress": localStorage.getItem("commuteStartAddress"),
+            "commuteEndAddress": localStorage.getItem("commuteEndAddress"),
+           }
+
+          ]
         },
         checkOutDate: "01-10-2024",
         privacyPolicy: true,
