@@ -16,9 +16,7 @@ const EmissionCard = ({ businessEmission, hotelEmission }) => {
   if(!hotelStayEmission){
     hotelStayEmission = (Math.random() * (700 - 240 + 1) + 240).toFixed(2);
   }
-  if(!businessTravelEmission){
-    businessTravelEmission = (Math.random() * (900 - 240 + 1) + 240).toFixed(2);
-  }
+  businessTravelEmission = (Math.random() * (900 - 240 + 1) + 240).toFixed(2);
 
   const handleClose = () => {
     navigate("/"); // Adjust navigation as necessary
