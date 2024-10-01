@@ -14,10 +14,10 @@ const EmissionCard = ({ businessEmission, hotelEmission }) => {
   let hotelStayEmission = localStorage.getItem("hotelStaysEmission");
 
   if(!hotelStayEmission){
-    hotelStayEmission = (Math.random() * (700 - 240 + 1) + 240).toFixed(2);
+    hotelStayEmission = (Math.random() * (200 - 240 + 1) + 240).toFixed(2);
   }
   if(!businessTravelEmission){
-    businessTravelEmission = (Math.random() * (900 - 240 + 1) + 240).toFixed(2);
+    businessTravelEmission = (Math.random() * (300 - 240 + 1) + 240).toFixed(2);
   }
 
   const handleClose = () => {
