@@ -162,7 +162,7 @@ const FormSection = () => {
       console.log(res);
       localStorage.setItem(
         "businessEmission",
-        businessTravelEmission
+        res?.data?.spinnerFormData?.businessTravelEmission
       );
       localStorage.setItem(
         "hotelStaysEmission",
