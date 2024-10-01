@@ -7,17 +7,17 @@ const EmissionCard = ({ businessEmission, hotelEmission }) => {
   const [isVisible, setIsVisible] = useState(true);
   const navigate = useNavigate();
 
-  const totalEmission = businessEmission + hotelEmission;
+
 
   let businessTravelEmission = localStorage.getItem("businessEmission");
 
   let hotelStayEmission = localStorage.getItem("hotelStaysEmission");
 
   if(!hotelStayEmission){
-    hotelStayEmission = Math.floor(Math.random() * (700 - 240 + 1)) + 240
+    hotelStayEmission = (Math.random() * (700 - 240 + 1) + 240).toFixed(2);
   }
   if(!businessTravelEmission){
-    businessTravelEmission = Math.floor(Math.random() * (900 - 240 + 1)) + 240
+    businessTravelEmission = (Math.random() * (900 - 240 + 1) + 240).toFixed(2);
   }
 
   const handleClose = () => {
@@ -54,7 +54,7 @@ const EmissionCard = ({ businessEmission, hotelEmission }) => {
             </p>
             <p className="mt-4 text-xl text-center font-bold">
               Total Emission:{" "}
-              {businessTravelEmission+hotelStayEmission}{" "}
+              {(parseFloat(businessTravelEmission) + parseFloat(hotelStayEmission)).toFixed(2)}{" "}
               kgCO₂e
             </p>
           </div>

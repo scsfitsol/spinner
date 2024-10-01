@@ -136,8 +136,8 @@ const FormSection = () => {
       console.log("formdata", formData);
       const res = await axios.post(`${baseUrl}/spinnerFormData`, formData);
       console.log(res);
-      localStorage.setItem("businessEmission", res?.spinnerFormData?.businessTravelEmission);
-      localStorage.setItem("hotelStaysEmission",res?.spinnerFormData?.hotelStaysEmission);
+      localStorage.setItem("businessEmission", res?.data?.spinnerFormData?.businessTravelEmission);
+      localStorage.setItem("hotelStaysEmission",res?.data?.spinnerFormData?.hotelStaysEmission);
       setTravelDetails([]);
       navigate("/emission");
     } catch (err) {

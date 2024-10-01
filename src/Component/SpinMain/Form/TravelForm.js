@@ -156,7 +156,7 @@ const TravelDetailsForm = (props) => {
                     <>
                       <Col span={24}>
                         <Form.Item
-                          label="Enter start address"
+                          label="Commute start address"
                           name="commuteStartAddress"
                         >
                           <GooglePlacesAutocomplete
@@ -180,8 +180,8 @@ const TravelDetailsForm = (props) => {
                       </Col>
                       <Col span={24}>
                         <Form.Item
-                          label="Enter start address"
-                          name="commuteStartAddress"
+                          label="Commute end address"
+                          name="commuteEndAddress"
                         >
                           <GooglePlacesAutocomplete
                             apiKey={process.env.REACT_APP_MAP_KEY}
@@ -214,7 +214,7 @@ const TravelDetailsForm = (props) => {
                             {
                               required: true,
                               message:
-                                "Please select your commute start address",
+                                "Please select your commute end address",
                             },
                           ]}
                         >
