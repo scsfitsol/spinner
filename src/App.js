@@ -6,6 +6,7 @@ import Calculator from "./Component/SpinMain/Calculator/Calculator";
 import { Routes, Route } from "react-router-dom";
 import Certificate from "./Component/Certification/Certificate";
 import Thanks from './Component/SpinMain/SpinWheel/Thanks';
+import EmissionCard from "./Component/SpinMain/parivartan/EmissionCard";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/" element={<FormSection />} />
       <Route path="/spin" element={<SpinWheel />} />
       <Route path="/calculator" element={<Calculator />} />
+      <Route path="/emission" element={<EmissionCard />} />
       <Route path="/certificate" element={<Certificate />} />
       <Route path="/thanks" element={<Thanks />} />
       </Routes>

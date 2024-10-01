@@ -8,20 +8,88 @@ import {
   Checkbox,
   AutoComplete,
   Select,
+  DatePicker,
+  Space,
+  Typography,
 } from "antd";
+import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import logo from "../LogoForm.png"; // Import your logo image
 import axios from "axios";
-import fitsol_logo from '../fitsol_logo.svg';
+import AsyncSelect from "react-select/async";
+import Services from "../../../Services";
+import fitsol_logo from "../fitsol_logo.svg";
+import parivartan from "../parivartan.png";
+import { CloseCircleOutlined } from "@ant-design/icons";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 // import fitsollogo from '../../../../public/'
 
 import { useNavigate } from "react-router-dom";
-import { baseUrl } from "../../../constant";
+import { baseUrl, designations, travelModeOptions } from "../../../constant";
+import FormTemplate from "./FormTemplate";
+import TravelDetailsForm from "./TravelForm";
+import HotelForm from "./HotelForm";
 
 const { Option } = Select;
 
 const FormSection = () => {
   const navigate = useNavigate();
   const [options, setOptions] = useState([]);
+  const [travelDetails, setTravelDetails] = useState([]);
+  const [filteredOptions, setFilteredOptions] = useState([]);
+  const [selectedMode, setSelectedMode] = useState(null);
+  const [form] = Form.useForm();
+
+  const vehicleOptions = [...new Set(travelModeOptions)].map((vehicle) => ({
+    label: vehicle,
+    value: vehicle,
+  }));
+
+  const handleSearch = (searchText) => {
+    const filteredDesignations = designations.filter((designation) =>
+      designation.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setFilteredOptions(
+      filteredDesignations.map((designation) => ({
+        value: designation,
+      }))
+    );
+  };
+
+  const [airports, setAirports] = useState([]);
+
+  const handleModeChange = (value) => {
+    setSelectedMode(value);
+    if (value === "Aircraft") {
+      if (airports.length === 0) {
+        fetchAirports();
+      }
+    }
+  };
+
+  const fetchAirports = async () => {
+    try {
+      const response = await Services.get(`/getAirportList`);
+      const options = response.data.data.map((airport) => ({
+        label: airport.name,
+        value: airport.IATA_code,
+      }));
+      setAirports(options);
+    } catch (error) {
+      console.error("Error fetching airport list:", error);
+    }
+  };
+
+  const loadOptions = (inputValue, callback) => {
+    const filteredOptions = airports.filter((airport) =>
+      airport.label.toLowerCase().includes(inputValue.toLowerCase())
+    );
+    callback(filteredOptions);
+  };
+
+  const handleTravelDetailsChange = (changedValues, allValues) => {
+    console.log("Changed values:", changedValues);
+    // setTravelDetails(allValues.travelDetails); // This will give you the complete travel details
+  };
 
   const fetchCompanies = async (query) => {
     if (query) {
@@ -55,17 +123,23 @@ const FormSection = () => {
   const [loading, setLoading] = useState(false);
 
   const handleFinish = async (values) => {
+    console.log("values: ", values);
     try {
+      console.log("traveldetails", travelDetails);
       setLoading(true);
-      const formData = { ...values, privacyPolicy: true };
-
-      await formRef.current.validateFields();
+      const formData = {
+        ...values,
+        travelDetails: {"updatedTravelDetails":[{"dateOfTravel":"2022-11-11","modeOfTravel":"Bus","commuteStartAddress":"delhi", "commuteEndAddress":"vizag"},{"dateOfTravel":"2022-10-12","modeOfTravel":"Aircraft","commuteStartAddress":{"label":"AGX: Agatti Airport, Agatti, India","value":"AGX"},"commuteEndAddress":{"label":"BLP: Huallaga Airport, Bellavista, Peru","value":"BLP"}}]},
+        checkOutDate:"01-10-2024",
+        privacyPolicy: true,
+      };
+      console.log("formdata", formData);
       const res = await axios.post(`${baseUrl}/spinnerFormData`, formData);
       console.log(res);
-      formRef.current.resetFields();
-      localStorage.setItem("email", values.businessEmail);
-      localStorage.setItem("id", res?.data?.spinnerFormData?.id);
-      navigate("/spin");
+      localStorage.setItem("businessEmission", res?.spinnerFormData?.businessTravelEmission);
+      localStorage.setItem("hotelStaysEmission",res?.spinnerFormData?.hotelStaysEmission);
+      setTravelDetails([]);
+      navigate("/emission");
     } catch (err) {
       const msg = err?.response?.data?.message;
       alert(msg);
@@ -74,54 +148,73 @@ const FormSection = () => {
     }
   };
 
-  // List of possible designations
-  const designations = [
-    "CEO",
-    "CTO",
-    "CBO",
-    "CFO",
-    "COO",
-    "Software Engineer",
-    "Project Manager",
-    "Product Manager",
-    "Sales Manager",
-    "Marketing Specialist",
-    "HR Manager",
-    "Finance Manager",
-    "Operations Manager",
-    "Consultant",
-    "Analyst",
-    "Others",
-  ];
+  const addTravelDetail = () => {
+    setTravelDetails([...travelDetails, { dateoftravel: "", modeOfTravel: "", fromLocation: "", toLocation: "", airportSource: "" }]);
+  };
+
+  const removeTravelDetail = (index) => {
+    const updatedTravelDetails = travelDetails.filter((_, idx) => idx !== index);
+    setTravelDetails(updatedTravelDetails);
+  };
 
   return (
-    <div style={{ padding: "10px" }}>
+    <div style={{ padding: "10px", background: "#FAFAFA" }}>
       {/* Header Section */}
+
       <div
         style={{
           background: "linear-gradient(98deg, #02583D 0.42%, #059669 112.05%)",
-          // backgroundColor: "#2E33C3",
           textAlign: "start",
-          padding: "5px",
-          borderRadius: "8px",
+          padding: "15px 20px",
+          borderRadius: "12px",
         }}
       >
-        <img
-        src={fitsol_logo}
-          // src={logo}
-          alt="Logo"
+        <div
           style={{
-            padding: "0",
-            marginLeft: "80px",
-            marginTop: "20px",
-            marginBottom: "20px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "10px 0",
+            flexWrap: "wrap", // Makes it responsive
           }}
-        />
+        >
+          {/* Fitsol Logo */}
+          <img
+            src={fitsol_logo}
+            alt="Fitsol Logo"
+            style={{
+              height: "40px", // Reduced height for better balance
+              margin: "10px 20px",
+            }}
+          />
+
+          {/* Parivartan Logo */}
+          <img
+            src={parivartan}
+            alt="Parivartan Logo"
+            style={{
+              height: "55px", // Same size as others for consistency
+              margin: "10px 20px",
+            }}
+          />
+
+          {/* Longstraw Carbon Logo */}
+          <img
+            src={
+              "https://cdn.dorik.com/66dde635c037830012824e19/images/longstrawcarbonhighresolutionlogotransparent-jqdxx.png"
+            }
+            alt="Longstraw Carbon Logo"
+            style={{
+              height: "40px", // Same size as others for consistency
+              margin: "10px 20px",
+            }}
+          />
+        </div>
       </div>
 
       <div className="p-4 mx-auto">
         <h1 className="text-4xl font-bold text-green-600 mb-4">
-          Welcome to the TechSparks 2024!
+          Welcome to the Parivarthan 2.0!
         </h1>
         <p className="text-lg pt-2 text-gray-700">
           Please provide your details:
@@ -134,19 +227,20 @@ const FormSection = () => {
           margin: "auto",
           padding: "20px",
           borderRadius: "8px",
-          backgroundColor: "#FFFFFF",
+          background: "#FAFAFA",
           marginTop: "20px",
         }}
       >
         <Form
-          ref={formRef}
+          // ref={formRef}
+          form={form}
           name="basic_form"
           initialValues={{ remember: true }}
           onFinish={handleFinish}
           layout="vertical"
         >
           <Row gutter={16}>
-            <Col span={12}>
+            <Col xs={24} md={12}>
               <Form.Item
                 label="First Name"
                 name="firstName"
@@ -157,7 +251,7 @@ const FormSection = () => {
                 <Input placeholder="First Name" />
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col xs={24} md={12}>
               <Form.Item
                 label="Last Name"
                 name="lastName"
@@ -190,7 +284,7 @@ const FormSection = () => {
           </Form.Item>
 
           <Row gutter={16}>
-            <Col span={12}>
+            <Col xs={24} md={12}>
               <Form.Item
                 label="Business Email"
                 name="businessEmail"
@@ -205,7 +299,7 @@ const FormSection = () => {
                 <Input placeholder="Business Email" />
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col xs={24} md={12}>
               <Form.Item
                 label="Phone Number"
                 name="phoneNumber"
@@ -232,15 +326,176 @@ const FormSection = () => {
               { required: true, message: "Please select your designation!" },
             ]}
           >
-            <Select placeholder="Select Designation">
-              {designations.map((designation) => (
-                <Option key={designation} value={designation}>
-                  {designation}
-                </Option>
-              ))}
-            </Select>
+            <AutoComplete
+              placeholder="Select Designation"
+              onSearch={handleSearch} // Function to filter options
+              options={designations.map((designation) => ({
+                value: designation, // This will be displayed in the dropdown
+              }))}
+            />
           </Form.Item>
+          {/* <Form.List name="travelDetails" onChange={handleTravelDetailsChange}>
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map(({ key, name, fieldKey, ...restField }, index) => (
+                  <div
+                    key={key}
+                    style={{
+                      position: "relative",
+                      marginBottom: 16,
+                      border: "1px solid #e0e0e0",
+                      padding: "16px",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    <CloseOutlined
+                      style={{
+                        position: "absolute",
+                        top: 8,
+                        right: 8,
+                        fontSize: "15px",
+                        cursor: "pointer",
+                        zIndex: 10,
+                      }}
+                      onClick={() => remove(name)}
+                    />
 
+                    <Row gutter={16}>
+                      <Col span={24}>
+                        <Form.Item
+                          label="Date of Travel"
+                          name={[name, "dateOfTravel"]}
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please select the date!",
+                            },
+                          ]}
+                        >
+                          <DatePicker format="DD-MM-YYYY" />
+                        </Form.Item>
+                      </Col>
+                      <Col span={24}>
+                        <Form.Item
+                        name={[name, "modeOfTravel"]}
+                          // name="modeOfTravel"
+                          label="Mode of Travel"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please select mode of travel",
+                            },
+                          ]}
+                        >
+                          <Select
+                            options={vehicleOptions}
+                            onChange={handleModeChange}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    {selectedMode !== "Aircraft" && selectedMode && (
+                      <>
+                        <Form.Item label="From Location" 
+                        name={[name, "fromLocation"]}
+                        // name="fromLocation"
+                        >
+                          <GooglePlacesAutocomplete
+                            apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+                            selectProps={{
+                              placeholder: "From Location",
+                            }}
+                            onSelect={(place) => {
+                              console.log("Selected Place: ", place);
+                            }}
+                          />
+                        </Form.Item>
+
+                        <Form.Item label="To Location" 
+                        // name="toLocation"
+                        name={[name, "toLocation"]}
+                        >
+                          <GooglePlacesAutocomplete
+                            apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+                            selectProps={{
+                              placeholder: "To Location",
+                            }}
+                            onSelect={(place) => {
+                              console.log("Selected Place: ", place);
+                            }}
+                          />
+                        </Form.Item>
+                      </>
+                    )}
+
+                    {selectedMode === "Aircraft" && (
+                      <>
+                        <Form.Item
+                          label="Airport"
+                          name="airportSource"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please select an airport!",
+                            },
+                          ]}
+                        >
+                          <Select
+                            showSearch
+                            options={airports}
+                            placeholder="Select an airport"
+                            filterOption={(input, option) =>
+                              option.label
+                                .toLowerCase()
+                                .includes(input.toLowerCase())
+                            }
+                          />
+                        </Form.Item>
+                      </>
+                    )}
+                  </div>
+                ))}
+                <Form.Item>
+                  <Button type="dashed" onClick={() => add()} block>
+                    Add Travel Details
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List> */}
+
+          <TravelDetailsForm
+          onChange={handleTravelDetailsChange}
+          />
+          <Row>
+            <Col span={24}>
+              <Form.Item label="Enter your hotel name" name="hotelLocation">
+                <GooglePlacesAutocomplete
+                  apiKey={process.env.REACT_APP_MAP_KEY}
+                  apiOptions={{
+                    types: ["(cities)"],
+                    componentRestrictions: { country: "IN" },
+                  }}
+                  selectProps={{
+                    placeholder: "Select hotel",
+                    onChange: (item) => {
+                      // setSelectedHotel(value);
+                      console.log("value", item);
+                      form.setFieldsValue({
+                        hotelLocation: item?.value?.description,
+                      });
+                    },
+                  }}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item name="checkInDate" label="check-in date">
+                <Input type="date" format="DD-MM-YYYY" 
+                />
+              </Form.Item>
+            </Col>
+          </Row>
           <Form.Item
             name="terms"
             valuePropName="checked"
@@ -266,32 +521,15 @@ const FormSection = () => {
             </div>
           </Form.Item>
 
-          {/* <Form.Item
-            name="privacyPolicy"
-            valuePropName="checked"
-            rules={[
-              {
-                validator: (_, value) =>
-                  value
-                    ? Promise.resolve()
-                    : Promise.reject("Please accept the privacy policy"),
-              },
-            ]}
-          >
-            <Checkbox>
-              I agree to allow Fitsol Supply Chain Solutions to store and
-              process my personal data.
-            </Checkbox>
-          </Form.Item> */}
-
           <Form.Item style={{ marginBottom: 0 }}>
             <Button
               type="primary"
               htmlType="submit"
-              style={{ width: "100%", 
-                background: "linear-gradient(98deg, #02583D 0.42%, #059669 112.05%)",
-                // backgroundColor: "#2E33C3" 
-              
+              style={{
+                width: "100%",
+                background:
+                  "linear-gradient(98deg, #02583D 0.42%, #059669 112.05%)",
+                // backgroundColor: "#2E33C3"
               }}
               loading={loading}
             >

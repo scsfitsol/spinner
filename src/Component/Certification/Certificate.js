@@ -87,10 +87,10 @@ const CertificateModal = ({ visible, onClose, userData }) => {
               <img src={sign} alt="" className="ml-4 h-25 w-20" />
               <br />
             </div>
-            <div className="text-center mr-5 ml-5">
+            {/* <div className="text-center mr-5 ml-5">
               QR Code <br />
               <img src={qrcode} alt="QR Code" className="w-20 h-20" />
-            </div>
+            </div> */}
           </div>
           <div className="mx-3 mb-0 ">
             {/* <p>
@@ -154,7 +154,8 @@ const Certificate = () => {
         const userEmail = localStorage.getItem("email");
         if (!userEmail) {
           localStorage.clear();
-          navigate("/");
+          // need to enable this imp!!
+          // navigate("/");
         }
         const res = await axios.get(`${baseUrl}/spinnerFormData`, {
           params: {
