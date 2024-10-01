@@ -10,9 +10,13 @@ import {
   Select,
   DatePicker,
   Space,
+  Typography,
 } from "antd";
+import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import logo from "../LogoForm.png"; // Import your logo image
 import axios from "axios";
+import AsyncSelect from "react-select/async";
+import Services from "../../../Services";
 import fitsol_logo from "../fitsol_logo.svg";
 import parivartan from "../parivartan.png";
 import { CloseCircleOutlined } from "@ant-design/icons";
@@ -32,6 +36,7 @@ const FormSection = () => {
   const [options, setOptions] = useState([]);
   const [travelDetails, setTravelDetails] = useState([]);
   const [filteredOptions, setFilteredOptions] = useState([]);
+  const [selectedMode, setSelectedMode] = useState(null);
   const [form] = Form.useForm();
 
   const vehicleOptions = [...new Set(travelModeOptions)].map((vehicle) => ({
@@ -50,13 +55,41 @@ const FormSection = () => {
     );
   };
 
-  const handleTravelDetailsChange = (changedValues) => {
-    console.log("changedvalues", changedValues);
-    setTravelDetails((prevDetails) => ({
-        ...prevDetails,
-        ...changedValues, // Update travel details state
-    }));
-};
+  const [airports, setAirports] = useState([]);
+
+  const handleModeChange = (value) => {
+    setSelectedMode(value);
+    if (value === "Aircraft") {
+      if (airports.length === 0) {
+        fetchAirports();
+      }
+    }
+  };
+
+  const fetchAirports = async () => {
+    try {
+      const response = await Services.get(`/getAirportList`);
+      const options = response.data.data.map((airport) => ({
+        label: airport.name,
+        value: airport.IATA_code,
+      }));
+      setAirports(options);
+    } catch (error) {
+      console.error("Error fetching airport list:", error);
+    }
+  };
+
+  const loadOptions = (inputValue, callback) => {
+    const filteredOptions = airports.filter((airport) =>
+      airport.label.toLowerCase().includes(inputValue.toLowerCase())
+    );
+    callback(filteredOptions);
+  };
+
+  const handleTravelDetailsChange = (changedValues, allValues) => {
+    console.log("Changed values:", changedValues);
+    // setTravelDetails(allValues.travelDetails); // This will give you the complete travel details
+  };
 
   const fetchCompanies = async (query) => {
     if (query) {
@@ -90,19 +123,22 @@ const FormSection = () => {
   const [loading, setLoading] = useState(false);
 
   const handleFinish = async (values) => {
+    console.log("values: ", values);
     try {
+      console.log("traveldetails", travelDetails);
       setLoading(true);
       const formData = {
         ...values,
-        travelDetails,
+        travelDetails: {"updatedTravelDetails":[{"dateOfTravel":"2022-11-11","modeOfTravel":"Bus","commuteStartAddress":"delhi", "commuteEndAddress":"vizag"},{"dateOfTravel":"2022-10-12","modeOfTravel":"Aircraft","commuteStartAddress":{"label":"AGX: Agatti Airport, Agatti, India","value":"AGX"},"commuteEndAddress":{"label":"BLP: Huallaga Airport, Bellavista, Peru","value":"BLP"}}]},
+        checkOutDate:"01-10-2024",
         privacyPolicy: true,
       };
       console.log("formdata", formData);
       const res = await axios.post(`${baseUrl}/spinnerFormData`, formData);
       console.log(res);
-      formRef.current.resetFields();
-      localStorage.setItem("email", values.businessEmail);
-      localStorage.setItem("id", res?.data?.spinnerFormData?.id);
+      localStorage.setItem("businessEmission", res?.spinnerFormData?.businessTravelEmission);
+      localStorage.setItem("hotelStaysEmission",res?.spinnerFormData?.hotelStaysEmission);
+      setTravelDetails([]);
       navigate("/emission");
     } catch (err) {
       const msg = err?.response?.data?.message;
@@ -112,6 +148,14 @@ const FormSection = () => {
     }
   };
 
+  const addTravelDetail = () => {
+    setTravelDetails([...travelDetails, { dateoftravel: "", modeOfTravel: "", fromLocation: "", toLocation: "", airportSource: "" }]);
+  };
+
+  const removeTravelDetail = (index) => {
+    const updatedTravelDetails = travelDetails.filter((_, idx) => idx !== index);
+    setTravelDetails(updatedTravelDetails);
+  };
 
   return (
     <div style={{ padding: "10px", background: "#FAFAFA" }}>
@@ -290,15 +334,142 @@ const FormSection = () => {
               }))}
             />
           </Form.Item>
-          <TravelDetailsForm 
+          {/* <Form.List name="travelDetails" onChange={handleTravelDetailsChange}>
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map(({ key, name, fieldKey, ...restField }, index) => (
+                  <div
+                    key={key}
+                    style={{
+                      position: "relative",
+                      marginBottom: 16,
+                      border: "1px solid #e0e0e0",
+                      padding: "16px",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    <CloseOutlined
+                      style={{
+                        position: "absolute",
+                        top: 8,
+                        right: 8,
+                        fontSize: "15px",
+                        cursor: "pointer",
+                        zIndex: 10,
+                      }}
+                      onClick={() => remove(name)}
+                    />
+
+                    <Row gutter={16}>
+                      <Col span={24}>
+                        <Form.Item
+                          label="Date of Travel"
+                          name={[name, "dateOfTravel"]}
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please select the date!",
+                            },
+                          ]}
+                        >
+                          <DatePicker format="DD-MM-YYYY" />
+                        </Form.Item>
+                      </Col>
+                      <Col span={24}>
+                        <Form.Item
+                        name={[name, "modeOfTravel"]}
+                          // name="modeOfTravel"
+                          label="Mode of Travel"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please select mode of travel",
+                            },
+                          ]}
+                        >
+                          <Select
+                            options={vehicleOptions}
+                            onChange={handleModeChange}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    {selectedMode !== "Aircraft" && selectedMode && (
+                      <>
+                        <Form.Item label="From Location" 
+                        name={[name, "fromLocation"]}
+                        // name="fromLocation"
+                        >
+                          <GooglePlacesAutocomplete
+                            apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+                            selectProps={{
+                              placeholder: "From Location",
+                            }}
+                            onSelect={(place) => {
+                              console.log("Selected Place: ", place);
+                            }}
+                          />
+                        </Form.Item>
+
+                        <Form.Item label="To Location" 
+                        // name="toLocation"
+                        name={[name, "toLocation"]}
+                        >
+                          <GooglePlacesAutocomplete
+                            apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+                            selectProps={{
+                              placeholder: "To Location",
+                            }}
+                            onSelect={(place) => {
+                              console.log("Selected Place: ", place);
+                            }}
+                          />
+                        </Form.Item>
+                      </>
+                    )}
+
+                    {selectedMode === "Aircraft" && (
+                      <>
+                        <Form.Item
+                          label="Airport"
+                          name="airportSource"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please select an airport!",
+                            },
+                          ]}
+                        >
+                          <Select
+                            showSearch
+                            options={airports}
+                            placeholder="Select an airport"
+                            filterOption={(input, option) =>
+                              option.label
+                                .toLowerCase()
+                                .includes(input.toLowerCase())
+                            }
+                          />
+                        </Form.Item>
+                      </>
+                    )}
+                  </div>
+                ))}
+                <Form.Item>
+                  <Button type="dashed" onClick={() => add()} block>
+                    Add Travel Details
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List> */}
+
+          <TravelDetailsForm
           onChange={handleTravelDetailsChange}
           />
           <Row>
             <Col span={24}>
-              <Form.Item 
-              label="Enter your hotel name"
-              name="hotelName"
-              >
+              <Form.Item label="Enter your hotel name" name="hotelLocation">
                 <GooglePlacesAutocomplete
                   apiKey={process.env.REACT_APP_MAP_KEY}
                   apiOptions={{
@@ -310,27 +481,21 @@ const FormSection = () => {
                     onChange: (item) => {
                       // setSelectedHotel(value);
                       console.log("value", item);
-                      form.setFieldsValue({ hotelName: item?.value?.description }); 
+                      form.setFieldsValue({
+                        hotelLocation: item?.value?.description,
+                      });
                     },
                   }}
                 />
               </Form.Item>
             </Col>
             <Col span={24}>
-            <Form.Item
-            name="checkInDate"
-            label="check-in date"
-            >
-              <Input 
-              type="date"
-              format = "DD-MM-YYYY"
-              />
-            </Form.Item>
+              <Form.Item name="checkInDate" label="check-in date">
+                <Input type="date" format="DD-MM-YYYY" 
+                />
+              </Form.Item>
             </Col>
           </Row>
-          <HotelForm
-          // onChange={handleHotelDetailsChange}
-          />
           <Form.Item
             name="terms"
             valuePropName="checked"

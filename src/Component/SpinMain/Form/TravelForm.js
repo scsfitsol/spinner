@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Row, Col, Button, Form, Typography } from "antd";
+import { Row, Col, Button, Form, Label, Typography } from "antd";
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
-import FormTemplate from "./FormTemplate";
+import FormTemplate from "./FormTemplate"; // Assuming you have a FormTemplate component
 import { travelModeOptions } from "../../../constant";
 import AsyncSelect from "react-select/async";
 import Services from "../../../Services";
@@ -12,43 +12,86 @@ const TravelDetailsForm = (props) => {
     label: vehicle,
     value: vehicle,
   }));
-
+  const [selectedMode, setSelectedMode] = useState(null);
   const [airports, setAirports] = useState([]);
+  const [selectedStartAddress, setSelectedStartAddress] = useState(null);
+  const [selectedEndAddress, setSelectedEndAddress] = useState(null);
   const [form] = Form.useForm();
 
-  // Fetch airports only once when needed
+  const handleModeChange = (value) => {
+    setSelectedMode(value);
+    if (value === "Aircraft") {
+      if (airports.length === 0) {
+        fetchAirports();
+      }
+    }
+  };
+  const handleValuesChange = (changedValues) => {
+    console.log("Changedvalues1", changedValues);
+    const travelDetails = form.getFieldValue("travelDetails") || [];
+    const updatedTravelDetails = travelDetails.map((detail, index) => ({
+      ...detail,
+      travelDetails: {"updatedTravelDetails":[{"dateOfTravel":"2022-11-11","modeOfTravel":"4 wheeler - Petrol","commuteStartAddress":"delhi", "commuteEndAddress":"vizag"},{"dateOfTravel":"2022-10-12","modeOfTravel":"Aircraft","commuteStartAddress":{"label":"AGX: Agatti Airport, Agatti, India","value":"AGX"},"commuteEndAddress":{"label":"BLP: Huallaga Airport, Bellavista, Peru","value":"BLP"}}]},
+      commuteStartAddress: selectedStartAddress,
+      commuteEndAddress: selectedEndAddress,
+      ...changedValues.travelDetails?.[index], // Only apply changes to the respective index
+    }));
+
+    console.log("updatedvalues", updatedTravelDetails);
+    props.onChange({ updatedTravelDetails });
+  };
   const fetchAirports = async () => {
     try {
       const response = await Services.get(`/getAirportList`);
       const options = response.data.data.map((airport) => ({
-        label: airport.name,
-        value: airport.IATA_code,
+        label: airport.name, // Display airport name
+        value: airport.IATA_code, // Use IATA code as the value
       }));
-      setAirports(options);
+      setAirports(options); // Store the fetched airport data
     } catch (error) {
       console.error("Error fetching airport list:", error);
     }
   };
-
-  // Load airport options asynchronously
   const loadOptions = (inputValue, callback) => {
     const filteredOptions = airports.filter((airport) =>
       airport.label.toLowerCase().includes(inputValue.toLowerCase())
     );
     callback(filteredOptions);
   };
-
-  // Handle form value changes and pass them to the parent component
-  const handleValuesChange = (changedValues) => {
-    const travelDetails = form.getFieldValue("travelDetails") || [];
-    console.log("traveldetails", travelDetails);
-    const updatedTravelDetails = travelDetails.map((detail, index) => ({
-      ...detail,
-      ...changedValues.travelDetails?.[index],
-    }));
-    props.onChange({ updatedTravelDetails });
-  };
-
+  //   const loadOptions = (inputValue) => {
+  //     // Return a promise that resolves to the options
+  //     return Services.get(`/getAirportList/${inputValue}`)
+  //       .then((res) => {
+  //         // Map the response data into options format for AsyncSelect
+  //         const options = res?.data?.data.map((airport) => ({
+  //           label: `${airport.IATA_code}: ${airport.name}`, // Display IATA code with name
+  //           value: airport.IATA_code, // Use IATA code as the value
+  //         }));
+  //         return options; // Return the options for the select dropdown
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching airport list:", error);
+  //         return []; // Return an empty array in case of error
+  //       });
+  //   };
+  //   const loadOptions = (inputValue, callback) => {
+  //     Services.get(`/getAirportList/${inputValue}`).then((res) => {
+  //         console.log("res", res?.data?.data);
+  //     //   const optionsList = res?.data?.data.split("\n").slice(0, -1);
+  //     const options = res?.data?.data.map((airport) => ({
+  //         label: airport.name,  // Display the full airport name, including location
+  //         value: airport.IATA_code,  // Use IATA code as the value for the option
+  //       }));
+  //     //   const options = [];
+  //     //   optionsList.forEach((el) => {
+  //     //     options.push({
+  //     //       label: el.split("|")[0],
+  //     //       value: el.split("|")[0],
+  //     //     });
+  //     //   });
+  //       callback(options);
+  //     });
+  //   };
   return (
     <Form
       form={form}
@@ -59,7 +102,7 @@ const TravelDetailsForm = (props) => {
       <Typography.Title level={4} style={{ marginBottom: 16 }}>
         Add travel details
       </Typography.Title>
-      <Form.List name="travelDetails">
+      <Form.List name="travelDetails" onChange={props.onChange}>
         {(fields, { add, remove }) => (
           <>
             {fields.map(({ key, name, fieldKey, ...restField }, index) => (
@@ -71,22 +114,24 @@ const TravelDetailsForm = (props) => {
                   border: "1px solid #e0e0e0",
                   padding: "16px",
                   borderRadius: "4px",
+                  //   backgroundColor: "#fafafa", // Ensure the background doesn't interfere
                 }}
               >
+                {/* Cross Icon to Remove Section */}
                 <CloseOutlined
                   style={{
                     position: "absolute",
                     top: 8,
                     right: 8,
                     fontSize: "15px",
+                    // color: "#ff4d4f",
                     cursor: "pointer",
-                    zIndex: 10,
+                    zIndex: 10, // Ensure icon is above other content
                   }}
-                  onClick={() => remove(name)}
+                  onClick={() => remove(name)} // Remove the section
                 />
 
                 <Row gutter={16}>
-                  {/* Date of travel */}
                   <FormTemplate
                     span={24}
                     label="Date of travel"
@@ -96,7 +141,6 @@ const TravelDetailsForm = (props) => {
                     placeholder="Select your date of travel"
                     type="date"
                   />
-                  {/* Mode of travel */}
                   <FormTemplate
                     span={24}
                     label="Mode of travel"
@@ -105,135 +149,117 @@ const TravelDetailsForm = (props) => {
                     message="Please select your travel mode!"
                     placeholder="Select your mode of travel"
                     type="select"
-                    options={vehicleOptions}
-                    onChange={(value) => {
-                      form.setFieldsValue({
-                        [`travelDetails[${index}].modeOfTravel`]: value,
-                      });
-                      if (value === "Aircraft" && airports.length === 0) {
-                        fetchAirports();
-                      }
-                    }}
+                    options={vehicleOptions} // Assuming vehicleOptions is available
+                    onChange={handleModeChange}
                   />
-
-                  {/* Conditional rendering based on selected mode */}
-                  <Form.Item shouldUpdate={(prevValues, currentValues) =>
-                    prevValues.travelDetails?.[index]?.modeOfTravel !==
-                    currentValues.travelDetails?.[index]?.modeOfTravel
-                  }>
-                    {({ getFieldValue }) => {
-                      const selectedMode =
-                        getFieldValue(["travelDetails", index, "modeOfTravel"]);
-                      return (
-                        <>
-                          {/* Commute address fields for non-aircraft mode */}
-                          {selectedMode !== "Aircraft" && selectedMode && (
-                            <>
-                              <Col span={24}>
-                                <Form.Item
-                                  label="Enter start address"
-                                  name={[name, "commuteStartAddress"]}
-                                  style={{ width: "100%" }}
-                                  rules={[{ required: true, message: "Please enter the start address!" }]} // Ensure required validation
-                                >
-                                  <GooglePlacesAutocomplete
-                                    apiKey={process.env.REACT_APP_MAP_KEY}
-                                    apiOptions={{
-                                      types: ["(cities)"],
-                                      componentRestrictions: { country: "IN" },
-                                    }}
-                                    selectProps={{
-                                      placeholder: "Select commute start address",
-                                      onChange: (item) => {
-                                        form.setFieldsValue({
-                                          [`travelDetails.commuteStartAddress`]:
-                                            item?.value?.description,
-                                        });
-                                      },
-                                    }}
-                                  />
-                                </Form.Item>
-                              </Col>
-                              <Col span={24}>
-                                <Form.Item
-                                  label="Enter end address"
-                                  name={[name, "commuteEndAddress"]}
-                                  style={{ width: "100%" }}
-                                  rules={[{ required: true, message: "Please enter the end address!" }]} // Ensure required validation
-                                >
-                                  <GooglePlacesAutocomplete
-                                    apiKey={process.env.REACT_APP_MAP_KEY}
-                                    apiOptions={{
-                                      types: ["(cities)"],
-                                      componentRestrictions: { country: "IN" },
-                                    }}
-                                    selectProps={{
-                                      placeholder: "Select commute end address",
-                                      onChange: (item) => {
-                                        form.setFieldsValue({
-                                          [`travelDetails[${index}].commuteEndAddress`]: item?.value?.description,
-                                        });
-                                      },
-                                    }}
-                                  />
-                                </Form.Item>
-                              </Col>
-                            </>
-                          )}
-                          {/* Commute address fields for aircraft mode */}
-                          {selectedMode === "Aircraft" && (
-                            <>
-                              <Col span={24}>
-                                <Form.Item
-                                  label="Commute start address"
-                                  name={[name, "commuteStartAddress"]}
-                                  style={{ width: "100%" }}
-                                  rules={[{ required: true, message: "Please select your commute start address" }]}
-                                >
-                                  <AsyncSelect
-                                    cacheOptions
-                                    loadOptions={loadOptions}
-                                    defaultOptions={airports}
-                                    onChange={(item) => {
-                                      form.setFieldsValue({
-                                        [`travelDetails[${index}].commuteStartAddress`]:
-                                          item?.label,
-                                      });
-                                    }}
-                                    placeholder="Search for an airport"
-                                  />
-                                </Form.Item>
-                              </Col>
-                              <Col span={24}>
-                                <Form.Item
-                                  label="Commute end address"
-                                  name={[name, "commuteEndAddress"]}
-                                  style={{ width: "100%" }}
-                                  rules={[{ required: true, message: "Please select your commute end address" }]}
-                                >
-                                  <AsyncSelect
-                                    cacheOptions
-                                    loadOptions={loadOptions}
-                                    defaultOptions={airports}
-                                    onChange={(item) => {
-                                      form.setFieldsValue({
-                                        [`travelDetails[${index}].commuteEndAddress`]:
-                                          item?.label,
-                                      });
-                                    }}
-                                    placeholder="Search for an airport"
-                                  />
-                                </Form.Item>
-                              </Col>
-                            </>
-                          )}
-                        </>
-                      );
-                    }}
-                  </Form.Item>
+                  {selectedMode !== null && selectedMode !== "Aircraft" && (
+                    <>
+                      <Col span={24}>
+                        <Form.Item
+                          label="Enter start address"
+                          name="commuteStartAddress"
+                        >
+                          <GooglePlacesAutocomplete
+                            apiKey={process.env.REACT_APP_MAP_KEY}
+                            apiOptions={{
+                              types: ["(cities)"],
+                              componentRestrictions: { country: "IN" },
+                            }}
+                            selectProps={{
+                              placeholder: "Select commute start address",
+                              onChange: (item) => {
+                                // setSelectedHotel(value);
+                                console.log("commutevalue", item);
+                                setSelectedStartAddress(
+                                    item?.value?.description
+                                )
+                              },
+                            }}
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col span={24}>
+                        <Form.Item
+                          label="Enter start address"
+                          name="commuteStartAddress"
+                        >
+                          <GooglePlacesAutocomplete
+                            apiKey={process.env.REACT_APP_MAP_KEY}
+                            apiOptions={{
+                              types: ["(cities)"],
+                              componentRestrictions: { country: "IN" },
+                            }}
+                            selectProps={{
+                              placeholder: "Select commute start address",
+                              onChange: (item) => {
+                                // setSelectedHotel(value);
+                                console.log("commutevalue", item);
+                                setSelectedStartAddress(
+                                    item?.value?.description
+                                )
+                              },
+                            }}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </>
+                  )}
+                  {selectedMode !== null && selectedMode === "Aircraft" && (
+                    <>
+                      <Col span={24}>
+                        <Form.Item
+                          label="Commute start address"
+                          name={[name, "commuteStartAddress"]}
+                          rules={[
+                            {
+                              required: true,
+                              message:
+                                "Please select your commute start address",
+                            },
+                          ]}
+                        >
+                          <AsyncSelect
+                            cacheOptions
+                            loadOptions={loadOptions} // This will use the loadOptions function
+                            defaultOptions={airports} // Load default options on initial render if available
+                            onChange={(selectedOption) => {
+                                setSelectedStartAddress(selectedOption?.label);
+                            //   console.log("Selected airport: ", selectedOption); // Handle selected option
+                            }}
+                            placeholder="Search for an airport"
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col span={24}>
+                        <Form.Item
+                          label="Commute end address"
+                          name={[name, "commuteEndAddress"]}
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please select your commute end address",
+                            },
+                          ]}
+                        >
+                          <AsyncSelect
+                            cacheOptions
+                            loadOptions={loadOptions} // This will use the loadOptions function
+                            defaultOptions={airports} // Load default options on initial render if available
+                            onChange={(selectedOption) => {
+                                // to change code to label update text to label
+                                setSelectedEndAddress(selectedOption.label);
+                            //   console.log("Selected airport: ", selectedOption); // Handle selected option
+                            }}
+                            placeholder="Search for an airport"
+                          />
+                        </Form.Item>
+                      </Col>
+                    </>
+                  )}
                 </Row>
               </div>
             ))}
+
             <Form.Item>
               <Button
                 type="dashed"
@@ -247,8 +273,14 @@ const TravelDetailsForm = (props) => {
           </>
         )}
       </Form.List>
+
+      {/* Form submission buttons, etc. */}
     </Form>
   );
 };
 
 export default TravelDetailsForm;
+
+
+// new code
+

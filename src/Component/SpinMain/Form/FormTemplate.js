@@ -14,10 +14,19 @@ import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 const FormTemplate = (props) => { 
     const handleChange = (value) => {
+        console.log("Values", value);
         if (props.onChange) {
           props.onChange(value); // Call the parent-provided onChange handler
         }
       };  
+    const handleGoogleAutoComplete = (item) => {
+        console.log("googleitem", item);
+        if ( props.onChange){
+            console.log("triggering!!");
+            // props.onChange(item?.value);
+            props.onChange({commuteStartAddress: item?.value});
+        }
+    }
   return (
         <Col xs={props.xs} md={props.md} lg={props.lg} span={props.span}>
           <Form.Item
@@ -53,7 +62,7 @@ const FormTemplate = (props) => {
             }}
             selectProps={{
               placeholder : props.placeholder,
-              onChange: handleChange
+              onChange: handleGoogleAutoComplete
               // placeholder: (
               //   <div
               //     className="google-placeholder-custom"
@@ -66,7 +75,7 @@ const FormTemplate = (props) => {
               //     {props.placeholder}
               //   </div>
               // ),
-              // onChange: (e) => onChangeGoogleAddress(e, fieldName?.name),
+            //   onChange: (e) => onChangeGoogleAddress(e, fieldName?.name),
             }}
           />
             }
