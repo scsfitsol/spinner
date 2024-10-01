@@ -260,7 +260,14 @@ const TravelDetailsForm = (props) => {
               </div>
             ))}
 
-            <Form.Item>
+            <Form.Item
+            rules={[
+                {
+                  required: true,
+                  message: "Please add atleast one route!",
+                },
+              ]}
+            >
               <Button
                 type="dashed"
                 onClick={() => add()}
