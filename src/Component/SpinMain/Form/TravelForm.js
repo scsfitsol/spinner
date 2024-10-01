@@ -190,7 +190,7 @@ const TravelDetailsForm = (props) => {
                               componentRestrictions: { country: "IN" },
                             }}
                             selectProps={{
-                              placeholder: "Select commute start address",
+                              placeholder: "Select commute end address",
                               onChange: (item) => {
                                 // setSelectedHotel(value);
                                 console.log("commutevalue", item);
@@ -214,7 +214,7 @@ const TravelDetailsForm = (props) => {
                             {
                               required: true,
                               message:
-                                "Please select your commute end address",
+                                "Please select your commute start address",
                             },
                           ]}
                         >
@@ -264,7 +264,7 @@ const TravelDetailsForm = (props) => {
             rules={[
                 {
                   required: true,
-                  message: "Please add atleast one route!",
+                  message: "Please add atleast one route    ",
                 },
               ]}
             >

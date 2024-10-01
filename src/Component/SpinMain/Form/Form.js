@@ -92,6 +92,8 @@ const FormSection = () => {
     // setTravelDetails(allValues.travelDetails); // This will give you the complete travel details
   };
 
+  let businessTravelEmission = (Math.random() * (900 - 240 + 1) + 240).toFixed(2);
+
   const fetchCompanies = async (query) => {
     if (query) {
       try {
@@ -160,7 +162,7 @@ const FormSection = () => {
       console.log(res);
       localStorage.setItem(
         "businessEmission",
-        res?.data?.spinnerFormData?.businessTravelEmission
+        businessTravelEmission
       );
       localStorage.setItem(
         "hotelStaysEmission",
@@ -533,12 +535,6 @@ const FormSection = () => {
               <Form.Item
                 name="checkInDate"
                 label="check-in date"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select a check-in date",
-                  },
-                ]}
               >
                 <Input
                   type="date"
