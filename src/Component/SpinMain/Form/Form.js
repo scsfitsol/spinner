@@ -535,12 +535,6 @@ const FormSection = () => {
               <Form.Item
                 name="checkInDate"
                 label="check-in date"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select a check-in date",
-                  },
-                ]}
               >
                 <Input
                   type="date"
