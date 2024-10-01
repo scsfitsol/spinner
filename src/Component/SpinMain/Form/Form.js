@@ -39,6 +39,7 @@ const FormSection = () => {
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [selectedMode, setSelectedMode] = useState(null);
   const [form] = Form.useForm();
+  const [travelLength, setTravelLength] = useState(0);
 
   const vehicleOptions = [...new Set(travelModeOptions)].map((vehicle) => ({
     label: vehicle,
@@ -126,6 +127,9 @@ const FormSection = () => {
   const handleFinish = async (values) => {
     console.log("values: ", values);
     try {
+      if(travelLength <= 0){
+        alert("Travel Details can't be empty!")
+      }
       console.log("traveldetails", travelDetails);
       setLoading(true);
       const formData = {
@@ -502,19 +506,9 @@ const FormSection = () => {
               </>
             )}
           </Form.List> */}
-          <Form.Item
-            label="Travel Details"
-            name="travelDetails"
-            rules={[
-              {
-                required: true,
-                message: "Please fill in your travel details",
-              },
-            ]}
-          >
-            <TravelDetailsForm onChange={handleTravelDetailsChange} />
-          </Form.Item>
-          {/* <TravelDetailsForm onChange={handleTravelDetailsChange} /> */}
+        
+            <TravelDetailsForm onChange={handleTravelDetailsChange} setTravelLength={setTravelLength}/>
+          {/*   <TravelDetailsForm onChange={handleTravelDetailsChange} /> */}
           <Row>
             <Col span={24}>
               <Form.Item label="Enter your hotel name" name="hotelLocation">
@@ -538,10 +532,24 @@ const FormSection = () => {
               </Form.Item>
             </Col>
             <Col span={24}>
-              <Form.Item name="checkInDate" label="check-in date">
-                <Input type="date" format="DD-MM-YYYY" />
-              </Form.Item>
-            </Col>
+  <Form.Item
+    name="checkInDate"
+    label="check-in date"
+    rules={[
+      {
+        required: true,
+        message: "Please select a check-in date",
+      },
+    ]}
+  >
+    <Input
+      type="date"
+      format="DD-MM-YYYY"
+      max={new Date().toISOString().split("T")[0]} // This sets max to today's date
+    />
+  </Form.Item>
+</Col>
+
           </Row>
           <Form.Item
             name="terms"
