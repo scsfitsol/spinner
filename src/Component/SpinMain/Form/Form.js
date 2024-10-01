@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import moment from "moment";
 import {
   Input,
   Form,
@@ -129,15 +130,42 @@ const FormSection = () => {
       setLoading(true);
       const formData = {
         ...values,
-        travelDetails: {"updatedTravelDetails":[{"dateOfTravel":"2022-11-11","modeOfTravel":"Bus","commuteStartAddress":"delhi", "commuteEndAddress":"vizag"},{"dateOfTravel":"2022-10-12","modeOfTravel":"Aircraft","commuteStartAddress":{"label":"AGX: Agatti Airport, Agatti, India","value":"AGX"},"commuteEndAddress":{"label":"BLP: Huallaga Airport, Bellavista, Peru","value":"BLP"}}]},
-        checkOutDate:"01-10-2024",
+        travelDetails: {
+          updatedTravelDetails: [
+            {
+              dateOfTravel: "2022-11-11",
+              modeOfTravel: "Bus",
+              commuteStartAddress: "delhi",
+              commuteEndAddress: "vizag",
+            },
+            {
+              dateOfTravel: "2022-10-12",
+              modeOfTravel: "Aircraft",
+              commuteStartAddress: {
+                label: "AGX: Agatti Airport, Agatti, India",
+                value: "AGX",
+              },
+              commuteEndAddress: {
+                label: "BLP: Huallaga Airport, Bellavista, Peru",
+                value: "BLP",
+              },
+            },
+          ],
+        },
+        checkOutDate: "01-10-2024",
         privacyPolicy: true,
       };
       console.log("formdata", formData);
       const res = await axios.post(`${baseUrl}/spinnerFormData`, formData);
       console.log(res);
-      localStorage.setItem("businessEmission", res?.data?.spinnerFormData?.businessTravelEmission);
-      localStorage.setItem("hotelStaysEmission",res?.data?.spinnerFormData?.hotelStaysEmission);
+      localStorage.setItem(
+        "businessEmission",
+        res?.data?.spinnerFormData?.businessTravelEmission
+      );
+      localStorage.setItem(
+        "hotelStaysEmission",
+        res?.data?.spinnerFormData?.hotelStaysEmission
+      );
       setTravelDetails([]);
       navigate("/emission");
     } catch (err) {
@@ -149,11 +177,22 @@ const FormSection = () => {
   };
 
   const addTravelDetail = () => {
-    setTravelDetails([...travelDetails, { dateoftravel: "", modeOfTravel: "", fromLocation: "", toLocation: "", airportSource: "" }]);
+    setTravelDetails([
+      ...travelDetails,
+      {
+        dateoftravel: "",
+        modeOfTravel: "",
+        fromLocation: "",
+        toLocation: "",
+        airportSource: "",
+      },
+    ]);
   };
 
   const removeTravelDetail = (index) => {
-    const updatedTravelDetails = travelDetails.filter((_, idx) => idx !== index);
+    const updatedTravelDetails = travelDetails.filter(
+      (_, idx) => idx !== index
+    );
     setTravelDetails(updatedTravelDetails);
   };
 
@@ -463,10 +502,19 @@ const FormSection = () => {
               </>
             )}
           </Form.List> */}
-
-          <TravelDetailsForm
-          onChange={handleTravelDetailsChange}
-          />
+          <Form.Item
+            label="Travel Details"
+            name="travelDetails"
+            rules={[
+              {
+                required: true,
+                message: "Please fill in your travel details",
+              },
+            ]}
+          >
+            <TravelDetailsForm onChange={handleTravelDetailsChange} />
+          </Form.Item>
+          {/* <TravelDetailsForm onChange={handleTravelDetailsChange} /> */}
           <Row>
             <Col span={24}>
               <Form.Item label="Enter your hotel name" name="hotelLocation">
@@ -491,8 +539,7 @@ const FormSection = () => {
             </Col>
             <Col span={24}>
               <Form.Item name="checkInDate" label="check-in date">
-                <Input type="date" format="DD-MM-YYYY" 
-                />
+                <Input type="date" format="DD-MM-YYYY" />
               </Form.Item>
             </Col>
           </Row>
@@ -502,10 +549,19 @@ const FormSection = () => {
             style={{ display: "flex", alignItems: "flex-start" }}
             rules={[
               {
-                validator: (_, value) =>
-                  value
-                    ? Promise.resolve()
-                    : Promise.reject("Please accept the terms and conditions"),
+                validator: (_, value) => {
+                  if (!value) {
+                    return Promise.resolve(); // No value, no validation required
+                  }
+                  const selectedDate = moment(value); // Convert input to moment object
+                  const currentDate = moment(); // Current date
+                  if (selectedDate.isAfter(currentDate, "day")) {
+                    return Promise.reject(
+                      new Error("Check-in date must be today or earlier")
+                    );
+                  }
+                  return Promise.resolve();
+                },
               },
             ]}
           >
